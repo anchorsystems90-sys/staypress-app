@@ -1,6 +1,8 @@
-export type AppMode = 'images' | 'merge'
+export type AppMode = 'images' | 'merge' | 'extract'
 
 export type PageSize = 'fit' | 'a4' | 'letter'
+
+export type ImageFormat = 'jpeg' | 'png'
 
 export type ImageItem = {
   id: string
@@ -51,6 +53,18 @@ export const MODE_META: Record<AppMode, ModeMeta> = {
     stageHint: 'or browse · PDF files only · combine in order',
     stageHintReady: 'or browse · more PDF files',
   },
+  extract: {
+    id: 'extract',
+    label: 'PDF → images',
+    tagline: 'PDF pages to images.',
+    privacyIdle: 'Private by design — nothing leaves this device.',
+    privacyReady:
+      'Pages are rendered locally in your browser. Your PDF is never uploaded.',
+    stageTitle: 'Drop a PDF here',
+    stageTitleReady: 'Choose a different PDF',
+    stageHint: 'or browse · each page becomes an image',
+    stageHintReady: 'or browse · replace with another PDF',
+  },
 }
 
 export const IMAGE_ACCEPT =
@@ -59,5 +73,6 @@ export const IMAGE_ACCEPT =
 export const PDF_ACCEPT = 'application/pdf,.pdf'
 
 export function parseAppMode(value: string | null | undefined): AppMode {
-  return value === 'merge' ? 'merge' : 'images'
+  if (value === 'merge' || value === 'extract') return value
+  return 'images'
 }

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { ModeSwitcher } from './components/ModeSwitcher'
+import { ExtractMode } from './modes/extract/ExtractMode'
 import { ImagesMode } from './modes/images/ImagesMode'
 import { MergeMode } from './modes/merge/MergeMode'
 import type { AppMode } from './types'
@@ -72,10 +73,14 @@ export default function App() {
       </header>
 
       <main className="main">
-        {mode === 'images' ? (
+        {mode === 'images' && (
           <ImagesMode key="images" onReadyChange={onReadyChange} />
-        ) : (
+        )}
+        {mode === 'merge' && (
           <MergeMode key="merge" onReadyChange={onReadyChange} />
+        )}
+        {mode === 'extract' && (
+          <ExtractMode key="extract" onReadyChange={onReadyChange} />
         )}
       </main>
 

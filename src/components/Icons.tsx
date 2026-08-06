@@ -57,3 +57,23 @@ export function IconDoc() {
     </svg>
   )
 }
+
+export function IconDownload() {
+  return (
+    <svg className="icon-btn__svg" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M10 3.5v9m0 0 3.25-3.25M10 12.5 6.75 9.25"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4 15.25h12"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}

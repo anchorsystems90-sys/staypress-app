@@ -115,10 +115,10 @@
   background: transparent;
   color: var(--muted);
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.01em;
-  padding: 0.45rem 0.75rem;
+  padding: 0.45rem 0.65rem;
   cursor: pointer;
   white-space: nowrap;
   transition:
@@ -596,6 +596,101 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--ink-soft);
+}
+
+.extract-source {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.35rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  background: color-mix(in srgb, var(--paper-hot) 80%, transparent);
+}
+
+.extract-source__icon {
+  width: 4.5rem;
+  flex-shrink: 0;
+  aspect-ratio: 3 / 4;
+  box-shadow: var(--shadow-page);
+}
+
+.extract-source__meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.extract-source__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.extract-source__detail {
+  margin: 0.3rem 0 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.extract-source__remove {
+  flex: 0 0 auto;
+  width: 2.4rem;
+  min-height: 2.4rem;
+}
+
+.extract-preview-label {
+  margin: 0 0 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.extract-progress {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent-deep);
+  animation: rise 0.35s ease both;
+}
+
+.icon-btn--primary {
+  color: var(--paper-hot);
+  background: var(--ink);
+  border-color: var(--ink);
+  box-shadow: none;
+}
+
+.icon-btn--primary:hover:not(:disabled) {
+  color: var(--paper-hot);
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
+  box-shadow: none;
+}
+
+.viewer__download {
+  position: fixed;
+  z-index: 110;
+  left: 50%;
+  bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  width: auto;
+  min-width: 12rem;
+  box-shadow: 0 12px 32px color-mix(in srgb, #000 35%, transparent);
+}
+
+@media (max-width: 560px) {
+  .viewer__download {
+    /* Sit above the mobile viewer Close control */
+    bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 .thumb__name {
