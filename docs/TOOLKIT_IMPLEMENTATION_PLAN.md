@@ -252,8 +252,8 @@ Completes the private document loop.
 
 **Exit criteria**
 
-- [ ] Size often drops on photo/scan PDFs
-- [ ] Already-compact files: clear “little to gain” style feedback when appropriate
+- [x] Size often drops on photo/scan PDFs _(Balanced / Smaller paths)_
+- [x] Already-compact files: clear “little to gain” style feedback when appropriate
 
 **Estimate:** 1–2 days for honest v1
 
@@ -407,10 +407,10 @@ Copy into issues or a PR description as needed.
 
 ### Phase 3 — Compress
 
-- [ ] Label + expectations copy
-- [ ] Honest size-reduction pipeline
-- [ ] Before/after size feedback (optional)
-- [ ] Smoke + honesty review of marketing language
+- [x] Label + expectations copy
+- [x] Honest size-reduction pipeline (Option B: repack + raster rebuild)
+- [x] Before/after size feedback
+- [ ] Smoke + honesty review of marketing language _(manual)_
 
 ### Phase 4 — Later
 

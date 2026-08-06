@@ -1,7 +1,7 @@
 import type { AppMode } from '../types'
 import { MODE_META } from '../types'
 
-const MODES: AppMode[] = ['images', 'merge', 'extract']
+const MODES: AppMode[] = ['images', 'merge', 'extract', 'slim']
 
 type ModeSwitcherProps = {
   mode: AppMode

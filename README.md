@@ -42,15 +42,22 @@ A free product from **[Anchor Systems](https://anchorsystems.dev/)** — technol
 - Download any single page · multi-page **ZIP** for all pages
 - Soft warning above 40 pages · hard cap at 150 pages
 
+### Slim PDF
+
+- Honest in-browser rebuild (Option B) — not Adobe-class compression
+- **Rebuild lightly** — object streams / page copy (minimal quality risk)
+- **Balanced / Smaller** — pages re-encoded as JPEGs for clearer size wins
+- Before/after size + % change · clear feedback when gains are tiny
+
 ### Shared
 
 - Mobile sticky download actions
-- Deep links: `?mode=merge`, `?mode=extract` (images is default)
+- Deep links: `?mode=merge`, `?mode=extract`, `?mode=slim` (images is default)
 - Soft credit to Anchor Systems
 
 ### Roadmap
 
-Slim PDF (compress) is planned next.  
+Split / protect and other polish remain optional (Phase 4).  
 Full plan: [docs/TOOLKIT_IMPLEMENTATION_PLAN.md](docs/TOOLKIT_IMPLEMENTATION_PLAN.md)
 
 ---
@@ -117,6 +124,7 @@ src/
     images/ImagesMode.tsx
     merge/MergeMode.tsx
     extract/ExtractMode.tsx
+    compress/CompressMode.tsx
   components/             # Stage, ModeSwitcher, Viewer, Icons
   lib/
     images.ts             # HEIC + rasterize / downscale
@@ -125,6 +133,7 @@ src/
       imagesToPdf.ts
       merge.ts
       extract.ts
+      compress.ts
       common.ts
 docs/
   TOOLKIT_IMPLEMENTATION_PLAN.md

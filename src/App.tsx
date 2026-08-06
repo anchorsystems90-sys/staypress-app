@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { ModeSwitcher } from './components/ModeSwitcher'
+import { CompressMode } from './modes/compress/CompressMode'
 import { ExtractMode } from './modes/extract/ExtractMode'
 import { ImagesMode } from './modes/images/ImagesMode'
 import { MergeMode } from './modes/merge/MergeMode'
@@ -81,6 +82,9 @@ export default function App() {
         )}
         {mode === 'extract' && (
           <ExtractMode key="extract" onReadyChange={onReadyChange} />
+        )}
+        {mode === 'slim' && (
+          <CompressMode key="slim" onReadyChange={onReadyChange} />
         )}
       </main>
 

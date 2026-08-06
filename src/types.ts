@@ -1,8 +1,11 @@
-export type AppMode = 'images' | 'merge' | 'extract'
+export type AppMode = 'images' | 'merge' | 'extract' | 'slim'
 
 export type PageSize = 'fit' | 'a4' | 'letter'
 
 export type ImageFormat = 'jpeg' | 'png'
+
+/** How aggressively to rebuild a PDF for a smaller file. */
+export type SlimPreset = 'repack' | 'balanced' | 'small'
 
 export type ImageItem = {
   id: string
@@ -65,6 +68,18 @@ export const MODE_META: Record<AppMode, ModeMeta> = {
     stageHint: 'or browse · each page becomes an image',
     stageHintReady: 'or browse · replace with another PDF',
   },
+  slim: {
+    id: 'slim',
+    label: 'Slim PDF',
+    tagline: 'Rebuild smaller. Stay honest.',
+    privacyIdle: 'Private by design — nothing leaves this device.',
+    privacyReady:
+      'Your PDF is rebuilt locally in the browser. Nothing is uploaded for compression.',
+    stageTitle: 'Drop a PDF here',
+    stageTitleReady: 'Choose a different PDF',
+    stageHint: 'or browse · rebuild for a smaller file',
+    stageHintReady: 'or browse · replace with another PDF',
+  },
 }
 
 export const IMAGE_ACCEPT =
@@ -73,6 +88,6 @@ export const IMAGE_ACCEPT =
 export const PDF_ACCEPT = 'application/pdf,.pdf'
 
 export function parseAppMode(value: string | null | undefined): AppMode {
-  if (value === 'merge' || value === 'extract') return value
+  if (value === 'merge' || value === 'extract' || value === 'slim') return value
   return 'images'
 }
