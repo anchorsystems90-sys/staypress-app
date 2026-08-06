@@ -232,9 +232,9 @@ Completes the private document loop.
 
 **Exit criteria**
 
-- [ ] ~10-page PDF → zip of page images on desktop
-- [ ] Mid-range phone path works or clearly errors
-- [ ] Images + Merge regression green
+- [x] ~10-page PDF → zip of page images on desktop _(code path; manual smoke left)_
+- [ ] Mid-range phone path works or clearly errors _(manual)_
+- [x] Images + Merge regression green _(build)_
 
 **Estimate:** 2–3 days
 
@@ -398,12 +398,12 @@ Copy into issues or a PR description as needed.
 
 ### Phase 2 — Extract
 
-- [ ] Spike pdf.js + Vite worker
-- [ ] `ExtractMode` UI
-- [ ] Per-page canvas render
-- [ ] JPG/PNG option + zip package
-- [ ] Long-doc / memory messaging
-- [ ] Regression on images + merge
+- [x] Spike pdf.js + Vite worker
+- [x] `ExtractMode` UI
+- [x] Per-page canvas render
+- [x] JPG/PNG option + zip package
+- [x] Long-doc / memory messaging
+- [ ] Regression on images + merge _(manual smoke)_
 
 ### Phase 3 — Compress
 

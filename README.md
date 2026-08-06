@@ -33,15 +33,23 @@ A free product from **[Anchor Systems](https://anchorsystems.dev/)** — technol
 - Reorder files · download one merged PDF
 - Clear errors for password-protected / invalid files
 
+### PDF → images
+
+- One PDF in · each page rendered in the browser (pdf.js)
+- Export as **JPG** (quality) or **PNG**
+- Renders automatically on upload (and when format/quality changes)
+- Download any single page · multi-page **ZIP** for all pages
+- Soft warning above 40 pages · hard cap at 150 pages
+
 ### Shared
 
 - Mobile sticky download actions
-- `?mode=merge` deep link (images is default)
+- Deep links: `?mode=merge`, `?mode=extract` (images is default)
 - Soft credit to Anchor Systems
 
 ### Roadmap
 
-Extract (PDF → images) and Slim PDF are planned.  
+Slim PDF (compress) is planned next.  
 Full plan: [docs/TOOLKIT_IMPLEMENTATION_PLAN.md](docs/TOOLKIT_IMPLEMENTATION_PLAN.md)
 
 ---
@@ -72,6 +80,8 @@ Open the URL shown in the terminal (usually `http://localhost:5173`).
 - [React](https://react.dev/) 19 + TypeScript
 - [Vite](https://vite.dev/) 6
 - [pdf-lib](https://pdf-lib.js.org/) — create & merge PDFs in the browser
+- [pdf.js](https://mozilla.github.io/pdf.js/) (`pdfjs-dist`) — render pages for PDF → images
+- [JSZip](https://stuk.github.io/jszip/) — multi-page image downloads
 - [heic2any](https://github.com/alexcorvi/heic2any) — client-side HEIC conversion
 
 Static host only — no application backend required.
@@ -105,6 +115,7 @@ src/
   modes/
     images/ImagesMode.tsx
     merge/MergeMode.tsx
+    extract/ExtractMode.tsx
   components/             # Stage, ModeSwitcher, Viewer, Icons
   lib/
     images.ts             # HEIC + rasterize / downscale
@@ -112,6 +123,7 @@ src/
     pdf/
       imagesToPdf.ts
       merge.ts
+      extract.ts
       common.ts
 docs/
   TOOLKIT_IMPLEMENTATION_PLAN.md
