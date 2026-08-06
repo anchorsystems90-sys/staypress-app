@@ -55,7 +55,12 @@ export default function App() {
 
       <header className="header">
         <div className="header__top">
-          <p className="brand">Imprint</p>
+          <p className="brand">
+            <span className="brand__mark" aria-hidden="true">
+              S
+            </span>
+            <span className="brand__name">Staypress</span>
+          </p>
           <ModeSwitcher mode={mode} onChange={onModeChange} />
         </div>
 

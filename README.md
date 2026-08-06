@@ -1,14 +1,14 @@
-# Imprint
+# Staypress
 
-**Private PDF tools in your browser.** No account. No upload. No server.
+**Private PDF tools in your browser.** No account. No upload. Files stay put.
 
-Imprint is a free, browser-based toolkit starting with **images → PDF** and **merge PDFs**. Everything runs client-side.
+Staypress is a free, browser-based PDF toolkit: **images → PDF**, **merge**, **PDF → images**, and **slim**. Everything runs client-side.
 
 A free product from **[Anchor Systems](https://anchorsystems.dev/)** — technology delivery that ships.
 
 ---
 
-## Why Imprint
+## Why Staypress
 
 | | |
 |---|---|
@@ -44,7 +44,7 @@ A free product from **[Anchor Systems](https://anchorsystems.dev/)** — technol
 
 ### Slim PDF
 
-- Honest in-browser rebuild (Option B) — not Adobe-class compression
+- Honest in-browser rebuild — not Adobe-class compression
 - **Rebuild lightly** — object streams / page copy (minimal quality risk)
 - **Balanced / Smaller** — pages re-encoded as JPEGs for clearer size wins
 - Before/after size + % change · clear feedback when gains are tiny
@@ -57,7 +57,7 @@ A free product from **[Anchor Systems](https://anchorsystems.dev/)** — technol
 
 ### Roadmap
 
-Split / protect and other polish remain optional (Phase 4).  
+Split / protect and other polish remain optional.  
 Full plan: [docs/TOOLKIT_IMPLEMENTATION_PLAN.md](docs/TOOLKIT_IMPLEMENTATION_PLAN.md)
 
 ---
@@ -88,7 +88,7 @@ Open the URL shown in the terminal (usually `http://localhost:5173`).
 - [React](https://react.dev/) 19 + TypeScript
 - [Vite](https://vite.dev/) 6
 - [pdf-lib](https://pdf-lib.js.org/) — create & merge PDFs in the browser
-- [pdf.js](https://mozilla.github.io/pdf.js/) (`pdfjs-dist`) — render pages for PDF → images
+- [pdf.js](https://mozilla.github.io/pdf.js/) (`pdfjs-dist`) — render pages for PDF → images / slim
 - [JSZip](https://stuk.github.io/jszip/) — multi-page image downloads
 - [heic2any](https://github.com/alexcorvi/heic2any) — client-side HEIC conversion
 
@@ -110,7 +110,8 @@ Config included for **Vercel** (`vercel.json`), **Netlify** (`netlify.toml`), an
 - [ ] Images mode: multi-image → PDF
 - [ ] HEIC (iPhone) or clear error if unsupported
 - [ ] Merge mode: 2+ PDFs → one file, reorder works
-- [ ] Password PDF shows a clear error
+- [ ] Extract: auto render · per-page download · ZIP
+- [ ] Slim: preset · before/after sizes
 - [ ] Privacy line + no unexpected uploads of user files
 
 ---
@@ -143,7 +144,7 @@ docs/
 
 ## Privacy
 
-Imprint does **not** upload your images or PDFs for conversion. Generation and merge run entirely in the browser.
+Staypress does **not** upload your images or PDFs for conversion. Generation, merge, extract, and slim run entirely in the browser.
 
 ---
 
@@ -155,4 +156,4 @@ Private / unlicensed source unless a `LICENSE` file is added to this repository.
 
 ## Credits
 
-**Imprint** — a free tool from [**Anchor Systems**](https://anchorsystems.dev/).
+**Staypress** — a free tool from [**Anchor Systems**](https://anchorsystems.dev/).

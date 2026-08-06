@@ -172,7 +172,7 @@ export function ImagesMode({ onReadyChange }: ImagesModeProps) {
       const bytes = await imagesToPdf(images, pageSize, (current, total) => {
         setBusyLabel(`Making PDF… ${current}/${total}`)
       })
-      downloadPdf(bytes, `imprint-${dateStamp()}.pdf`)
+      downloadPdf(bytes, `staypress-${dateStamp()}.pdf`)
     } catch (err) {
       console.error(err)
       setError(friendlyToolError(err, 'Could not create the PDF. Try again.'))

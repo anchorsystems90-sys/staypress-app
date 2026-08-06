@@ -1,24 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#e8f0ec"/>
-      <stop offset="0.5" stop-color="#dfe8e5"/>
-      <stop offset="1" stop-color="#d4e0dc"/>
+      <stop stop-color="#e9eef2"/>
+      <stop offset="0.5" stop-color="#dfe7ed"/>
+      <stop offset="1" stop-color="#d4dee6"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(180 80) rotate(90) scale(420 520)">
-      <stop stop-color="#1f8a70" stop-opacity="0.22"/>
-      <stop offset="1" stop-color="#1f8a70" stop-opacity="0"/>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(160 70) rotate(90) scale(440 540)">
+      <stop stop-color="#0c6b75" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#0c6b75" stop-opacity="0"/>
     </radialGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect width="1200" height="630" fill="url(#glow)"/>
-  <text x="96" y="250" fill="#1a2e2a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="108" font-weight="700" letter-spacing="-4">Imprint</text>
-  <text x="96" y="330" fill="#4f645f" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="42" font-weight="500">Drop images. Get a PDF.</text>
-  <text x="96" y="420" fill="#146352" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="28" font-weight="600">Private by design · nothing leaves your device</text>
-  <g transform="translate(880 150)">
-    <rect x="0" y="40" width="140" height="180" rx="8" fill="#f2f7f4" stroke="#1a2e2a" stroke-width="3"/>
-    <rect x="48" y="0" width="140" height="180" rx="8" fill="#1f8a70" opacity="0.92"/>
-    <rect x="72" y="48" width="90" height="12" rx="3" fill="#f2f7f4"/>
-    <rect x="72" y="78" width="64" height="12" rx="3" fill="#f2f7f4" opacity="0.75"/>
+  <rect x="96" y="168" width="72" height="72" rx="14" fill="#101820"/>
+  <text x="118" y="218" fill="#f7f9fb" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="42" font-weight="800">S</text>
+  <text x="190" y="224" fill="#101820" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="86" font-weight="800" letter-spacing="-3">Staypress</text>
+  <text x="96" y="310" fill="#2c3a45" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="38" font-weight="600">Private PDF tools. Files stay put.</text>
+  <text x="96" y="390" fill="#08545c" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="26" font-weight="600">Images · Merge · Extract · Slim — nothing uploaded</text>
+  <g transform="translate(900 150)">
+    <rect x="0" y="40" width="130" height="170" rx="8" fill="#f7f9fb" stroke="#101820" stroke-width="3"/>
+    <rect x="42" y="0" width="130" height="170" rx="8" fill="#0c6b75"/>
+    <rect x="68" y="48" width="82" height="12" rx="3" fill="#f7f9fb"/>
+    <rect x="68" y="76" width="58" height="12" rx="3" fill="#f7f9fb" opacity="0.75"/>
   </g>
 </svg>

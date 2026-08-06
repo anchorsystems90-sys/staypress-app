@@ -341,7 +341,7 @@ export function MergeMode({ onReadyChange }: MergeModeProps) {
         )
       }
 
-      downloadPdf(bytes, `imprint-merged-${dateStamp()}.pdf`)
+      downloadPdf(bytes, `staypress-merged-${dateStamp()}.pdf`)
     } catch (err) {
       console.error(err)
       setError(friendlyToolError(err, 'Could not merge those PDFs. Try again.'))

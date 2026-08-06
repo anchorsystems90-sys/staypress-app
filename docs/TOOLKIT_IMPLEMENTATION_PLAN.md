@@ -1,28 +1,29 @@
-# Imprint — Private PDF Toolkit Implementation Plan
+# Staypress — Private PDF Toolkit Implementation Plan
 
 > **Product stance:** A tight private PDF toolkit. Not infinite formats, not a cloud convert farm.  
-> **Positioning:** Files never leave the device · craft over feature count · soft credit to [Anchor Systems](https://anchorsystems.dev/).  
+> **Positioning:** Files stay on the device · craft over feature count · soft credit to [Anchor Systems](https://anchorsystems.dev/).  
+> **Brand:** Staypress  
 > **Last updated:** 2026-08-06
 
 ---
 
 ## 1. Product goal
 
-Turn Imprint into a **small set of private, browser-only PDF tools** that share one brand story: *files never leave the device*.
+Turn Staypress into a **small set of private, browser-only PDF tools** that share one brand story: *files never leave the device*.
 
 | What | Description |
 |------|-------------|
-| **Shipped core (today)** | Images → PDF (page size, reorder, privacy) |
+| **Shipped core** | Images → PDF · Merge · PDF → images · Slim PDF |
 | **Toolkit target** | Images → PDF · Merge · PDF → images · Compress · optional Split / Protect |
 | **Non-goals** | Office → PDF, OCR, eSign, accounts, server processing, “every format,” mega-tool SEO clones |
 
-**Success for the product phase:** People find Imprint useful, complete a job, remember the privacy claim, and optionally click through to Anchor Systems. Monetization is deferred until usage is real.
+**Success for the product phase:** People find Staypress useful, complete a job, remember the privacy claim, and optionally click through to Anchor Systems. Monetization is deferred until usage is real.
 
 ---
 
 ## 2. Why this shape (not a convert-everything app)
 
-| Approach | Score for Imprint |
+| Approach | Score for Staypress |
 |----------|-------------------|
 | Small suite of related PDF jobs, all client-side | **High** — clear story, shareable, brand-consistent |
 | More input image types (HEIC, better mobile photos) | **High** — same product, fewer hard fails |
@@ -39,7 +40,7 @@ Stay on **one SPA**. Mode switch only — no separate marketing landing + app ro
 
 ```
 ┌─────────────────────────────────────────────┐
-│  Imprint                          [mode ▾]  │
+│  Staypress                        [mode ▾]  │
 │  Private · nothing leaves this device       │
 ├─────────────────────────────────────────────┤
 │                                             │
@@ -197,7 +198,7 @@ Ship the first *suite*. Deploy after this phase.
 | Input | Multi-PDF drop; reorder list (name + page count) |
 | Engine | `PDFDocument.load` → `copyPages` → assemble (`pdf-lib`) |
 | Passworded PDFs | Clear error: not supported yet (protect mode later) |
-| Output | `imprint-merged-YYYY-MM-DD.pdf` |
+| Output | `staypress-merged-YYYY-MM-DD.pdf` |
 | Large batches | Sequential load; memory-friendly errors |
 
 **Exit criteria**
@@ -436,13 +437,13 @@ Do not pull these into the plan without a new product decision:
 
 ## 14. Relationship to Anchor Systems
 
-Imprint remains a **free utility**. Branding stays soft:
+Staypress remains a **free utility**. Branding stays soft:
 
 - Footer: “A free tool from Anchor Systems” + CTA to [anchorsystems.dev](https://anchorsystems.dev/)
 - Do not put agency sales in the hero
 - Toolkit quality is the marketing asset: *this is how we ship*
 
-Optional later: list Imprint under “Shipped products” on the Anchor site after public deploy.
+Optional later: list Staypress under “Shipped products” on the Anchor site after public deploy.
 
 ---
 
