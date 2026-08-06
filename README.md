@@ -31,6 +31,7 @@ A free product from **[Anchor Systems](https://anchorsystems.dev/)** — technol
 
 - Drop multiple PDFs · see page counts
 - Reorder files · download one merged PDF
+- **Arrange pages (advanced):** preview every page, reorder or remove pages, then merge
 - Clear errors for password-protected / invalid files
 
 ### PDF → images
