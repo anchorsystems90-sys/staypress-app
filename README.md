@@ -1,16 +1,54 @@
-# Imprint — Images to PDF
+# Imprint
 
-Browser-based tool that combines images into a single PDF. **Files never leave your device.**
+**Private PDF tools in your browser.** No account. No upload. No server.
 
-## Features
+Imprint is a free, browser-based toolkit starting with **images → PDF** and **merge PDFs**. Everything runs client-side.
 
-- Drag-and-drop or tap to upload JPG, PNG, WebP, and GIF
-- Reorder pages by dragging thumbnails or using arrows
-- Page size: fit image, A4, or US Letter
-- Client-side PDF generation (no server upload)
-- Mobile sticky download bar
+A free product from **[Anchor Systems](https://anchorsystems.dev/)** — technology delivery that ships.
 
-## Local development
+---
+
+## Why Imprint
+
+| | |
+|---|---|
+| **Private** | Conversion happens in your browser. Files are not uploaded for processing. |
+| **Focused** | A tight toolkit — not a convert-everything mega-app. |
+| **Practical** | Built for phone photos, documents, and local PDF workflows. |
+
+---
+
+## Features (now)
+
+### Images → PDF
+
+- Drag-and-drop or choose **JPG, PNG, WebP, GIF, HEIC**
+- HEIC photos converted locally for preview + export
+- Oversize images downscaled on export (caps memory on phones)
+- Reorder pages · page size fit / A4 / US Letter · full-screen preview
+
+### Merge PDFs
+
+- Drop multiple PDFs · see page counts
+- Reorder files · download one merged PDF
+- Clear errors for password-protected / invalid files
+
+### Shared
+
+- Mobile sticky download actions
+- `?mode=merge` deep link (images is default)
+- Soft credit to Anchor Systems
+
+### Roadmap
+
+Extract (PDF → images) and Slim PDF are planned.  
+Full plan: [docs/TOOLKIT_IMPLEMENTATION_PLAN.md](docs/TOOLKIT_IMPLEMENTATION_PLAN.md)
+
+---
+
+## Quick start
+
+**Requirements:** Node.js 20+ recommended.
 
 ```bash
 npm install
@@ -19,63 +57,80 @@ npm run dev
 
 Open the URL shown in the terminal (usually `http://localhost:5173`).
 
-## Build
+### Scripts
 
-```bash
-npm run build
-npm run preview
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Local dev server (Vite) |
+| `npm run build` | Typecheck + production build → `dist/` |
+| `npm run preview` | Preview the production build locally |
+
+---
+
+## Tech stack
+
+- [React](https://react.dev/) 19 + TypeScript
+- [Vite](https://vite.dev/) 6
+- [pdf-lib](https://pdf-lib.js.org/) — create & merge PDFs in the browser
+- [heic2any](https://github.com/alexcorvi/heic2any) — client-side HEIC conversion
+
+Static host only — no application backend required.
+
+---
+
+## Deploy
+
+| | |
+|---|---|
+| **Build command** | `npm run build` |
+| **Publish directory** | `dist` |
+
+Config included for **Vercel** (`vercel.json`), **Netlify** (`netlify.toml`), and Cloudflare Pages headers (`public/_headers`).
+
+### Post-deploy smoke checklist
+
+- [ ] Images mode: multi-image → PDF
+- [ ] HEIC (iPhone) or clear error if unsupported
+- [ ] Merge mode: 2+ PDFs → one file, reorder works
+- [ ] Password PDF shows a clear error
+- [ ] Privacy line + no unexpected uploads of user files
+
+---
+
+## Project layout
+
+```
+src/
+  App.tsx                 # Shell, mode switch, footer
+  modes/
+    images/ImagesMode.tsx
+    merge/MergeMode.tsx
+  components/             # Stage, ModeSwitcher, Viewer, Icons
+  lib/
+    images.ts             # HEIC + rasterize / downscale
+    download.ts
+    pdf/
+      imagesToPdf.ts
+      merge.ts
+      common.ts
+docs/
+  TOOLKIT_IMPLEMENTATION_PLAN.md
 ```
 
-`npm run build` outputs static files in `dist/` ready for any static host.
-
-## Deploy (Phase 1)
-
-Any static host works. Build command: `npm run build`. Publish directory: `dist`.
-
-### Cloudflare Pages
-
-1. Push this repo to GitHub (or upload `dist`).
-2. Cloudflare Dashboard → **Workers & Pages** → **Create** → **Pages**.
-3. Connect the repo (or direct upload).
-4. Settings:
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Node version:** 20 (or default)
-5. Deploy. You’ll get a `*.pages.dev` URL.
-
-### Vercel
-
-1. Import the repo at [vercel.com/new](https://vercel.com/new).
-2. Framework preset should detect **Vite**.
-3. Leave defaults (`npm run build` → `dist`).
-4. Deploy. You’ll get a `*.vercel.app` URL.
-
-### Netlify
-
-1. [app.netlify.com](https://app.netlify.com) → **Add new site** → import repo  
-   **or** drag-and-drop the `dist` folder after `npm run build`.
-2. If connecting a repo: build command `npm run build`, publish `dist`  
-   (`netlify.toml` in this repo already sets this).
-3. Deploy. You’ll get a `*.netlify.app` URL.
-
-### Custom domain (when ready)
-
-1. Buy a domain (Namecheap, Cloudflare Registrar, Google Domains transfer, etc.).
-2. In your host’s dashboard → **Custom domains** → add domain.
-3. Follow their DNS instructions (usually a CNAME or nameserver change).
-4. In `index.html`, uncomment and set `canonical` + `og:url` to your domain.
-
-### After go-live smoke test
-
-On a real phone and desktop:
-
-- [ ] Open the public URL over HTTPS
-- [ ] Add multiple photos (camera roll on mobile)
-- [ ] Reorder with arrows; expand viewer
-- [ ] Download PDF and open it
-- [ ] Confirm the privacy line is visible
-- [ ] Share the link once and check the title/preview look sane
+---
 
 ## Privacy
 
-Imprint does not upload your images. PDF generation runs in the browser with [pdf-lib](https://pdf-lib.js.org/). There is no server-side processing of files.
+Imprint does **not** upload your images or PDFs for conversion. Generation and merge run entirely in the browser.
+
+---
+
+## License
+
+Private / unlicensed source unless a `LICENSE` file is added to this repository. Contact [Anchor Systems](https://anchorsystems.dev/) for use outside personal evaluation if unclear.
+
+---
+
+## Credits
+
+**Imprint** — a free tool from [**Anchor Systems**](https://anchorsystems.dev/).
