@@ -1,13 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Figtree:wght@400;500;600;700&display=swap');
 
 :root {
-  --ink: #1a2e2a;
-  --muted: #4f645f;
-  --paper: #f2f7f4;
-  --accent: #1f8a70;
-  --accent-deep: #146352;
-  --font-display: 'Syne', 'Segoe UI', sans-serif;
-  --font-body: 'Manrope', 'Segoe UI', sans-serif;
+  --ink: #121a18;
+  --ink-soft: #2a3834;
+  --muted: #5a6b66;
+  --paper: #f0f5f2;
+  --paper-hot: #f7fbf8;
+  --mist: #d5e0db;
+  --accent: #0f6e5c;
+  --accent-deep: #0a4f42;
+  --warn: #7a2e2e;
+  --warn-soft: #f3e4e4;
+  --font-display: 'Fraunces', 'Georgia', serif;
+  --font-body: 'Figtree', 'Segoe UI', sans-serif;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-page: 0 1px 0 color-mix(in srgb, var(--ink) 5%, transparent),
+    0 18px 40px color-mix(in srgb, var(--ink) 12%, transparent);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.5;
@@ -34,7 +42,7 @@ body,
 body {
   margin: 0;
   min-width: 320px;
-  background: #e5ebe8;
+  background: #dce6e1;
 }
 
 button,
@@ -45,4 +53,9 @@ select {
 
 img {
   max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }

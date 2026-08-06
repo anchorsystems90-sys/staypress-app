@@ -1,9 +1,49 @@
-import { useCallback, useEffect, useId, useRef, useState } from 'react'
-import { downloadPdf, imagesToPdf } from './lib/pdf'
+import { useCallback, useEffect, useId, useRef, useState, type CSSProperties } from 'react'
 import type { ImageItem, PageSize } from './types'
 import './App.css'
 
 const ACCEPT = 'image/jpeg,image/png,image/webp,image/gif,image/jpg'
+
+function IconChevronLeft() {
+  return (
+    <svg className="icon-btn__svg" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M12.25 4.75 7 10l5.25 5.25"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function IconChevronRight() {
+  return (
+    <svg className="icon-btn__svg" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M7.75 4.75 13 10l-5.25 5.25"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function IconRemove() {
+  return (
+    <svg className="icon-btn__svg" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M5.5 5.5 14.5 14.5M14.5 5.5 5.5 14.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
 
 function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
@@ -20,6 +60,8 @@ export default function App() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [viewerIndex, setViewerIndex] = useState<number | null>(null)
+
+  const ready = images.length > 0
 
   const addFiles = useCallback((fileList: FileList | File[]) => {
     const files = Array.from(fileList).filter((f) => f.type.startsWith('image/'))
@@ -161,13 +203,21 @@ export default function App() {
     setBusy(true)
     setError(null)
     try {
+      const { downloadPdf, imagesToPdf } = await import('./lib/pdf')
       const bytes = await imagesToPdf(images, pageSize)
       const stamp = new Date().toISOString().slice(0, 10)
       downloadPdf(bytes, `imprint-${stamp}.pdf`)
     } catch (err) {
       console.error(err)
+      const message =
+        err instanceof Error ? err.message : 'Could not create the PDF. Try again.'
+      const isMemory =
+        /memory|quota|allocation|too large|canvas/i.test(message) ||
+        (err instanceof DOMException && err.name === 'QuotaExceededError')
       setError(
-        err instanceof Error ? err.message : 'Could not create the PDF. Try again.',
+        isMemory
+          ? 'That batch is too large for this device. Try fewer or smaller images.'
+          : message,
       )
     } finally {
       setBusy(false)
@@ -177,17 +227,37 @@ export default function App() {
   const viewing = viewerIndex !== null ? images[viewerIndex] : null
 
   return (
-    <div className="app">
-      <div className="atmosphere" aria-hidden="true" />
+    <div className={`app ${ready ? 'app--ready' : 'app--idle'}`}>
+      <div className="atmosphere" aria-hidden="true">
+        <div className="atmosphere__wash" />
+        <div className="atmosphere__grain" />
+      </div>
 
       <header className="header">
         <p className="brand">Imprint</p>
-        <p className="tagline">Drop images. Get a PDF.</p>
+        {!ready && (
+          <>
+            <p className="tagline">Drop images. Get a PDF.</p>
+            <p className="privacy">Private by design — nothing leaves this device.</p>
+          </>
+        )}
+        {ready && (
+          <p className="header__status">
+            <span className="header__status-dot" aria-hidden="true" />
+            {images.length} {images.length === 1 ? 'page' : 'pages'} · private
+          </p>
+        )}
       </header>
 
       <main className="main">
         <section
-          className={`dropzone ${draggingOver ? 'dropzone--active' : ''} ${images.length ? 'dropzone--compact' : ''}`}
+          className={[
+            'stage',
+            draggingOver ? 'stage--active' : '',
+            ready ? 'stage--compact' : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
           onDragOver={(e) => {
             e.preventDefault()
             setDraggingOver(true)
@@ -195,6 +265,14 @@ export default function App() {
           onDragLeave={() => setDraggingOver(false)}
           onDrop={onDrop}
         >
+          {!ready && (
+            <div className="sheets" aria-hidden="true">
+              <span className="sheet sheet--a" />
+              <span className="sheet sheet--b" />
+              <span className="sheet sheet--c" />
+            </div>
+          )}
+
           <input
             ref={fileInputRef}
             id={inputId}
@@ -207,27 +285,44 @@ export default function App() {
               e.target.value = ''
             }}
           />
-          <label htmlFor={inputId} className="dropzone__label">
-            <span className="dropzone__icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none">
-                <rect x="8" y="12" width="28" height="28" rx="2" stroke="currentColor" strokeWidth="2" />
-                <rect x="14" y="8" width="28" height="28" rx="2" stroke="currentColor" strokeWidth="2" opacity="0.45" />
-                <path d="M22 26v-8m0 0l-3.5 3.5M22 18l3.5 3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <label htmlFor={inputId} className="stage__label">
+            <span className="stage__icon" aria-hidden="true">
+              <svg viewBox="0 0 56 56" fill="none">
+                <path
+                  d="M18 16h14l8 8v22a2 2 0 0 1-2 2H18a2 2 0 0 1-2-2V18a2 2 0 0 1 2-2Z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <path d="M32 16v8h8" stroke="currentColor" strokeWidth="2" />
+                <path
+                  d="M28 26v12m0-12-4 4m4-4 4 4"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </span>
-            <span className="dropzone__title">
-              {images.length ? 'Add more images' : 'Drop images here'}
+            <span className="stage__title">
+              {ready ? 'Add more images' : 'Drop images here'}
             </span>
-            <span className="dropzone__hint">or click to browse · JPG, PNG, WebP, GIF</span>
+            <span className="stage__hint">
+              {ready
+                ? 'or browse · JPG, PNG, WebP, GIF'
+                : 'or choose from your photos · JPG, PNG, WebP, GIF'}
+            </span>
           </label>
         </section>
 
-        {images.length > 0 && (
+        {ready && (
           <section className="workspace" aria-label="Image queue">
             <div className="toolbar">
-              <p className="count">
-                {images.length} {images.length === 1 ? 'page' : 'pages'}
-              </p>
+              <div className="toolbar__meta">
+                <p className="count">
+                  {images.length} {images.length === 1 ? 'page' : 'pages'}
+                </p>
+                <p className="toolbar__hint">Drag to reorder · tap to preview</p>
+              </div>
 
               <div className="toolbar__controls">
                 <label className="field">
@@ -248,7 +343,7 @@ export default function App() {
                 </button>
                 <button
                   type="button"
-                  className="btn btn--primary"
+                  className="btn btn--primary toolbar__download"
                   onClick={generate}
                   disabled={busy}
                 >
@@ -262,6 +357,7 @@ export default function App() {
                 <li
                   key={img.id}
                   className="thumb"
+                  style={{ '--i': index } as CSSProperties}
                   draggable
                   onDragStart={() => onThumbDragStart(index)}
                   onDragOver={(e) => e.preventDefault()}
@@ -290,7 +386,7 @@ export default function App() {
                       disabled={index === 0}
                       onClick={() => moveImage(index, -1)}
                     >
-                      ←
+                      <IconChevronLeft />
                     </button>
                     <button
                       type="button"
@@ -299,7 +395,7 @@ export default function App() {
                       disabled={index === images.length - 1}
                       onClick={() => moveImage(index, 1)}
                     >
-                      →
+                      <IconChevronRight />
                     </button>
                     <button
                       type="button"
@@ -307,7 +403,7 @@ export default function App() {
                       aria-label={`Remove ${img.name}`}
                       onClick={() => removeImage(img.id)}
                     >
-                      ×
+                      <IconRemove />
                     </button>
                   </div>
                 </li>
@@ -323,8 +419,53 @@ export default function App() {
         )}
       </main>
 
+      {ready && (
+        <div className="sticky-cta" role="region" aria-label="Download actions">
+          <p className="sticky-cta__count">
+            {images.length} {images.length === 1 ? 'page' : 'pages'}
+          </p>
+          <button
+            type="button"
+            className="btn btn--primary sticky-cta__btn"
+            onClick={generate}
+            disabled={busy}
+          >
+            {busy ? 'Making PDF…' : 'Download PDF'}
+          </button>
+        </div>
+      )}
+
       <footer className="footer">
-        <p>Images stay on your device — nothing is uploaded to a server.</p>
+        <p className="footer__privacy">
+          {ready
+            ? 'PDF is built locally in your browser. Your images are never uploaded.'
+            : 'No account. No upload. The PDF is written on this device.'}
+        </p>
+        <p className="footer__maker">
+          <span className="footer__maker-label">A free tool from</span>{' '}
+          <a
+            className="footer__maker-link"
+            href="https://anchorsystems.dev/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Anchor Systems
+          </a>
+          <span className="footer__maker-sep" aria-hidden="true">
+            ·
+          </span>
+          <a
+            className="footer__cta"
+            href="https://anchorsystems.dev/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Technology delivery that ships
+            <span className="footer__cta-arrow" aria-hidden="true">
+              →
+            </span>
+          </a>
+        </p>
       </footer>
 
       {viewing && viewerIndex !== null && (
@@ -335,6 +476,18 @@ export default function App() {
           aria-label={`Preview ${viewing.name}, page ${viewerIndex + 1} of ${images.length}`}
           onClick={closeViewer}
         >
+          <button
+            type="button"
+            className="viewer__close"
+            aria-label="Close preview"
+            onClick={(e) => {
+              e.stopPropagation()
+              closeViewer()
+            }}
+          >
+            Close
+          </button>
+
           <p className="viewer__counter" aria-live="polite">
             {viewerIndex + 1} / {images.length}
           </p>
