@@ -12,5 +12,12 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    { "source": "/merge", "destination": "/merge/index.html" },
+    { "source": "/extract", "destination": "/extract/index.html" },
+    { "source": "/slim", "destination": "/slim/index.html" },
+    { "source": "/compress", "destination": "/slim/index.html" },
+    { "source": "/images", "destination": "/index.html" }
   ]
 }

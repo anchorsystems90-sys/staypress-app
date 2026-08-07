@@ -9,3 +9,39 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Mode shells ship as /merge/index.html etc. Clean paths without trailing slash.
+[[redirects]]
+  from = "/merge"
+  to = "/merge/"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/extract"
+  to = "/extract/"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/slim"
+  to = "/slim/"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/compress"
+  to = "/slim/"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/images"
+  to = "/"
+  status = 301
+
+# SPA fallback for unknown client routes (mode shells above take precedence)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -185,6 +185,8 @@
 
 .mode-switch__btn {
   appearance: none;
+  display: inline-flex;
+  align-items: center;
   margin: 0;
   border: none;
   border-radius: 999px;
@@ -197,6 +199,7 @@
   padding: 0.45rem 0.7rem;
   cursor: pointer;
   white-space: nowrap;
+  text-decoration: none;
   transition:
     background 0.22s var(--ease-out),
     color 0.22s var(--ease-out),

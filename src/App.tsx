@@ -4,24 +4,15 @@ import { CompressMode } from './modes/compress/CompressMode'
 import { ExtractMode } from './modes/extract/ExtractMode'
 import { ImagesMode } from './modes/images/ImagesMode'
 import { MergeMode } from './modes/merge/MergeMode'
+import {
+  normalizeModeUrl,
+  readModeFromUrl,
+  writeModeToUrl,
+} from './routing'
+import { applyModeSeo, modeFromPathname } from './seo'
 import type { AppMode } from './types'
-import { MODE_META, parseAppMode } from './types'
+import { MODE_META } from './types'
 import './App.css'
-
-function readModeFromUrl(): AppMode {
-  if (typeof window === 'undefined') return 'images'
-  return parseAppMode(new URLSearchParams(window.location.search).get('mode'))
-}
-
-function writeModeToUrl(mode: AppMode) {
-  const url = new URL(window.location.href)
-  if (mode === 'images') {
-    url.searchParams.delete('mode')
-  } else {
-    url.searchParams.set('mode', mode)
-  }
-  window.history.replaceState({}, '', url)
-}
 
 export default function App() {
   const [mode, setMode] = useState<AppMode>(() => readModeFromUrl())
@@ -30,9 +21,25 @@ export default function App() {
 
   const meta = MODE_META[mode]
 
+  // Clean legacy ?mode= / /images → path routes once on mount.
   useEffect(() => {
-    writeModeToUrl(mode)
+    normalizeModeUrl(mode)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps -- mount only
+
+  useEffect(() => {
+    applyModeSeo(mode)
   }, [mode])
+
+  useEffect(() => {
+    const onPopState = () => {
+      const next = modeFromPathname(window.location.pathname)
+      setMode(next)
+      setReady(false)
+      setStatus('')
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
 
   const onReadyChange = useCallback((nextReady: boolean, nextStatus: string) => {
     setReady(nextReady)
@@ -44,6 +51,7 @@ export default function App() {
     setMode(next)
     setReady(false)
     setStatus('')
+    writeModeToUrl(next, 'push')
   }
 
   return (
@@ -100,7 +108,7 @@ export default function App() {
             : 'No account. No upload. Everything runs on this device.'}
         </p>
         <p className="footer__maker">
-          <span className="footer__maker-label">A free tool from</span>{' '}
+          <span className="footer__maker-label">An open-source tool from</span>{' '}
           <a
             className="footer__maker-link"
             href="https://anchorsystems.dev/"

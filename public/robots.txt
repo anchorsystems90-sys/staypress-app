@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 
-# Set Sitemap once you have a public domain:
+# At build time, if VITE_SITE_URL is set, a Sitemap line is written automatically.
+# Or set manually after deploy:
 # Sitemap: https://your-domain.com/sitemap.xml

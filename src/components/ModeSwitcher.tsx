@@ -1,5 +1,6 @@
 import type { AppMode } from '../types'
 import { MODE_META } from '../types'
+import { pathForMode } from '../seoData'
 
 const MODES: AppMode[] = ['images', 'merge', 'extract', 'slim']
 
@@ -12,18 +13,22 @@ export function ModeSwitcher({ mode, onChange }: ModeSwitcherProps) {
   return (
     <div className="mode-switch" role="tablist" aria-label="Tool mode">
       {MODES.map((id) => {
-        const active = mode === id
+        const active = id === mode
         return (
-          <button
+          <a
             key={id}
-            type="button"
+            href={pathForMode(id)}
             role="tab"
             aria-selected={active}
             className={`mode-switch__btn ${active ? 'mode-switch__btn--active' : ''}`}
-            onClick={() => onChange(id)}
+            onClick={(e) => {
+              // SPA navigation: update mode without a full page reload.
+              e.preventDefault()
+              onChange(id)
+            }}
           >
             {MODE_META[id].label}
-          </button>
+          </a>
         )
       })}
     </div>
