@@ -7,12 +7,15 @@ import { CompressMode } from './modes/compress/CompressMode'
 import { ExtractMode } from './modes/extract/ExtractMode'
 import { ImagesMode } from './modes/images/ImagesMode'
 import { MergeMode } from './modes/merge/MergeMode'
+import { PrivacyPage } from './pages/PrivacyPage'
 import {
-  normalizeModeUrl,
-  readModeFromUrl,
+  normalizeViewUrl,
+  readViewFromUrl,
   writeModeToUrl,
+  writePageToUrl,
+  type AppView,
 } from './routing'
-import { applyModeSeo, modeFromPathname } from './seo'
+import { applyViewSeo, viewFromPathname } from './seo'
 import type { AppMode } from './types'
 import { MODE_META } from './types'
 import './App.css'
@@ -20,26 +23,27 @@ import './App.css'
 const GITHUB_REPO = 'https://github.com/anchorsystems90-sys/staypress-app'
 
 export default function App() {
-  const [mode, setMode] = useState<AppMode>(() => readModeFromUrl())
+  const [view, setView] = useState<AppView>(() => readViewFromUrl())
   const [ready, setReady] = useState(false)
   const [status, setStatus] = useState('')
   const [feedbackOpen, setFeedbackOpen] = useState(false)
 
+  const onTool = view.kind === 'tool'
+  const mode: AppMode = onTool ? view.mode : 'images'
   const meta = MODE_META[mode]
+  const idleTool = onTool && !ready
 
-  // Clean legacy ?mode= / /images → path routes once on mount.
   useEffect(() => {
-    normalizeModeUrl(mode)
+    normalizeViewUrl(view)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps -- mount only
 
   useEffect(() => {
-    applyModeSeo(mode)
-  }, [mode])
+    applyViewSeo(view)
+  }, [view])
 
   useEffect(() => {
     const onPopState = () => {
-      const next = modeFromPathname(window.location.pathname)
-      setMode(next)
+      setView(viewFromPathname(window.location.pathname))
       setReady(false)
       setStatus('')
     }
@@ -52,16 +56,30 @@ export default function App() {
     setStatus(nextStatus)
   }, [])
 
-  const onModeChange = (next: AppMode) => {
-    if (next === mode) return
-    setMode(next)
+  const openTool = (next: AppMode) => {
+    setView({ kind: 'tool', mode: next })
     setReady(false)
     setStatus('')
     writeModeToUrl(next, 'push')
   }
 
+  const openPrivacy = () => {
+    setView({ kind: 'page', page: 'privacy' })
+    setReady(false)
+    setStatus('')
+    writePageToUrl('privacy', 'push')
+  }
+
+  const goHome = () => {
+    openTool('images')
+  }
+
   return (
-    <div className={`app ${ready ? 'app--ready' : 'app--idle'}`}>
+    <div
+      className={`app ${onTool && ready ? 'app--ready' : 'app--idle'}${
+        view.kind === 'page' ? ' app--content' : ''
+      }`}
+    >
       <div className="atmosphere" aria-hidden="true">
         <div className="atmosphere__wash" />
         <div className="atmosphere__grain" />
@@ -70,48 +88,68 @@ export default function App() {
       <header className="header">
         <div className="header__top">
           <p className="brand">
-            <span className="brand__mark" aria-hidden="true">
-              S
-            </span>
-            <span className="brand__name">Staypress</span>
+            <a
+              className="brand__home"
+              href="/"
+              onClick={(e) => {
+                e.preventDefault()
+                goHome()
+              }}
+            >
+              <span className="brand__mark" aria-hidden="true">
+                S
+              </span>
+              <span className="brand__name">Staypress</span>
+            </a>
           </p>
-          <ModeSwitcher mode={mode} onChange={onModeChange} />
+          <ModeSwitcher
+            mode={onTool ? mode : null}
+            onChange={openTool}
+          />
         </div>
 
-        {!ready && (
+        {idleTool && (
           <>
             <p className="tagline">{meta.tagline}</p>
             <p className="privacy">{meta.privacyIdle}</p>
           </>
         )}
-        {ready && status && (
+        {onTool && ready && status && (
           <p className="header__status">
             <span className="header__status-dot" aria-hidden="true" />
             {status}
           </p>
         )}
+        {view.kind === 'page' && (
+          <p className="tagline content-page__tagline">
+            How private processing works — and what still uses the network.
+          </p>
+        )}
       </header>
 
       <main className="main">
-        {mode === 'images' && (
+        {view.kind === 'page' && view.page === 'privacy' && (
+          <PrivacyPage onOpenMode={openTool} />
+        )}
+        {onTool && mode === 'images' && (
           <ImagesMode key="images" onReadyChange={onReadyChange} />
         )}
-        {mode === 'merge' && (
+        {onTool && mode === 'merge' && (
           <MergeMode key="merge" onReadyChange={onReadyChange} />
         )}
-        {mode === 'extract' && (
+        {onTool && mode === 'extract' && (
           <ExtractMode key="extract" onReadyChange={onReadyChange} />
         )}
-        {mode === 'slim' && (
+        {onTool && mode === 'slim' && (
           <CompressMode key="slim" onReadyChange={onReadyChange} />
         )}
       </main>
 
-      {!ready && <SeoIdleContent mode={mode} />}
+      {idleTool && <SeoIdleContent mode={mode} />}
 
       <footer className="footer">
         <p className="footer__privacy">
-          {ready
+          {onTool && ready
             ? meta.privacyReady
             : 'No account. No upload. Everything runs on this device.'}
         </p>
@@ -141,6 +179,20 @@ export default function App() {
           </a>
         </p>
         <nav className="footer__links" aria-label="Project">
+          <a
+            className="footer__link"
+            href="/privacy"
+            onClick={(e) => {
+              e.preventDefault()
+              if (view.kind === 'page' && view.page === 'privacy') return
+              openPrivacy()
+            }}
+          >
+            Privacy
+          </a>
+          <span className="footer__maker-sep" aria-hidden="true">
+            ·
+          </span>
           <a
             className="footer__link"
             href={GITHUB_REPO}

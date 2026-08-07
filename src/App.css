@@ -113,6 +113,20 @@
   color: var(--ink);
 }
 
+.brand__home {
+  display: inline-flex;
+  align-items: center;
+  gap: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand__home:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
 .brand__mark {
   display: inline-flex;
   align-items: center;
@@ -1540,6 +1554,173 @@
   font-weight: 500;
   line-height: 1.5;
   color: var(--muted);
+}
+
+/* —— Content pages (privacy / about) —— */
+
+.app--content .main {
+  max-width: 36rem;
+  padding: 0.85rem 0 1.25rem;
+  justify-content: flex-start;
+}
+
+.app--content .header {
+  max-width: 46rem;
+  text-align: center;
+  padding-top: clamp(0.5rem, 3.5vh, 1.85rem);
+}
+
+.app--content .header__top {
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 0.35rem;
+}
+
+.app--content .brand {
+  font-size: clamp(2.1rem, 7vw, 3.2rem);
+}
+
+.app--content .footer {
+  margin-top: 1.75rem;
+}
+
+.content-page__tagline {
+  max-width: 28rem;
+  margin: 1.75rem auto 2rem;
+}
+
+.content-page {
+  width: 100%;
+  text-align: left;
+  animation: rise 0.7s var(--ease-out) 0.08s both;
+}
+
+.content-page__header {
+  margin-bottom: 1.85rem;
+  padding-bottom: 1.35rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 9%, transparent);
+}
+
+.content-page__title {
+  margin: 0 0 0.7rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 3.5vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.content-page__lede {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.content-page__section {
+  margin: 0 0 1.85rem;
+}
+
+.content-page__h2 {
+  margin: 0 0 0.7rem;
+  font-family: var(--font-brand);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.content-page__section p {
+  margin: 0 0 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.content-page__section p:last-child {
+  margin-bottom: 0;
+}
+
+.content-page__section a {
+  color: var(--accent-deep);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.content-page__section a:hover {
+  color: var(--accent);
+  border-bottom-color: color-mix(in srgb, var(--accent-hot) 55%, transparent);
+}
+
+.content-page__list {
+  margin: 0.55rem 0 0;
+  padding: 0 0 0 1.15rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.content-page__list li {
+  margin-bottom: 0.7rem;
+}
+
+.content-page__list li:last-child {
+  margin-bottom: 0;
+}
+
+.content-page__list strong {
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.content-page__tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.65rem;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.content-page__tool-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  background: color-mix(in srgb, var(--paper-hot) 75%, transparent);
+  color: var(--ink-soft) !important;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent) !important;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.content-page__tool-link:hover {
+  color: var(--ink) !important;
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent) !important;
+  background: var(--paper-hot);
+  box-shadow: 0 0 0 3px rgba(var(--glow), 0.08);
+}
+
+.content-page__note {
+  margin: 2.1rem 0 0;
+  padding-top: 1.35rem;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--muted) 92%, transparent);
 }
 
 /* —— Feedback dialog —— */

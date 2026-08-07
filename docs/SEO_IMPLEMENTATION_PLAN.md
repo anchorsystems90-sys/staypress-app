@@ -42,7 +42,7 @@
 | Semantic H1 + body copy | Done | Idle-only `SeoIdleContent` per mode |
 | FAQ content | Done | 4 FAQs per mode + FAQPage JSON-LD |
 | JSON-LD | Done | WebApplication + FAQPage (client + build shells) |
-| Editorial / long-tail pages | Missing | — |
+| Editorial / long-tail pages | Partial | `/privacy` live; guide still missing |
 | Search Console + offsite | Ops, not code | Manual after domain live |
 
 ---
@@ -192,16 +192,15 @@ Per mode, store in data (not hardcode across files):
 
 ### E2. Product rules for content
 
-- [ ] Real answers; no AI filler walls  
-- [ ] Same design system; no second brand  
-- [ ] Footer link: Guide · Privacy (or both under one “About”)  
-- [ ] Keep routing coherent with Vite SPA shells if needed  
+- [x] Privacy/about page: real answers, same design system  
+- [x] Footer link: **Privacy**  
+- [x] Routing + static shell + sitemap entry for `/privacy`  
+- [ ] Guide page (later)  
 
 ### E3. Acceptance
 
-- Pages indexable unique titles  
-- Each tool mode linked from relevant guide section  
-- No cloaking / no pure doorway pages  
+- [x] `/privacy` indexable unique title + shell  
+- [ ] Guide with internal links (later)  
 
 ---
 
@@ -248,7 +247,7 @@ Use as the execution sequence when coding starts:
 | 8 | Styles for SEO block (quiet, on-brand) | Code | 7 | **Done** |
 | 9 | JSON-LD inject client + optional build shell | Code | 6 | **Done** |
 | 10 | Validate rich results + social debuggers on prod | QA | 5, 9 | After deploy |
-| 11 | Privacy / about short page | Code + copy | 7 |
+| 11 | Privacy / about short page | Code + copy | 7 | **Done** |
 | 12 | One long-tail guide page | Code + copy | 11 |
 | 13 | Footer links to content; internal links | Code | 11–12 |
 | 14 | Post-launch link + content review (30 days) | Ops | 3 |

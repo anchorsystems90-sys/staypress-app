@@ -5,7 +5,8 @@ import { pathForMode } from '../seoData'
 const MODES: AppMode[] = ['images', 'merge', 'extract', 'slim']
 
 type ModeSwitcherProps = {
-  mode: AppMode
+  /** Active tool, or null when viewing a non-tool page (e.g. privacy). */
+  mode: AppMode | null
   onChange: (mode: AppMode) => void
 }
 
@@ -22,7 +23,6 @@ export function ModeSwitcher({ mode, onChange }: ModeSwitcherProps) {
             aria-selected={active}
             className={`mode-switch__btn ${active ? 'mode-switch__btn--active' : ''}`}
             onClick={(e) => {
-              // SPA navigation: update mode without a full page reload.
               e.preventDefault()
               onChange(id)
             }}

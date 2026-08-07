@@ -119,7 +119,7 @@ That makes the build emit:
 
 | Artifact | Purpose |
 |----------|---------|
-| Absolute `canonical` + `og:url` on `/`, `/merge`, `/extract`, `/slim` | Correct indexing + shares |
+| Absolute `canonical` + `og:url` on `/`, `/merge`, `/extract`, `/slim`, `/privacy` | Correct indexing + shares |
 | Absolute `og:image` / `twitter:image` → `/og.png` (1200×630) | Social cards |
 | `sitemap.xml` | Submit in Google Search Console |
 | `robots.txt` `Sitemap:` line | Points crawlers at the sitemap |
@@ -158,10 +158,10 @@ PDF conversion still never uploads your files; only the text the user types in t
 - [ ] Extract: auto render · per-page download · ZIP
 - [ ] Slim: preset · before/after sizes
 - [ ] Privacy line + no unexpected uploads of user files
-- [ ] `/`, `/merge`, `/extract`, `/slim` load the right tool (and view-source meta matches)
+- [ ] `/`, `/merge`, `/extract`, `/slim`, `/privacy` load correctly (view-source meta matches)
 - [ ] Production: absolute canonical + `og:image` when `VITE_SITE_URL` set
 - [ ] `/og.png` loads; social debugger shows Staypress card
-- [ ] `sitemap.xml` + Search Console (production domain)
+- [ ] `sitemap.xml` includes tools + privacy + Search Console
 - [ ] Old `?mode=merge` redirects/normalizes to `/merge`
 - [ ] Feedback form sends email (Resend env set on Vercel)
 

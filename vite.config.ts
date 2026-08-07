@@ -5,19 +5,22 @@ import react from '@vitejs/plugin-react'
 import type { Plugin } from 'vite'
 import { defineConfig, loadEnv } from 'vite'
 import {
+  injectContentPageSeoIntoHtml,
   injectModeSeoIntoHtml,
+  CONTENT_PAGE_SEO,
+  CONTENT_PAGE_SHELLS,
   MODE_SEO,
   SEO_SHELL_MODES,
+  type ContentPageId,
   type SeoMode,
 } from './src/seoData'
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url))
 
 /**
- * After Vite emits dist/index.html, copy mode-specific shells so
- * `/merge`, `/extract`, `/slim` ship unique meta tags for crawlers.
- * Set VITE_SITE_URL (e.g. https://staypress.com) for absolute canonical, og:url,
- * og:image / twitter:image, and a generated sitemap.xml (+ robots Sitemap line).
+ * After Vite emits dist/index.html, copy mode and content shells so
+ * `/merge`, `/extract`, `/slim`, `/privacy` ship unique meta for crawlers.
+ * Set VITE_SITE_URL for absolute canonical, og URLs, and sitemap.xml.
  */
 function modeSeoShells(siteUrl: string | undefined): Plugin {
   return {
@@ -45,12 +48,23 @@ function modeSeoShells(siteUrl: string | undefined): Plugin {
         fs.writeFileSync(path.join(dir, 'index.html'), shellHtml, 'utf8')
       }
 
+      for (const page of CONTENT_PAGE_SHELLS) {
+        const seo = CONTENT_PAGE_SEO[page]
+        const shellHtml = injectContentPageSeoIntoHtml(indexHtml, page, origin)
+        const dir = path.join(distDir, seo.path.replace(/^\//, ''))
+        fs.mkdirSync(dir, { recursive: true })
+        fs.writeFileSync(path.join(dir, 'index.html'), shellHtml, 'utf8')
+      }
+
       if (origin) {
-        const urls = (Object.keys(MODE_SEO) as SeoMode[]).map((mode) => {
+        const toolUrls = (Object.keys(MODE_SEO) as SeoMode[]).map((mode) => {
           const p = MODE_SEO[mode].path
           return p === '/' ? `${origin}/` : `${origin}${p}`
         })
-        const unique = [...new Set(urls)]
+        const pageUrls = (Object.keys(CONTENT_PAGE_SEO) as ContentPageId[]).map(
+          (page) => `${origin}${CONTENT_PAGE_SEO[page].path}`,
+        )
+        const unique = [...new Set([...toolUrls, ...pageUrls])]
         const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${unique.map((loc) => `  <url><loc>${loc}</loc></url>`).join('\n')}

@@ -36,6 +36,12 @@
   force = false
 
 [[redirects]]
+  from = "/privacy"
+  to = "/privacy/"
+  status = 200
+  force = false
+
+[[redirects]]
   from = "/images"
   to = "/"
   status = 301

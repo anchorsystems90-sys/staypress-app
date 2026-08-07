@@ -225,6 +225,131 @@ export function absoluteModeUrl(mode: SeoMode, origin: string): string {
   return absoluteUrl(MODE_SEO[mode].path, origin)
 }
 
+/** Site content pages (not tool modes). */
+export type ContentPageId = 'privacy'
+
+export type ContentPageSeo = {
+  path: string
+  title: string
+  description: string
+  ogTitle: string
+  ogDescription: string
+}
+
+export const CONTENT_PAGE_SEO: Record<ContentPageId, ContentPageSeo> = {
+  privacy: {
+    path: '/privacy',
+    title: 'Privacy & about — Staypress',
+    description:
+      'How Staypress keeps PDFs and images on your device. What never leaves the browser, what optional network features exist, and who builds the product.',
+    ogTitle: 'Privacy & about — Staypress',
+    ogDescription:
+      'Private PDF tools that run in your browser. Files are not uploaded for conversion — learn what that means and what optional services still contact the network.',
+  },
+}
+
+/** Content pages that get their own static HTML shell at build. */
+export const CONTENT_PAGE_SHELLS: ContentPageId[] = ['privacy']
+
+export function contentPageFromPathname(pathname: string): ContentPageId | null {
+  const raw = pathname.split('?')[0] ?? '/'
+  const normalized = raw.replace(/\/+$/, '') || '/'
+  if (normalized === '/privacy') return 'privacy'
+  return null
+}
+
+export function absoluteContentPageUrl(
+  page: ContentPageId,
+  origin: string,
+): string {
+  return absoluteUrl(CONTENT_PAGE_SEO[page].path, origin)
+}
+
+export function buildContentPageJsonLd(
+  page: ContentPageId,
+  siteOrigin?: string,
+): Record<string, unknown> {
+  const seo = CONTENT_PAGE_SEO[page]
+  const origin = (siteOrigin ?? '').replace(/\/+$/, '')
+  const url = origin ? absoluteUrl(seo.path, origin) : seo.path
+  const image = resolveAssetUrl(OG_IMAGE_PATH, origin || undefined)
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: seo.ogTitle,
+    description: seo.description,
+    url,
+    image,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'Staypress',
+      url: origin ? absoluteUrl('/', origin) : '/',
+    },
+    about: {
+      '@type': 'WebApplication',
+      name: 'Staypress',
+      applicationCategory: 'UtilitiesApplication',
+      operatingSystem: 'Any',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+      },
+    },
+  }
+}
+
+/**
+ * Rewrite built index.html head tags for a content page (e.g. /privacy).
+ */
+export function injectContentPageSeoIntoHtml(
+  html: string,
+  page: ContentPageId,
+  siteOrigin?: string,
+): string {
+  const seo = CONTENT_PAGE_SEO[page]
+  const origin = (siteOrigin ?? '').replace(/\/+$/, '')
+  const pageUrl = origin ? absoluteUrl(seo.path, origin) : seo.path
+  const imageUrl = resolveAssetUrl(OG_IMAGE_PATH, origin || undefined)
+  const jsonLd = serializeJsonLd(buildContentPageJsonLd(page, origin || undefined))
+
+  let out = html
+  out = out.replace(
+    /<title>[^<]*<\/title>/i,
+    `<title>${escapeHtml(seo.title)}</title>`,
+  )
+  out = replaceMetaContent(out, 'name', 'description', seo.description)
+  out = replaceMetaContent(out, 'property', 'og:title', seo.ogTitle)
+  out = replaceMetaContent(out, 'property', 'og:description', seo.ogDescription)
+  out = replaceMetaContent(out, 'property', 'og:image', imageUrl)
+  out = replaceMetaContent(out, 'property', 'og:image:type', OG_IMAGE_TYPE)
+  out = replaceMetaContent(
+    out,
+    'property',
+    'og:image:width',
+    String(OG_IMAGE_WIDTH),
+  )
+  out = replaceMetaContent(
+    out,
+    'property',
+    'og:image:height',
+    String(OG_IMAGE_HEIGHT),
+  )
+  out = upsertMetaProperty(out, 'og:image:alt', OG_IMAGE_ALT)
+  out = replaceMetaContent(out, 'name', 'twitter:title', seo.ogTitle)
+  out = replaceMetaContent(out, 'name', 'twitter:description', seo.ogDescription)
+  out = replaceMetaContent(out, 'name', 'twitter:image', imageUrl)
+  out = upsertJsonLdScript(out, jsonLd)
+
+  if (origin) {
+    out = upsertMetaProperty(out, 'og:url', pageUrl)
+    out = upsertCanonical(out, pageUrl)
+  }
+
+  return out
+}
+
 /** JSON-LD graph: WebApplication + FAQPage (FAQs are visible on idle tool pages). */
 export function buildModeJsonLd(
   mode: SeoMode,
