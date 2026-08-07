@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 
-# At build time, if VITE_SITE_URL is set, a Sitemap line is written automatically.
-# Or set manually after deploy:
+# Production builds with VITE_SITE_URL append:
 # Sitemap: https://your-domain.com/sitemap.xml
+#
+# Do not point the Sitemap line at Vercel preview hosts.
+# Keep Google Search Console on the single canonical production domain only.

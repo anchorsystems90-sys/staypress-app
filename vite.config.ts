@@ -16,8 +16,8 @@ const rootDir = path.dirname(fileURLToPath(import.meta.url))
 /**
  * After Vite emits dist/index.html, copy mode-specific shells so
  * `/merge`, `/extract`, `/slim` ship unique meta tags for crawlers.
- * Set VITE_SITE_URL (e.g. https://staypress.com) for absolute canonical + og:url
- * and a generated sitemap.xml.
+ * Set VITE_SITE_URL (e.g. https://staypress.com) for absolute canonical, og:url,
+ * og:image / twitter:image, and a generated sitemap.xml (+ robots Sitemap line).
  */
 function modeSeoShells(siteUrl: string | undefined): Plugin {
   return {

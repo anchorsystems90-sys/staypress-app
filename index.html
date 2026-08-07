@@ -23,10 +23,15 @@
       property="og:description"
       content="Drop photos and get a PDF. Staypress runs entirely on your device — nothing is uploaded."
     />
-    <meta property="og:image" content="/og.svg" />
-    <meta property="og:image:type" content="image/svg+xml" />
+    <!-- Absolute og:image / twitter:image when VITE_SITE_URL is set at build -->
+    <meta property="og:image" content="/og.png" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Staypress — private PDF tools that run in your browser with no upload"
+    />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
@@ -36,7 +41,7 @@
       name="twitter:description"
       content="Drop photos and get a PDF. Staypress runs entirely on your device — nothing is uploaded."
     />
-    <meta name="twitter:image" content="/og.svg" />
+    <meta name="twitter:image" content="/og.png" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />

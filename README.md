@@ -59,7 +59,8 @@ A free product from **[Anchor Systems](https://anchorsystems.dev/)** — technol
 ### Roadmap
 
 Split / protect and other polish remain optional.  
-Full plan: [docs/TOOLKIT_IMPLEMENTATION_PLAN.md](docs/TOOLKIT_IMPLEMENTATION_PLAN.md)
+Full product plan: [docs/TOOLKIT_IMPLEMENTATION_PLAN.md](docs/TOOLKIT_IMPLEMENTATION_PLAN.md)  
+SEO (indexing, on-page, schema, content): [docs/SEO_IMPLEMENTATION_PLAN.md](docs/SEO_IMPLEMENTATION_PLAN.md)
 
 ---
 
@@ -106,11 +107,34 @@ Static host only — no application backend required.
 
 Config included for **Vercel** (`vercel.json`), **Netlify** (`netlify.toml`), and Cloudflare Pages headers (`public/_headers`).
 
-Optional env for absolute canonical / Open Graph URLs and `sitemap.xml`:
+### Production SEO (required for absolute URLs)
+
+Set on the host’s **Production** environment (not Preview), then rebuild:
 
 ```bash
-VITE_SITE_URL=https://your-domain.com npm run build
+VITE_SITE_URL=https://your-canonical-domain.com
 ```
+
+That makes the build emit:
+
+| Artifact | Purpose |
+|----------|---------|
+| Absolute `canonical` + `og:url` on `/`, `/merge`, `/extract`, `/slim` | Correct indexing + shares |
+| Absolute `og:image` / `twitter:image` → `/og.png` (1200×630) | Social cards |
+| `sitemap.xml` | Submit in Google Search Console |
+| `robots.txt` `Sitemap:` line | Points crawlers at the sitemap |
+
+**Ops checklist (once domain is final):**
+
+1. Pick one canonical host (apex or `www`); 301 the other  
+2. `VITE_SITE_URL` on Production only  
+3. Deploy and view-source each mode path — absolute URLs present  
+4. [Google Search Console](https://search.google.com/search-console) → verify property → submit `https://your-domain/sitemap.xml`  
+5. Optional: re-scrape OG on [opengraph.xyz](https://www.opengraph.xyz/) or Facebook Debugger  
+
+Full SEO roadmap: [docs/SEO_IMPLEMENTATION_PLAN.md](docs/SEO_IMPLEMENTATION_PLAN.md).
+
+Local/preview builds without `VITE_SITE_URL` still work; meta images stay root-relative (`/og.png`).
 
 ### Feedback form (email via Resend)
 
@@ -135,6 +159,9 @@ PDF conversion still never uploads your files; only the text the user types in t
 - [ ] Slim: preset · before/after sizes
 - [ ] Privacy line + no unexpected uploads of user files
 - [ ] `/`, `/merge`, `/extract`, `/slim` load the right tool (and view-source meta matches)
+- [ ] Production: absolute canonical + `og:image` when `VITE_SITE_URL` set
+- [ ] `/og.png` loads; social debugger shows Staypress card
+- [ ] `sitemap.xml` + Search Console (production domain)
 - [ ] Old `?mode=merge` redirects/normalizes to `/merge`
 - [ ] Feedback form sends email (Resend env set on Vercel)
 

@@ -1,6 +1,14 @@
 /** SEO-only mode ids — mirrors AppMode, kept free of DOM types so Vite can import this. */
 export type SeoMode = 'images' | 'merge' | 'extract' | 'slim'
 
+/** Default share-card image (1200×630 PNG in /public). */
+export const OG_IMAGE_PATH = '/og.png'
+export const OG_IMAGE_TYPE = 'image/png'
+export const OG_IMAGE_WIDTH = 1200
+export const OG_IMAGE_HEIGHT = 630
+export const OG_IMAGE_ALT =
+  'Staypress — private PDF tools that run in your browser with no upload'
+
 export type ModeSeo = {
   /** URL path for this tool (images is home). */
   path: string
@@ -72,13 +80,22 @@ export function modeFromPathname(pathname: string): SeoMode {
 }
 
 function absoluteUrl(path: string, origin: string): string {
-  if (path === '/') return `${origin}/`
-  return `${origin}${path}`
+  const base = origin.replace(/\/+$/, '')
+  if (path === '/') return `${base}/`
+  return `${base}${path.startsWith('/') ? path : `/${path}`}`
+}
+
+/** Absolute asset URL when origin is known; otherwise a root-relative path. */
+export function resolveAssetUrl(assetPath: string, siteOrigin?: string): string {
+  const path = assetPath.startsWith('/') ? assetPath : `/${assetPath}`
+  const origin = (siteOrigin ?? '').replace(/\/+$/, '')
+  return origin ? `${origin}${path}` : path
 }
 
 /**
  * Rewrite built index.html head tags for a given mode.
  * Used at build time so crawlers that skip JS still see the right meta.
+ * Pass siteOrigin (VITE_SITE_URL) for absolute canonical, og:url, and og:image.
  */
 export function injectModeSeoIntoHtml(
   html: string,
@@ -88,6 +105,7 @@ export function injectModeSeoIntoHtml(
   const seo = MODE_SEO[mode]
   const origin = (siteOrigin ?? '').replace(/\/+$/, '')
   const pageUrl = origin ? absoluteUrl(seo.path, origin) : seo.path
+  const imageUrl = resolveAssetUrl(OG_IMAGE_PATH, origin || undefined)
 
   let out = html
   out = out.replace(
@@ -97,8 +115,24 @@ export function injectModeSeoIntoHtml(
   out = replaceMetaContent(out, 'name', 'description', seo.description)
   out = replaceMetaContent(out, 'property', 'og:title', seo.ogTitle)
   out = replaceMetaContent(out, 'property', 'og:description', seo.ogDescription)
+  out = replaceMetaContent(out, 'property', 'og:image', imageUrl)
+  out = replaceMetaContent(out, 'property', 'og:image:type', OG_IMAGE_TYPE)
+  out = replaceMetaContent(
+    out,
+    'property',
+    'og:image:width',
+    String(OG_IMAGE_WIDTH),
+  )
+  out = replaceMetaContent(
+    out,
+    'property',
+    'og:image:height',
+    String(OG_IMAGE_HEIGHT),
+  )
+  out = upsertMetaProperty(out, 'og:image:alt', OG_IMAGE_ALT)
   out = replaceMetaContent(out, 'name', 'twitter:title', seo.ogTitle)
   out = replaceMetaContent(out, 'name', 'twitter:description', seo.ogDescription)
+  out = replaceMetaContent(out, 'name', 'twitter:image', imageUrl)
 
   if (origin) {
     out = upsertMetaProperty(out, 'og:url', pageUrl)
