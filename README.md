@@ -112,6 +112,20 @@ Optional env for absolute canonical / Open Graph URLs and `sitemap.xml`:
 VITE_SITE_URL=https://your-domain.com npm run build
 ```
 
+### Feedback form (email via Resend)
+
+The footer **Feedback** dialog posts to `/api/feedback` (Vercel serverless) and emails bug / feature notes via [Resend](https://resend.com/). Set these in the Vercel project (Production + Preview):
+
+| Variable | Purpose |
+|----------|---------|
+| `RESEND_API_KEY` | API key from Resend |
+| `FEEDBACK_TO_EMAIL` | Inbox that should receive reports (e.g. you@anchorsystems.dev) |
+| `FEEDBACK_FROM_EMAIL` | Optional. Default: `Staypress <onboarding@resend.dev>`. Use a verified domain sender in production (e.g. `Staypress <feedback@yourdomain.com>`). |
+
+Local testing needs the API route (`vercel dev`) or a deployed preview — plain `npm run dev` serves the UI only.
+
+PDF conversion still never uploads your files; only the text the user types in the form is sent.
+
 ### Post-deploy smoke checklist
 
 - [ ] Images mode: multi-image → PDF
@@ -122,12 +136,15 @@ VITE_SITE_URL=https://your-domain.com npm run build
 - [ ] Privacy line + no unexpected uploads of user files
 - [ ] `/`, `/merge`, `/extract`, `/slim` load the right tool (and view-source meta matches)
 - [ ] Old `?mode=merge` redirects/normalizes to `/merge`
+- [ ] Feedback form sends email (Resend env set on Vercel)
 
 ---
 
 ## Project layout
 
 ```
+api/
+  feedback.ts             # Vercel: email bug / feature feedback via Resend
 src/
   App.tsx                 # Shell, mode switch, footer
   modes/
@@ -135,7 +152,7 @@ src/
     merge/MergeMode.tsx
     extract/ExtractMode.tsx
     compress/CompressMode.tsx
-  components/             # Stage, ModeSwitcher, Viewer, Icons
+  components/             # Stage, ModeSwitcher, Viewer, Icons, FeedbackDialog
   lib/
     images.ts             # HEIC + rasterize / downscale
     download.ts
