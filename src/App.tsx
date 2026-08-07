@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
+import { FeedbackDialog } from './components/FeedbackDialog'
 import { ModeSwitcher } from './components/ModeSwitcher'
 import { CompressMode } from './modes/compress/CompressMode'
 import { ExtractMode } from './modes/extract/ExtractMode'
@@ -15,10 +16,13 @@ import type { AppMode } from './types'
 import { MODE_META } from './types'
 import './App.css'
 
+const GITHUB_REPO = 'https://github.com/anchorsystems90-sys/staypress-app'
+
 export default function App() {
   const [mode, setMode] = useState<AppMode>(() => readModeFromUrl())
   const [ready, setReady] = useState(false)
   const [status, setStatus] = useState('')
+  const [feedbackOpen, setFeedbackOpen] = useState(false)
 
   const meta = MODE_META[mode]
 
@@ -133,7 +137,29 @@ export default function App() {
             </span>
           </a>
         </p>
+        <nav className="footer__links" aria-label="Project">
+          <a
+            className="footer__link"
+            href={GITHUB_REPO}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Source
+          </a>
+          <span className="footer__maker-sep" aria-hidden="true">
+            ·
+          </span>
+          <button
+            type="button"
+            className="footer__link"
+            onClick={() => setFeedbackOpen(true)}
+          >
+            Feedback
+          </button>
+        </nav>
       </footer>
+
+      <FeedbackDialog open={feedbackOpen} onClose={() => setFeedbackOpen(false)} />
 
       <Analytics />
     </div>
