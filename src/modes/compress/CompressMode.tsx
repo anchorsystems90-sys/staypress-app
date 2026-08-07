@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { IconDoc, IconRemove } from '../../components/Icons'
 import { Stage } from '../../components/Stage'
+import { trackToolUsed } from '../../lib/analytics'
 import { dateStamp, downloadPdf, safeBaseName } from '../../lib/download'
 import { friendlyToolError } from '../../lib/errors'
 import { formatBytes } from '../../lib/format'
@@ -191,6 +192,10 @@ export function CompressMode({ onReadyChange }: CompressModeProps) {
     if (!pdf || !outcome) return
     const base = safeBaseName(pdf.name)
     downloadPdf(outcome.bytes, `${base}-staypress-slim-${dateStamp()}.pdf`)
+    trackToolUsed('slim', {
+      detail: outcome.preset,
+      pages: pdf.pageCount,
+    })
   }
 
   return (

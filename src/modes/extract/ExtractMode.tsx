@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties } from 're
 import { IconDoc, IconDownload, IconRemove } from '../../components/Icons'
 import { Stage } from '../../components/Stage'
 import { Viewer } from '../../components/Viewer'
+import { trackToolUsed } from '../../lib/analytics'
 import { dateStamp, downloadBlob, safeBaseName } from '../../lib/download'
 import { friendlyToolError } from '../../lib/errors'
 import { isPdfFile } from '../../lib/pdf/files'
@@ -197,6 +198,7 @@ export function ExtractMode({ onReadyChange }: ExtractModeProps) {
 
   const downloadPage = (page: ExtractedPage) => {
     downloadBlob(page.blob, page.filename)
+    trackToolUsed('extract', { detail: 'page', pages: 1 })
   }
 
   const downloadZip = async () => {
@@ -208,6 +210,7 @@ export function ExtractMode({ onReadyChange }: ExtractModeProps) {
       const zip = await pagesToZipBlob(pages)
       const base = safeBaseName(pdf.name)
       downloadBlob(zip, `${base}-pages-${dateStamp()}.zip`)
+      trackToolUsed('extract', { detail: 'zip', pages: pages.length })
     } catch (err) {
       console.error(err)
       setError(friendlyToolError(err, 'Could not create the ZIP file.'))

@@ -2,6 +2,7 @@ import { useCallback, useRef, useState, type CSSProperties } from 'react'
 import { IconChevronLeft, IconChevronRight, IconRemove } from '../../components/Icons'
 import { Stage } from '../../components/Stage'
 import { Viewer } from '../../components/Viewer'
+import { trackToolUsed } from '../../lib/analytics'
 import { dateStamp, downloadPdf } from '../../lib/download'
 import { friendlyToolError } from '../../lib/errors'
 import { createId } from '../../lib/id'
@@ -173,6 +174,7 @@ export function ImagesMode({ onReadyChange }: ImagesModeProps) {
         setBusyLabel(`Making PDF… ${current}/${total}`)
       })
       downloadPdf(bytes, `staypress-${dateStamp()}.pdf`)
+      trackToolUsed('images', { pages: images.length })
     } catch (err) {
       console.error(err)
       setError(friendlyToolError(err, 'Could not create the PDF. Try again.'))

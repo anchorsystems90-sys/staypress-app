@@ -6,6 +6,7 @@ import {
   IconRemove,
 } from '../../components/Icons'
 import { Stage } from '../../components/Stage'
+import { trackToolUsed } from '../../lib/analytics'
 import { dateStamp, downloadPdf } from '../../lib/download'
 import { friendlyToolError } from '../../lib/errors'
 import { createId } from '../../lib/id'
@@ -342,6 +343,11 @@ export function MergeMode({ onReadyChange }: MergeModeProps) {
       }
 
       downloadPdf(bytes, `staypress-merged-${dateStamp()}.pdf`)
+      trackToolUsed('merge', {
+        detail: advanced ? 'arrange' : 'files',
+        files: items.length,
+        pages: advanced ? arrangePages.length : totalPages,
+      })
     } catch (err) {
       console.error(err)
       setError(friendlyToolError(err, 'Could not merge those PDFs. Try again.'))
