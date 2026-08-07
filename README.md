@@ -2,7 +2,7 @@
 
 **Private PDF tools in your browser.** No account. No upload. Files stay put.
 
-Staypress is a free, browser-based PDF toolkit: **images → PDF**, **merge**, **PDF → images**, and **slim**. Everything runs client-side.
+Staypress is a free, open-source, browser-based PDF toolkit: **images → PDF**, **merge**, **PDF → images**, and **slim**. Everything runs client-side.
 
 A free product from **[Anchor Systems](https://anchorsystems.dev/)** — technology delivery that ships.
 
@@ -52,7 +52,8 @@ A free product from **[Anchor Systems](https://anchorsystems.dev/)** — technol
 ### Shared
 
 - Mobile sticky download actions
-- Deep links: `?mode=merge`, `?mode=extract`, `?mode=slim` (images is default)
+- SEO routes: `/` (images → PDF), `/merge`, `/extract`, `/slim` (legacy `?mode=` still works)
+- Per-mode title + meta; build emits HTML shells so crawlers see the right tags
 - Soft credit to Anchor Systems
 
 ### Roadmap
@@ -105,6 +106,12 @@ Static host only — no application backend required.
 
 Config included for **Vercel** (`vercel.json`), **Netlify** (`netlify.toml`), and Cloudflare Pages headers (`public/_headers`).
 
+Optional env for absolute canonical / Open Graph URLs and `sitemap.xml`:
+
+```bash
+VITE_SITE_URL=https://your-domain.com npm run build
+```
+
 ### Post-deploy smoke checklist
 
 - [ ] Images mode: multi-image → PDF
@@ -113,6 +120,8 @@ Config included for **Vercel** (`vercel.json`), **Netlify** (`netlify.toml`), an
 - [ ] Extract: auto render · per-page download · ZIP
 - [ ] Slim: preset · before/after sizes
 - [ ] Privacy line + no unexpected uploads of user files
+- [ ] `/`, `/merge`, `/extract`, `/slim` load the right tool (and view-source meta matches)
+- [ ] Old `?mode=merge` redirects/normalizes to `/merge`
 
 ---
 
@@ -150,10 +159,12 @@ Staypress does **not** upload your images or PDFs for conversion. Generation, me
 
 ## License
 
-Private / unlicensed source unless a `LICENSE` file is added to this repository. Contact [Anchor Systems](https://anchorsystems.dev/) for use outside personal evaluation if unclear.
+[MIT](LICENSE) © [Anchor Systems](https://anchorsystems.dev/)
+
+You can use, modify, and redistribute Staypress freely. The privacy promise is easy to audit: no server for conversion — read the source.
 
 ---
 
 ## Credits
 
-**Staypress** — a free tool from [**Anchor Systems**](https://anchorsystems.dev/).
+**Staypress** — an open-source tool from [**Anchor Systems**](https://anchorsystems.dev/).
