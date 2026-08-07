@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import { ModeSwitcher } from './components/ModeSwitcher'
 import { CompressMode } from './modes/compress/CompressMode'
 import { ExtractMode } from './modes/extract/ExtractMode'
@@ -133,6 +134,8 @@ export default function App() {
           </a>
         </p>
       </footer>
+
+      <Analytics />
     </div>
   )
 }
