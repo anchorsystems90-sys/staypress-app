@@ -1,6 +1,7 @@
 import type { AppMode } from './types'
 import {
   absoluteModeUrl,
+  buildModeJsonLd,
   MODE_SEO,
   OG_IMAGE_ALT,
   OG_IMAGE_HEIGHT,
@@ -8,20 +9,26 @@ import {
   OG_IMAGE_TYPE,
   OG_IMAGE_WIDTH,
   resolveAssetUrl,
+  serializeJsonLd,
 } from './seoData'
 
-export type { ModeSeo, SeoMode } from './seoData'
+export type { ModeFaq, ModePageContent, ModeSeo, SeoMode } from './seoData'
 export {
   MODE_SEO,
+  MODE_PAGE_CONTENT,
   SEO_SHELL_MODES,
   pathForMode,
   modeFromPathname,
   injectModeSeoIntoHtml,
   absoluteModeUrl,
   resolveAssetUrl,
+  buildModeJsonLd,
+  serializeJsonLd,
   OG_IMAGE_PATH,
   OG_IMAGE_ALT,
 } from './seoData'
+
+const JSON_LD_ID = 'staypress-jsonld'
 
 function setMeta(
   attr: 'name' | 'property',
@@ -49,7 +56,18 @@ function setCanonical(href: string): void {
   el.setAttribute('href', href)
 }
 
-/** Update document title + social meta for the active mode (client-side). */
+function setJsonLd(mode: AppMode, origin: string): void {
+  let el = document.getElementById(JSON_LD_ID) as HTMLScriptElement | null
+  if (!el) {
+    el = document.createElement('script')
+    el.type = 'application/ld+json'
+    el.id = JSON_LD_ID
+    document.head.appendChild(el)
+  }
+  el.textContent = serializeJsonLd(buildModeJsonLd(mode, origin))
+}
+
+/** Update document title, social meta, and JSON-LD for the active mode. */
 export function applyModeSeo(mode: AppMode, origin = window.location.origin): void {
   const seo = MODE_SEO[mode]
   const url = absoluteModeUrl(mode, origin)
@@ -69,4 +87,5 @@ export function applyModeSeo(mode: AppMode, origin = window.location.origin): vo
   setMeta('name', 'twitter:description', seo.ogDescription)
   setMeta('name', 'twitter:image', imageUrl)
   setCanonical(url)
+  setJsonLd(mode, origin)
 }

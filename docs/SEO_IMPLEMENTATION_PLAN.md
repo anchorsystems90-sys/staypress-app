@@ -39,9 +39,9 @@
 | Canonical + sitemap | Done in code | Requires Production `VITE_SITE_URL` |
 | robots.txt | Done in code | Sitemap line injected when `VITE_SITE_URL` set |
 | OG / Twitter image | Done | `public/og.png` 1200×630; absolute when origin known |
-| Semantic H1 + body copy | Missing | Brand + tagline only; thin for crawlers |
-| FAQ content | Missing | — |
-| JSON-LD | Missing | — |
+| Semantic H1 + body copy | Done | Idle-only `SeoIdleContent` per mode |
+| FAQ content | Done | 4 FAQs per mode + FAQPage JSON-LD |
+| JSON-LD | Done | WebApplication + FAQPage (client + build shells) |
 | Editorial / long-tail pages | Missing | — |
 | Search Console + offsite | Ops, not code | Manual after domain live |
 
@@ -145,67 +145,39 @@ Per mode, store in data (not hardcode across files):
 
 ### C2. UI placement
 
-- [ ] Idle (empty) state: after tagline/privacy short line, or below stage before footer  
+- [x] Idle (empty) state: below stage before footer  
   - **H1** (visually secondary to brand mark; still real `<h1>`)  
   - **Intro** paragraph  
-  - **FAQ** block (simple disclosure list or static Q&A — no card farm)  
-- [ ] Ready / working state: hide or collapse SEO block so focus stays on the tool  
-- [ ] Styles: muted type, short measure, matches paper/ink tokens — not a second landing page  
+  - **FAQ** block (`<details>` disclosures)  
+- [x] Ready / working state: SEO block hidden (`!ready`)  
+- [x] Styles: muted type, short measure  
 
 ### C3. Accessibility / semantics
 
-- [ ] Single `<h1>` per view  
-- [ ] FAQ questions as `<h2>` or `dt`/`button` with proper regions  
-- [ ] Don’t put the only keyword content only in images  
-
-### C4. Optional: inject FAQ text into static shells
-
-- [ ] Evaluate whether build-time injection of a minimal noscript / static snippet helps non-JS crawlers  
-- [ ] If yes: small static block in HTML shells for crawl; react hydration owns interactive UI  
-- [ ] If no / costly: rely on Google executing JS + good internal signals first  
-
-**v1 decision default:** React idle content is enough; revisit static body injection only if GSC shows thin/JS issues.
+- [x] Single `<h1>` per idle view  
+- [x] FAQ section `h2` + expandable questions  
+- [x] Keyword content in text, not only images  
 
 ### C5. Acceptance
 
-- Each mode idle: one H1, intro, ≥3 FAQs  
-- Ready state not cluttered  
-- No visual competition with brand in first viewport  
+- [x] Each mode idle: one H1, intro, ≥3 FAQs  
+- [x] Ready state not cluttered  
+- [x] Brand remains hero in first viewport  
 
 ---
 
 ## 7. Phase D — Structured data (JSON-LD)
 
-### D1. Types
-
-Per mode (or one WebApplication + software features):
-
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Staypress — Merge PDFs",
-  "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "description": "…",
-  "url": "https://…/merge",
-  "browserRequirements": "Requires JavaScript. Processing is client-side."
-}
-```
-
-Also optional `FAQPage` if FAQs are visible on the same URL (only if markup matches visible content).
-
 ### D2. Implementation
 
-- [ ] Add JSON-LD generation in `seo.ts` / shared module  
-- [ ] Inject/update `<script type="application/ld+json">` on mode change  
-- [ ] Prefer also writing shell-injected JSON-LD at build for the four paths  
+- [x] JSON-LD generation in `seoData.ts` (`buildModeJsonLd`)  
+- [x] Inject/update `<script id="staypress-jsonld">` on mode change  
+- [x] Shell-injected JSON-LD at build for the four paths  
 
 ### D3. Acceptance
 
-- [ Google Rich Results Test ](https://search.google.com/test/rich-results) / schema validator: no critical errors  
-- Markup matches visible claims (free, client-side)  
+- [ ] Google Rich Results Test on production after deploy  
+- [x] Markup matches visible claims (free, client-side)  
 
 ---
 
@@ -271,11 +243,11 @@ Use as the execution sequence when coding starts:
 | 3 | Search Console verify + submit sitemap | Ops | 2 | **You** |
 | 4 | Create `public/og.png` (1200×630) | Design/code | — | **Done** |
 | 5 | Absolute OG/Twitter image in HTML + inject + client SEO | Code | 4 | **Done** |
-| 6 | Extend SEO content model (h1, intro, faqs) in `seoData` | Code | — |
-| 7 | `SeoIdleContent` (or similar) in App for idle-only H1/intro/FAQ | Code | 6 |
-| 8 | Styles for SEO block (quiet, on-brand) | Code | 7 |
-| 9 | JSON-LD inject client + optional build shell | Code | 6 |
-| 10 | Validate rich results + social debuggers on prod | QA | 5, 9 |
+| 6 | Extend SEO content model (h1, intro, faqs) in `seoData` | Code | — | **Done** |
+| 7 | `SeoIdleContent` (or similar) in App for idle-only H1/intro/FAQ | Code | 6 | **Done** |
+| 8 | Styles for SEO block (quiet, on-brand) | Code | 7 | **Done** |
+| 9 | JSON-LD inject client + optional build shell | Code | 6 | **Done** |
+| 10 | Validate rich results + social debuggers on prod | QA | 5, 9 | After deploy |
 | 11 | Privacy / about short page | Code + copy | 7 |
 | 12 | One long-tail guide page | Code + copy | 11 |
 | 13 | Footer links to content; internal links | Code | 11–12 |

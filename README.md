@@ -179,7 +179,7 @@ src/
     merge/MergeMode.tsx
     extract/ExtractMode.tsx
     compress/CompressMode.tsx
-  components/             # Stage, ModeSwitcher, Viewer, Icons, FeedbackDialog
+  components/             # Stage, ModeSwitcher, Viewer, Icons, FeedbackDialog, SeoIdleContent
   lib/
     images.ts             # HEIC + rasterize / downscale
     download.ts

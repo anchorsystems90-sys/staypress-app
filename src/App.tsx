@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import { FeedbackDialog } from './components/FeedbackDialog'
 import { ModeSwitcher } from './components/ModeSwitcher'
+import { SeoIdleContent } from './components/SeoIdleContent'
 import { CompressMode } from './modes/compress/CompressMode'
 import { ExtractMode } from './modes/extract/ExtractMode'
 import { ImagesMode } from './modes/images/ImagesMode'
@@ -105,6 +106,8 @@ export default function App() {
           <CompressMode key="slim" onReadyChange={onReadyChange} />
         )}
       </main>
+
+      {!ready && <SeoIdleContent mode={mode} />}
 
       <footer className="footer">
         <p className="footer__privacy">
