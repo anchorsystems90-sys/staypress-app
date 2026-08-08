@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import { FeedbackDialog } from './components/FeedbackDialog'
 import { ModeSwitcher } from './components/ModeSwitcher'
 import { SeoIdleContent } from './components/SeoIdleContent'
@@ -217,6 +218,7 @@ export default function App() {
       <FeedbackDialog open={feedbackOpen} onClose={() => setFeedbackOpen(false)} />
 
       <Analytics />
+      <SpeedInsights />
     </div>
   )
 }
