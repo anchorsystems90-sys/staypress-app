@@ -5,7 +5,7 @@ import {
   type AppView,
   type ContentPageId,
 } from './seo'
-import { CONTENT_PAGE_SEO, modeFromPathname } from './seoData'
+import { CONTENT_PAGE_SEO, HOME_PATH, toolFromPathname } from './seoData'
 import type { ToolId } from './toolCatalog'
 import { isPdfTool } from './toolCatalog'
 import type { AppMode } from './types'
@@ -15,10 +15,10 @@ export type { AppView }
 
 /**
  * Resolve app view from the current URL.
- * Prefer path routes (`/merge`, `/word-unscrambler`, `/privacy`); fall back to legacy `?mode=` query.
+ * Prefer path routes; fall back to legacy `?mode=` query for PDF tools.
  */
 export function readViewFromUrl(): AppView {
-  if (typeof window === 'undefined') return { kind: 'tool', id: 'images' }
+  if (typeof window === 'undefined') return { kind: 'home' }
 
   const page = contentPageFromPathname(window.location.pathname)
   if (page) return { kind: 'page', page }
@@ -29,7 +29,7 @@ export function readViewFromUrl(): AppView {
     return { kind: 'tool', id: parseAppMode(queryMode) }
   }
 
-  return { kind: 'tool', id: modeFromPathname(window.location.pathname) }
+  return viewFromPathname(window.location.pathname)
 }
 
 /** @deprecated Prefer readViewFromUrl. */
@@ -51,6 +51,10 @@ function navigate(pathname: string, method: 'push' | 'replace') {
   }
 }
 
+export function writeHomeToUrl(method: 'push' | 'replace' = 'push') {
+  navigate(HOME_PATH, method)
+}
+
 export function writeToolToUrl(id: ToolId, method: 'push' | 'replace' = 'push') {
   navigate(pathForMode(id), method)
 }
@@ -68,13 +72,21 @@ export function writePageToUrl(
   navigate(CONTENT_PAGE_SEO[page].path, method)
 }
 
-/** One-time cleanup for tool and content URLs. */
+/** One-time cleanup for home, tool, and content URLs. */
 export function normalizeViewUrl(view: AppView) {
   if (view.kind === 'page') {
     const target = CONTENT_PAGE_SEO[view.page].path
     const current = window.location.pathname.replace(/\/+$/, '') || '/'
     if (current !== target || window.location.search.includes('mode=')) {
       writePageToUrl(view.page, 'replace')
+    }
+    return
+  }
+
+  if (view.kind === 'home') {
+    const current = window.location.pathname.replace(/\/+$/, '') || '/'
+    if (current !== HOME_PATH || window.location.search.includes('mode=')) {
+      writeHomeToUrl('replace')
     }
     return
   }
@@ -91,19 +103,17 @@ export function normalizeViewUrl(view: AppView) {
   }
 }
 
-/** One-time cleanup: `?mode=merge` → `/merge`, `/images` → `/`. */
+/** One-time cleanup: `?mode=merge` → `/merge`, `/images` → `/images-to-pdf`. */
 export function normalizeModeUrl(mode: AppMode) {
   const path = pathForMode(mode)
   const url = new URL(window.location.href)
   const hasLegacyQuery = url.searchParams.has('mode')
   const needsPath = url.pathname.replace(/\/+$/, '') || '/'
-  const target = path === '/' ? '/' : path
-  const current = needsPath === '/images' ? '/images' : needsPath
-  const pathMismatch = current !== target && !(target === '/' && current === '/')
+  const pathMismatch = needsPath !== path
 
-  if (hasLegacyQuery || pathMismatch || url.pathname !== target) {
+  if (hasLegacyQuery || pathMismatch || url.pathname !== path) {
     writeModeToUrl(mode, 'replace')
   }
 }
 
-export { viewFromPathname }
+export { viewFromPathname, toolFromPathname }

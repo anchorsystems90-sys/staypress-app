@@ -21,6 +21,52 @@ export function isPdfTool(id: ToolId): id is AppMode {
   )
 }
 
+export const TOOL_FAMILIES: readonly { id: ToolFamily; label: string }[] = [
+  { id: 'pdf', label: 'Files / PDF' },
+  { id: 'words', label: 'Words' },
+]
+
+export type ToolDirectoryEntry = {
+  id: ToolId
+  family: ToolFamily
+  label: string
+  blurb: string
+}
+
+/** Directory metadata in display order. Paths live in seoData (`pathForMode`). */
+export const TOOLS: readonly ToolDirectoryEntry[] = [
+  {
+    id: 'images',
+    family: 'pdf',
+    label: 'Images → PDF',
+    blurb: 'Turn photos into a PDF on this device.',
+  },
+  {
+    id: 'merge',
+    family: 'pdf',
+    label: 'Merge PDF',
+    blurb: 'Combine PDFs locally, in order.',
+  },
+  {
+    id: 'extract',
+    family: 'pdf',
+    label: 'PDF → Images',
+    blurb: 'Export each page as a JPG or PNG.',
+  },
+  {
+    id: 'slim',
+    family: 'pdf',
+    label: 'Slim PDF',
+    blurb: 'Rebuild a smaller file without uploading.',
+  },
+  {
+    id: 'word-unscrambler',
+    family: 'words',
+    label: 'Word Unscrambler',
+    blurb: 'Find words from a jumble of letters.',
+  },
+]
+
 export const WORD_UNSCRAMBLER_META = {
   id: 'word-unscrambler' as const,
   family: 'words' as const,

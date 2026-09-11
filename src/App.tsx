@@ -8,11 +8,13 @@ import { CompressMode } from './modes/compress/CompressMode'
 import { ExtractMode } from './modes/extract/ExtractMode'
 import { ImagesMode } from './modes/images/ImagesMode'
 import { MergeMode } from './modes/merge/MergeMode'
+import { HomePage } from './pages/HomePage'
 import { PrivacyPage } from './pages/PrivacyPage'
 import { HeicToPdfGuidePage } from './pages/HeicToPdfGuidePage'
 import {
   normalizeViewUrl,
   readViewFromUrl,
+  writeHomeToUrl,
   writePageToUrl,
   writeToolToUrl,
   type AppView,
@@ -35,6 +37,7 @@ export default function App() {
   const [status, setStatus] = useState('')
   const [feedbackOpen, setFeedbackOpen] = useState(false)
 
+  const onHome = view.kind === 'home'
   const onTool = view.kind === 'tool'
   const toolId: ToolId | null = onTool ? view.id : null
   const pdfMode: AppMode | null = toolId && isPdfTool(toolId) ? toolId : null
@@ -89,7 +92,10 @@ export default function App() {
   }
 
   const goHome = () => {
-    openTool('images')
+    setView({ kind: 'home' })
+    setReady(false)
+    setStatus('')
+    writeHomeToUrl('push')
   }
 
   const contentTagline =
@@ -111,7 +117,7 @@ export default function App() {
     <div
       className={`app ${onPdf && ready ? 'app--ready' : 'app--idle'}${
         view.kind === 'page' ? ' app--content' : ''
-      }`}
+      }${onHome ? ' app--home' : ''}`}
     >
       <div className="atmosphere" aria-hidden="true">
         <div className="atmosphere__wash" />
@@ -126,6 +132,7 @@ export default function App() {
               href="/"
               onClick={(e) => {
                 e.preventDefault()
+                if (onHome) return
                 goHome()
               }}
             >
@@ -135,7 +142,7 @@ export default function App() {
               <span className="brand__name">{SITE_NAME}</span>
             </a>
           </p>
-          {(onPdf || view.kind === 'page') && (
+          {onPdf && (
             <ModeSwitcher mode={pdfMode} onChange={openPdfTool} />
           )}
         </div>
@@ -158,6 +165,7 @@ export default function App() {
       </header>
 
       <main className="main">
+        {onHome && <HomePage onOpenTool={openTool} />}
         {view.kind === 'page' && view.page === 'privacy' && (
           <PrivacyPage
             onOpenTool={openTool}

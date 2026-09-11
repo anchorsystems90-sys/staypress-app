@@ -13,13 +13,20 @@
       ]
     }
   ],
+  "redirects": [
+    {
+      "source": "/images",
+      "destination": "/images-to-pdf",
+      "permanent": true
+    }
+  ],
   "rewrites": [
+    { "source": "/images-to-pdf", "destination": "/images-to-pdf/index.html" },
     { "source": "/merge", "destination": "/merge/index.html" },
     { "source": "/extract", "destination": "/extract/index.html" },
     { "source": "/slim", "destination": "/slim/index.html" },
     { "source": "/compress", "destination": "/slim/index.html" },
     { "source": "/word-unscrambler", "destination": "/word-unscrambler/index.html" },
-    { "source": "/images", "destination": "/index.html" },
     { "source": "/privacy", "destination": "/privacy/index.html" },
     {
       "source": "/guides/heic-to-pdf",

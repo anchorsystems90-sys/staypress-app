@@ -1,18 +1,10 @@
 import { pathForMode } from '../seoData'
-import type { ToolId } from '../toolCatalog'
+import { TOOLS, type ToolId } from '../toolCatalog'
 
 type Props = {
   onOpenTool: (id: ToolId) => void
   onOpenGuide: () => void
 }
-
-const LINKS: { id: ToolId; label: string }[] = [
-  { id: 'images', label: 'Images → PDF' },
-  { id: 'merge', label: 'Merge PDFs' },
-  { id: 'extract', label: 'PDF → images' },
-  { id: 'slim', label: 'Slim PDF' },
-  { id: 'word-unscrambler', label: 'Word Unscrambler' },
-]
 
 /** Privacy / about essay — honest client-side processing + optional network use. */
 export function PrivacyPage({ onOpenTool, onOpenGuide }: Props) {
@@ -87,7 +79,7 @@ export function PrivacyPage({ onOpenTool, onOpenGuide }: Props) {
         </h2>
         <p>Jump back into a job. File tools share the same privacy story:</p>
         <ul className="content-page__tools">
-          {LINKS.map(({ id, label }) => (
+          {TOOLS.map(({ id, label }) => (
             <li key={id}>
               <a
                 className="content-page__tool-link"

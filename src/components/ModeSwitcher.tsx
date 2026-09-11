@@ -1,11 +1,10 @@
 import type { AppMode } from '../types'
 import { MODE_META } from '../types'
 import { pathForMode } from '../seoData'
-
-const MODES: AppMode[] = ['images', 'merge', 'extract', 'slim']
+import { PDF_TOOL_IDS } from '../toolCatalog'
 
 type ModeSwitcherProps = {
-  /** Active tool, or null when viewing a non-tool page (e.g. privacy). */
+  /** Active PDF tool. */
   mode: AppMode | null
   onChange: (mode: AppMode) => void
 }
@@ -13,7 +12,7 @@ type ModeSwitcherProps = {
 export function ModeSwitcher({ mode, onChange }: ModeSwitcherProps) {
   return (
     <div className="mode-switch" role="tablist" aria-label="PDF tools">
-      {MODES.map((id) => {
+      {PDF_TOOL_IDS.map((id) => {
         const active = id === mode
         return (
           <a

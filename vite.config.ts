@@ -6,6 +6,7 @@ import type { Plugin } from 'vite'
 import { defineConfig, loadEnv } from 'vite'
 import {
   injectContentPageSeoIntoHtml,
+  injectHomeSeoIntoHtml,
   injectModeSeoIntoHtml,
   CONTENT_PAGE_SEO,
   CONTENT_PAGE_SHELLS,
@@ -19,8 +20,8 @@ const rootDir = path.dirname(fileURLToPath(import.meta.url))
 
 /**
  * After Vite emits dist/index.html, copy mode and content shells so
- * `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/privacy`, `/guides/heic-to-pdf` ship unique meta for crawlers.
- * Set VITE_SITE_URL for absolute canonical, og URLs, and sitemap.xml.
+ * `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/privacy`, `/guides/heic-to-pdf` ship unique meta for crawlers.
+ * `/` is the Bento Tools homepage. Set VITE_SITE_URL for absolute canonical, og URLs, and sitemap.xml.
  */
 function modeSeoShells(siteUrl: string | undefined): Plugin {
   return {
@@ -36,7 +37,7 @@ function modeSeoShells(siteUrl: string | undefined): Plugin {
 
       fs.writeFileSync(
         indexPath,
-        injectModeSeoIntoHtml(indexHtml, 'images', origin),
+        injectHomeSeoIntoHtml(indexHtml, origin),
         'utf8',
       )
 
@@ -57,14 +58,15 @@ function modeSeoShells(siteUrl: string | undefined): Plugin {
       }
 
       if (origin) {
+        const homeUrl = `${origin}/`
         const toolUrls = (Object.keys(MODE_SEO) as SeoMode[]).map((mode) => {
           const p = MODE_SEO[mode].path
-          return p === '/' ? `${origin}/` : `${origin}${p}`
+          return `${origin}${p}`
         })
         const pageUrls = (Object.keys(CONTENT_PAGE_SEO) as ContentPageId[]).map(
           (page) => `${origin}${CONTENT_PAGE_SEO[page].path}`,
         )
-        const unique = [...new Set([...toolUrls, ...pageUrls])]
+        const unique = [...new Set([homeUrl, ...toolUrls, ...pageUrls])]
         const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${unique.map((loc) => `  <url><loc>${loc}</loc></url>`).join('\n')}

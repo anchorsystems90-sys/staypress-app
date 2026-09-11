@@ -12,6 +12,12 @@
 
 # Mode shells ship as /merge/index.html etc. Clean paths without trailing slash.
 [[redirects]]
+  from = "/images-to-pdf"
+  to = "/images-to-pdf/"
+  status = 200
+  force = false
+
+[[redirects]]
   from = "/merge"
   to = "/merge/"
   status = 200
@@ -55,7 +61,7 @@
 
 [[redirects]]
   from = "/images"
-  to = "/"
+  to = "/images-to-pdf"
   status = 301
 
 # SPA fallback for unknown client routes (mode shells above take precedence)

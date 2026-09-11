@@ -4,7 +4,7 @@
 
 Bento Tools is a free, open-source suite from **[Anchor Systems](https://anchorsystems.dev/)**. The first family is private PDF tools (**images → PDF**, **merge**, **PDF → images**, **slim**), plus **Word Unscrambler**. Everything that touches your files or letters runs client-side.
 
-The homepage is still Images to PDF until there are enough tools to justify a directory.
+`/` is the Bento Tools directory. Each utility has its own URL.
 
 ---
 
@@ -20,7 +20,7 @@ The homepage is still Images to PDF until there are enough tools to justify a di
 
 ## Features (now)
 
-### Images → PDF (`/`)
+### Images → PDF (`/images-to-pdf`)
 
 - Drag-and-drop or choose **JPG, PNG, WebP, GIF, HEIC**
 - HEIC photos converted locally for preview + export
@@ -58,13 +58,12 @@ The homepage is still Images to PDF until there are enough tools to justify a di
 ### Shared
 
 - Mobile sticky download actions on PDF tools
-- SEO routes: `/`, `/merge`, `/extract`, `/slim`, `/word-unscrambler` (legacy `?mode=` still works for PDF tools)
+- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler` (`/images` 301s to `/images-to-pdf`; legacy `?mode=` still works for PDF tools)
 - Per-tool title + meta; build emits HTML shells so crawlers see the right tags
 - Soft credit to Anchor Systems
 
 ### Roadmap
 
-A Bento Tools directory homepage is postponed until more utilities ship.  
 PDF split / protect remain optional.  
 Product context: [BENTO_TOOLS_CONTEXT.md](BENTO_TOOLS_CONTEXT.md)  
 PDF toolkit plan (historical): [docs/TOOLKIT_IMPLEMENTATION_PLAN.md](docs/TOOLKIT_IMPLEMENTATION_PLAN.md)  
@@ -167,7 +166,8 @@ Tools still never upload your files or letters; only the text the user types in 
 - [ ] Slim: preset · before/after sizes
 - [ ] Word Unscrambler: letters → words · copy
 - [ ] Privacy line + no unexpected uploads of user files
-- [ ] `/`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/privacy`, `/guides/heic-to-pdf` load correctly
+- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/privacy`, `/guides/heic-to-pdf` load correctly
+- [ ] `/images` 301s to `/images-to-pdf`
 - [ ] Production: absolute canonical + `og:image` when `VITE_SITE_URL` set
 - [ ] `/og.png` loads; social debugger shows Bento Tools card
 - [ ] `sitemap.xml` includes tools + privacy + Search Console
@@ -182,8 +182,11 @@ Tools still never upload your files or letters; only the text the user types in 
 api/
   feedback.ts             # Vercel: email bug / feature feedback via Resend
 src/
-  App.tsx                 # Shell, PDF mode switch, footer
-  toolCatalog.ts          # ToolId + PDF family vs standalone tools
+  App.tsx                 # Shell, homepage, PDF mode switch, footer
+  toolCatalog.ts          # Directory metadata + PDF family vs standalone tools
+  pages/
+    HomePage.tsx
+    PrivacyPage.tsx
   modes/                  # PDF family
     images/ImagesMode.tsx
     merge/MergeMode.tsx

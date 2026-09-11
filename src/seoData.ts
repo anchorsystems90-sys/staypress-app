@@ -12,8 +12,19 @@ export const OG_IMAGE_HEIGHT = 630
 export const OG_IMAGE_ALT =
   'Bento Tools — useful browser tools. No signup. Files stay on your device where the tool runs locally.'
 
+export const HOME_PATH = '/'
+
+export const HOME_SEO = {
+  path: HOME_PATH,
+  title: 'Bento Tools — simple tools in your browser',
+  description:
+    'Simple tools that work in your browser. Convert images to PDF, merge and slim PDFs, unscramble words — free, no account.',
+  ogTitle: 'Bento Tools',
+  ogDescription: 'Simple tools that work in your browser. No signup. No nonsense.',
+}
+
 export type ModeSeo = {
-  /** URL path for this tool (images is home). */
+  /** URL path for this tool. */
   path: string
   title: string
   description: string
@@ -41,7 +52,7 @@ export type ModePageContent = {
  */
 export const MODE_SEO: Record<SeoMode, ModeSeo> = {
   images: {
-    path: '/',
+    path: '/images-to-pdf',
     title: 'Images to PDF — Private, no upload | Bento Tools',
     description:
       'Convert JPG, PNG, WebP, GIF, and HEIC to PDF in your browser. Free, no account, and files never leave your device.',
@@ -232,6 +243,7 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
 
 /** Modes that get their own static HTML shell at build (home is index.html). */
 export const SEO_SHELL_MODES: SeoMode[] = [
+  'images',
   'merge',
   'extract',
   'slim',
@@ -242,7 +254,7 @@ export function pathForMode(mode: SeoMode): string {
   return MODE_SEO[mode].path
 }
 
-export function modeFromPathname(pathname: string): SeoMode {
+export function toolFromPathname(pathname: string): SeoMode | null {
   const raw = pathname.split('?')[0] ?? '/'
   const normalized = raw.replace(/\/+$/, '') || '/'
 
@@ -250,8 +262,13 @@ export function modeFromPathname(pathname: string): SeoMode {
   if (normalized === '/merge') return 'merge'
   if (normalized === '/extract') return 'extract'
   if (normalized === '/slim' || normalized === '/compress') return 'slim'
-  if (normalized === '/images') return 'images'
-  return 'images'
+  if (normalized === '/images-to-pdf' || normalized === '/images') return 'images'
+  return null
+}
+
+/** @deprecated Prefer toolFromPathname. Unknown paths are not Images. */
+export function modeFromPathname(pathname: string): SeoMode {
+  return toolFromPathname(pathname) ?? 'images'
 }
 
 function absoluteUrl(path: string, origin: string): string {
@@ -267,8 +284,42 @@ export function resolveAssetUrl(assetPath: string, siteOrigin?: string): string 
   return origin ? `${origin}${path}` : path
 }
 
+export function absoluteHomeUrl(origin: string): string {
+  return absoluteUrl(HOME_PATH, origin)
+}
+
 export function absoluteModeUrl(mode: SeoMode, origin: string): string {
   return absoluteUrl(MODE_SEO[mode].path, origin)
+}
+
+export function buildHomeJsonLd(siteOrigin?: string): Record<string, unknown> {
+  const origin = (siteOrigin ?? '').replace(/\/+$/, '')
+  const url = origin ? absoluteUrl(HOME_PATH, origin) : HOME_PATH
+  const image = resolveAssetUrl(OG_IMAGE_PATH, origin || undefined)
+  const modes = Object.keys(MODE_SEO) as SeoMode[]
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        name: SITE_NAME,
+        url,
+        description: HOME_SEO.description,
+        image,
+      },
+      {
+        '@type': 'ItemList',
+        name: `${SITE_NAME} tools`,
+        itemListElement: modes.map((mode, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: MODE_PAGE_CONTENT[mode].appName,
+          url: origin ? absoluteModeUrl(mode, origin) : MODE_SEO[mode].path,
+        })),
+      },
+    ],
+  }
 }
 
 /** Site content pages (not tool modes). */
@@ -507,10 +558,58 @@ export function injectModeSeoIntoHtml(
   out = replaceMetaContent(out, 'name', 'twitter:description', seo.ogDescription)
   out = replaceMetaContent(out, 'name', 'twitter:image', imageUrl)
   out = upsertJsonLdScript(out, jsonLd)
+  out = upsertCanonical(out, pageUrl)
 
   if (origin) {
     out = upsertMetaProperty(out, 'og:url', pageUrl)
-    out = upsertCanonical(out, pageUrl)
+  }
+
+  return out
+}
+
+/**
+ * Rewrite built index.html head tags for the Bento Tools homepage (`/`).
+ */
+export function injectHomeSeoIntoHtml(
+  html: string,
+  siteOrigin?: string,
+): string {
+  const origin = (siteOrigin ?? '').replace(/\/+$/, '')
+  const pageUrl = origin ? absoluteUrl(HOME_PATH, origin) : HOME_PATH
+  const imageUrl = resolveAssetUrl(OG_IMAGE_PATH, origin || undefined)
+  const jsonLd = serializeJsonLd(buildHomeJsonLd(origin || undefined))
+
+  let out = html
+  out = out.replace(
+    /<title>[^<]*<\/title>/i,
+    `<title>${escapeHtml(HOME_SEO.title)}</title>`,
+  )
+  out = replaceMetaContent(out, 'name', 'description', HOME_SEO.description)
+  out = replaceMetaContent(out, 'property', 'og:title', HOME_SEO.ogTitle)
+  out = replaceMetaContent(out, 'property', 'og:description', HOME_SEO.ogDescription)
+  out = replaceMetaContent(out, 'property', 'og:image', imageUrl)
+  out = replaceMetaContent(out, 'property', 'og:image:type', OG_IMAGE_TYPE)
+  out = replaceMetaContent(
+    out,
+    'property',
+    'og:image:width',
+    String(OG_IMAGE_WIDTH),
+  )
+  out = replaceMetaContent(
+    out,
+    'property',
+    'og:image:height',
+    String(OG_IMAGE_HEIGHT),
+  )
+  out = upsertMetaProperty(out, 'og:image:alt', OG_IMAGE_ALT)
+  out = replaceMetaContent(out, 'name', 'twitter:title', HOME_SEO.ogTitle)
+  out = replaceMetaContent(out, 'name', 'twitter:description', HOME_SEO.ogDescription)
+  out = replaceMetaContent(out, 'name', 'twitter:image', imageUrl)
+  out = upsertJsonLdScript(out, jsonLd)
+  out = upsertCanonical(out, pageUrl)
+
+  if (origin) {
+    out = upsertMetaProperty(out, 'og:url', pageUrl)
   }
 
   return out

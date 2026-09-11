@@ -1,12 +1,14 @@
 import type { ToolId } from './toolCatalog'
 import {
   absoluteContentPageUrl,
+  absoluteHomeUrl,
   absoluteModeUrl,
   buildContentPageJsonLd,
+  buildHomeJsonLd,
   buildModeJsonLd,
   contentPageFromPathname,
   CONTENT_PAGE_SEO,
-  modeFromPathname,
+  HOME_SEO,
   MODE_SEO,
   OG_IMAGE_ALT,
   OG_IMAGE_HEIGHT,
@@ -16,6 +18,7 @@ import {
   resolveAssetUrl,
   serializeJsonLd,
   SITE_NAME,
+  toolFromPathname,
   type ContentPageId,
   type SeoMode,
 } from './seoData'
@@ -35,15 +38,21 @@ export {
   CONTENT_PAGE_SHELLS,
   SEO_SHELL_MODES,
   SITE_NAME,
+  HOME_SEO,
+  HOME_PATH,
   pathForMode,
   modeFromPathname,
+  toolFromPathname,
   contentPageFromPathname,
   injectModeSeoIntoHtml,
+  injectHomeSeoIntoHtml,
   injectContentPageSeoIntoHtml,
   absoluteModeUrl,
+  absoluteHomeUrl,
   absoluteContentPageUrl,
   resolveAssetUrl,
   buildModeJsonLd,
+  buildHomeJsonLd,
   buildContentPageJsonLd,
   serializeJsonLd,
   OG_IMAGE_PATH,
@@ -51,6 +60,7 @@ export {
 } from './seoData'
 
 export type AppView =
+  | { kind: 'home' }
   | { kind: 'tool'; id: ToolId }
   | { kind: 'page'; page: ContentPageId }
 
@@ -124,7 +134,27 @@ function applySocialSeo(input: {
 export function viewFromPathname(pathname: string): AppView {
   const page = contentPageFromPathname(pathname)
   if (page) return { kind: 'page', page }
-  return { kind: 'tool', id: modeFromPathname(pathname) }
+
+  const raw = pathname.split('?')[0] ?? '/'
+  const normalized = raw.replace(/\/+$/, '') || '/'
+  if (normalized === '/') return { kind: 'home' }
+
+  const tool = toolFromPathname(pathname)
+  if (tool) return { kind: 'tool', id: tool }
+  return { kind: 'home' }
+}
+
+/** Update document title, social meta, and JSON-LD for the homepage. */
+export function applyHomeSeo(origin = window.location.origin): void {
+  applySocialSeo({
+    title: HOME_SEO.title,
+    description: HOME_SEO.description,
+    ogTitle: HOME_SEO.ogTitle,
+    ogDescription: HOME_SEO.ogDescription,
+    url: absoluteHomeUrl(origin),
+    origin,
+  })
+  writeJsonLd(buildHomeJsonLd(origin))
 }
 
 /** Update document title, social meta, and JSON-LD for the active tool. */
@@ -165,6 +195,10 @@ export function applyViewSeo(
 ): void {
   if (view.kind === 'page') {
     applyContentPageSeo(view.page, origin)
+    return
+  }
+  if (view.kind === 'home') {
+    applyHomeSeo(origin)
     return
   }
   applyModeSeo(view.id, origin)
