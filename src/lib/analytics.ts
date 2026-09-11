@@ -1,9 +1,9 @@
 import { track } from '@vercel/analytics'
-import type { AppMode } from '../types'
+import type { ToolId } from '../toolCatalog'
 
 /** Fired when a tool completes a downloadable result (anonymous — no file data). */
 export function trackToolUsed(
-  mode: AppMode,
+  mode: ToolId,
   props?: {
     /** Secondary dimension, e.g. extract `page` / `zip`, merge `arrange`, slim preset */
     detail?: string

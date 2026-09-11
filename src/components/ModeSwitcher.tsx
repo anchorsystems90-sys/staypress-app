@@ -12,7 +12,7 @@ type ModeSwitcherProps = {
 
 export function ModeSwitcher({ mode, onChange }: ModeSwitcherProps) {
   return (
-    <div className="mode-switch" role="tablist" aria-label="Tool mode">
+    <div className="mode-switch" role="tablist" aria-label="PDF tools">
       {MODES.map((id) => {
         const active = id === mode
         return (

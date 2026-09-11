@@ -342,7 +342,7 @@ export function MergeMode({ onReadyChange }: MergeModeProps) {
         )
       }
 
-      downloadPdf(bytes, `staypress-merged-${dateStamp()}.pdf`)
+      downloadPdf(bytes, `bento-merged-${dateStamp()}.pdf`)
       trackToolUsed('merge', {
         detail: advanced ? 'arrange' : 'files',
         files: items.length,

@@ -19,7 +19,7 @@ const rootDir = path.dirname(fileURLToPath(import.meta.url))
 
 /**
  * After Vite emits dist/index.html, copy mode and content shells so
- * `/merge`, `/extract`, `/slim`, `/privacy` ship unique meta for crawlers.
+ * `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/privacy`, `/guides/heic-to-pdf` ship unique meta for crawlers.
  * Set VITE_SITE_URL for absolute canonical, og URLs, and sitemap.xml.
  */
 function modeSeoShells(siteUrl: string | undefined): Plugin {

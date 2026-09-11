@@ -1,27 +1,30 @@
 import { pathForMode } from '../seoData'
-import type { AppMode } from '../types'
+import type { ToolId } from '../toolCatalog'
 
 type Props = {
-  onOpenMode: (mode: AppMode) => void
+  onOpenTool: (id: ToolId) => void
+  onOpenGuide: () => void
 }
 
-const LINKS: { mode: AppMode; label: string }[] = [
-  { mode: 'images', label: 'Images → PDF' },
-  { mode: 'merge', label: 'Merge PDFs' },
-  { mode: 'extract', label: 'PDF → images' },
-  { mode: 'slim', label: 'Slim PDF' },
+const LINKS: { id: ToolId; label: string }[] = [
+  { id: 'images', label: 'Images → PDF' },
+  { id: 'merge', label: 'Merge PDFs' },
+  { id: 'extract', label: 'PDF → images' },
+  { id: 'slim', label: 'Slim PDF' },
+  { id: 'word-unscrambler', label: 'Word Unscrambler' },
 ]
 
 /** Privacy / about essay — honest client-side processing + optional network use. */
-export function PrivacyPage({ onOpenMode }: Props) {
+export function PrivacyPage({ onOpenTool, onOpenGuide }: Props) {
   return (
     <article className="content-page">
       <header className="content-page__header">
         <h1 className="content-page__title">Privacy &amp; about</h1>
         <p className="content-page__lede">
-          Staypress is a free, open-source set of PDF tools that run in your
-          browser. Conversions, merges, extracts, and slimming are designed so
-          your files are not uploaded to process them.
+          Bento Tools is a free, open-source suite of small browser utilities.
+          PDF and file tools are designed so your documents are not uploaded to
+          process them. Word tools run locally too — letters never leave this
+          device.
         </p>
       </header>
 
@@ -32,12 +35,13 @@ export function PrivacyPage({ onOpenMode }: Props) {
         <p>
           When you add images or PDFs, they are read and processed with
           in-browser libraries (including pdf-lib and pdf.js). Previews and
-          downloads are generated locally. Staypress does not send your
+          downloads are generated locally. Bento Tools does not send your
           documents to a server for conversion, merge, extract, or compress.
         </p>
         <p>
-          You only share the resulting file when <em>you</em> download it and
-          choose where it goes next.
+          Word Unscrambler matches letters against a word list in the same
+          browser tab. You only share a result when <em>you</em> copy or
+          download it and choose where it goes next.
         </p>
       </section>
 
@@ -45,16 +49,19 @@ export function PrivacyPage({ onOpenMode }: Props) {
         <h2 id="what-network" className="content-page__h2">
           What may use the network
         </h2>
-        <p>A few things still talk to the internet, on purpose and separately from your files:</p>
+        <p>
+          A few things still talk to the internet, on purpose and separately from
+          your files:
+        </p>
         <ul className="content-page__list">
           <li>
             <strong>Loading the app</strong> — HTML, JavaScript, CSS, fonts, and
-            library workers so Staypress can run.
+            library workers so Bento Tools can run.
           </li>
           <li>
             <strong>Optional analytics</strong> — page-level usage metrics (via
             Vercel Analytics) to understand which tools people open. That does
-            not include your PDF or image contents.
+            not include your PDF, image, or letter contents.
           </li>
           <li>
             <strong>Feedback form</strong> — only if you send a message. The
@@ -69,7 +76,7 @@ export function PrivacyPage({ onOpenMode }: Props) {
           No accounts
         </h2>
         <p>
-          Staypress does not require sign-in. There is no Staypress cloud
+          Bento Tools does not require sign-in. There is no Bento Tools cloud
           document storage and no server-side conversion queue for your uploads.
         </p>
       </section>
@@ -78,18 +85,16 @@ export function PrivacyPage({ onOpenMode }: Props) {
         <h2 id="tools" className="content-page__h2">
           The tools
         </h2>
-        <p>
-          Everything shares the same privacy story. Jump back into a job:
-        </p>
+        <p>Jump back into a job. File tools share the same privacy story:</p>
         <ul className="content-page__tools">
-          {LINKS.map(({ mode, label }) => (
-            <li key={mode}>
+          {LINKS.map(({ id, label }) => (
+            <li key={id}>
               <a
                 className="content-page__tool-link"
-                href={pathForMode(mode)}
+                href={pathForMode(id)}
                 onClick={(e) => {
                   e.preventDefault()
-                  onOpenMode(mode)
+                  onOpenTool(id)
                 }}
               >
                 {label}
@@ -99,12 +104,31 @@ export function PrivacyPage({ onOpenMode }: Props) {
         </ul>
       </section>
 
-      <section className="content-page__section" aria-labelledby="who">
-        <h2 id="who" className="content-page__h2">
-          Who builds Staypress
+      <section className="content-page__section" aria-labelledby="guide">
+        <h2 id="guide" className="content-page__h2">
+          Guide
         </h2>
         <p>
-          Staypress is an open-source product from{' '}
+          Need iPhone photos as a PDF? Read{' '}
+          <a
+            href="/guides/heic-to-pdf"
+            onClick={(e) => {
+              e.preventDefault()
+              onOpenGuide()
+            }}
+          >
+            Convert HEIC to PDF privately
+          </a>
+          .
+        </p>
+      </section>
+
+      <section className="content-page__section" aria-labelledby="who">
+        <h2 id="who" className="content-page__h2">
+          Who builds Bento Tools
+        </h2>
+        <p>
+          Bento Tools is an open-source product from{' '}
           <a
             href="https://anchorsystems.dev/"
             target="_blank"

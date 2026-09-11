@@ -1,13 +1,12 @@
-import { MODE_PAGE_CONTENT } from '../seoData'
-import type { AppMode } from '../types'
+import { MODE_PAGE_CONTENT, type SeoMode } from '../seoData'
 
 type Props = {
-  mode: AppMode
+  tool: SeoMode
 }
 
 /** Quiet H1 + intro + FAQs for idle tool pages (hidden when a file workflow is active). */
-export function SeoIdleContent({ mode }: Props) {
-  const content = MODE_PAGE_CONTENT[mode]
+export function SeoIdleContent({ tool }: Props) {
+  const content = MODE_PAGE_CONTENT[tool]
 
   return (
     <section className="seo-idle" aria-label="About this tool">

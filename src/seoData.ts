@@ -1,5 +1,8 @@
-/** SEO-only mode ids — mirrors AppMode, kept free of DOM types so Vite can import this. */
-export type SeoMode = 'images' | 'merge' | 'extract' | 'slim'
+/** Site-level product name (chrome, titles, JSON-LD). */
+export const SITE_NAME = 'Bento Tools'
+
+/** SEO-only tool ids — PDF modes plus standalone tools. Kept free of DOM types so Vite can import this. */
+export type SeoMode = 'images' | 'merge' | 'extract' | 'slim' | 'word-unscrambler'
 
 /** Default share-card image (1200×630 PNG in /public). */
 export const OG_IMAGE_PATH = '/og.png'
@@ -7,7 +10,7 @@ export const OG_IMAGE_TYPE = 'image/png'
 export const OG_IMAGE_WIDTH = 1200
 export const OG_IMAGE_HEIGHT = 630
 export const OG_IMAGE_ALT =
-  'Staypress — private PDF tools that run in your browser with no upload'
+  'Bento Tools — useful browser tools. No signup. Files stay on your device where the tool runs locally.'
 
 export type ModeSeo = {
   /** URL path for this tool (images is home). */
@@ -39,45 +42,54 @@ export type ModePageContent = {
 export const MODE_SEO: Record<SeoMode, ModeSeo> = {
   images: {
     path: '/',
-    title: 'Images to PDF — Private, no upload | Staypress',
+    title: 'Images to PDF — Private, no upload | Bento Tools',
     description:
       'Convert JPG, PNG, WebP, GIF, and HEIC to PDF in your browser. Free, no account, and files never leave your device.',
     ogTitle: 'Images to PDF — private, no upload',
     ogDescription:
-      'Drop photos and get a PDF. Staypress runs entirely on your device — nothing is uploaded.',
+      'Drop photos and get a PDF. Bento Tools runs entirely on your device — nothing is uploaded.',
   },
   merge: {
     path: '/merge',
-    title: 'Merge PDFs privately — no upload | Staypress',
+    title: 'Merge PDFs privately — no upload | Bento Tools',
     description:
       'Combine multiple PDFs into one file in your browser. Reorder pages, free, no account — files never leave your device.',
     ogTitle: 'Merge PDFs privately — no upload',
     ogDescription:
-      'Combine PDFs locally. Staypress merges on your device — nothing is uploaded.',
+      'Combine PDFs locally. Bento Tools merges on your device — nothing is uploaded.',
   },
   extract: {
     path: '/extract',
-    title: 'PDF to images (JPG/PNG) — private | Staypress',
+    title: 'PDF to images (JPG/PNG) — private | Bento Tools',
     description:
       'Turn each PDF page into a JPG or PNG in your browser. Free ZIP download, no upload — files stay on your device.',
     ogTitle: 'PDF to images — private, no upload',
     ogDescription:
-      'Export PDF pages as JPG or PNG locally. Staypress never uploads your file.',
+      'Export PDF pages as JPG or PNG locally. Bento Tools never uploads your file.',
   },
   slim: {
     path: '/slim',
-    title: 'Compress PDF in browser — free & private | Staypress',
+    title: 'Compress PDF in browser — free & private | Bento Tools',
     description:
       'Shrink a PDF in your browser with honest, local rebuild options. Free, no account — nothing is uploaded for compression.',
     ogTitle: 'Compress PDF privately — no upload',
     ogDescription:
-      'Rebuild a smaller PDF on your device. Staypress does not upload your file.',
+      'Rebuild a smaller PDF on your device. Bento Tools does not upload your file.',
+  },
+  'word-unscrambler': {
+    path: '/word-unscrambler',
+    title: 'Word Unscrambler — find words from letters | Bento Tools',
+    description:
+      'Unscramble letters into valid English words in your browser. Free, no account — your letters never leave this device.',
+    ogTitle: 'Word Unscrambler — find words from letters',
+    ogDescription:
+      'Type a jumble and get matching words instantly. Bento Tools runs the search on your device.',
   },
 }
 
 export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
   images: {
-    appName: 'Staypress — Images to PDF',
+    appName: 'Bento Tools — Images to PDF',
     h1: 'Convert images to PDF privately',
     intro:
       'Drop JPG, PNG, WebP, GIF, or HEIC photos and build a PDF in the browser. Free, no account, and files are never uploaded for conversion.',
@@ -85,7 +97,7 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       {
         question: 'Are my photos uploaded to a server?',
         answer:
-          'No. Staypress converts images to PDF entirely in your browser. Your photos stay on this device unless you choose to download the finished PDF.',
+          'No. Bento Tools converts images to PDF entirely in your browser. Your photos stay on this device unless you choose to download the finished PDF.',
       },
       {
         question: 'Which image formats are supported?',
@@ -98,14 +110,14 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
           'Yes. After you add images you can reorder them, preview pages, and then download a single PDF.',
       },
       {
-        question: 'Is Staypress free?',
+        question: 'Is Bento Tools free?',
         answer:
           'Yes. The Images → PDF tool is free to use with no account required.',
       },
     ],
   },
   merge: {
-    appName: 'Staypress — Merge PDFs',
+    appName: 'Bento Tools — Merge PDFs',
     h1: 'Merge PDFs in your browser',
     intro:
       'Combine multiple PDF files into one local merge. Reorder files or pages, free of charge — nothing is uploaded to process your documents.',
@@ -113,7 +125,7 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       {
         question: 'Do merged PDFs leave my device?',
         answer:
-          'No. Merging runs in your browser with pdf-lib. Staypress does not upload your PDFs for the merge.',
+          'No. Merging runs in your browser with pdf-lib. Bento Tools does not upload your PDFs for the merge.',
       },
       {
         question: 'Can I change the order of files?',
@@ -133,7 +145,7 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
     ],
   },
   extract: {
-    appName: 'Staypress — PDF to images',
+    appName: 'Bento Tools — PDF to images',
     h1: 'Export PDF pages as images',
     intro:
       'Turn each page of a PDF into a JPG or PNG without uploading the file. Download pages one by one or grab a ZIP of the full set.',
@@ -156,20 +168,20 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       {
         question: 'Does extract work offline after the page loads?',
         answer:
-          'Once Staypress and its libraries are loaded, conversion does not need your files uploaded; a connection is only needed to load the app assets.',
+          'Once Bento Tools and its libraries are loaded, conversion does not need your files uploaded; a connection is only needed to load the app assets.',
       },
     ],
   },
   slim: {
-    appName: 'Staypress — Slim PDF',
+    appName: 'Bento Tools — Slim PDF',
     h1: 'Compress a PDF without uploading',
     intro:
-      'Rebuild a smaller PDF on your device with honest presets. See before/after size — when gains are tiny, Staypress tells you plainly.',
+      'Rebuild a smaller PDF on your device with honest presets. See before/after size — when gains are tiny, Bento Tools tells you plainly.',
     faqs: [
       {
         question: 'Is this the same as Adobe Acrobat compression?',
         answer:
-          'No. Staypress does a local rebuild (light repack or JPEG re-encode of pages). Results vary by file; some already-efficient PDFs barely shrink.',
+          'No. Bento Tools does a local rebuild (light repack or JPEG re-encode of pages). Results vary by file; some already-efficient PDFs barely shrink.',
       },
       {
         question: 'Does Slim upload my document?',
@@ -184,14 +196,47 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       {
         question: 'Will every PDF get smaller?',
         answer:
-          'Not always. If the file is already compact, you’ll see little gain and Staypress will say so rather than exaggerate.',
+          'Not always. If the file is already compact, you’ll see little gain and Bento Tools will say so rather than exaggerate.',
+      },
+    ],
+  },
+  'word-unscrambler': {
+    appName: 'Bento Tools — Word Unscrambler',
+    h1: 'Unscramble letters into words',
+    intro:
+      'Type a jumble of letters and get valid English words you can make from them. Free, no account — the search runs in your browser.',
+    faqs: [
+      {
+        question: 'Are my letters sent to a server?',
+        answer:
+          'No. Word Unscrambler matches letters against a word list in your browser. Nothing you type is uploaded to find results.',
+      },
+      {
+        question: 'Does it find partial words or only exact anagrams?',
+        answer:
+          'It finds every dictionary word that can be spelled with the letters you entered, including shorter words that do not use every letter.',
+      },
+      {
+        question: 'Can I filter by word length?',
+        answer:
+          'Yes. Choose a specific length or “8 or more” if you only want longer words.',
+      },
+      {
+        question: 'Is the Word Unscrambler free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
   },
 }
 
 /** Modes that get their own static HTML shell at build (home is index.html). */
-export const SEO_SHELL_MODES: SeoMode[] = ['merge', 'extract', 'slim']
+export const SEO_SHELL_MODES: SeoMode[] = [
+  'merge',
+  'extract',
+  'slim',
+  'word-unscrambler',
+]
 
 export function pathForMode(mode: SeoMode): string {
   return MODE_SEO[mode].path
@@ -201,6 +246,7 @@ export function modeFromPathname(pathname: string): SeoMode {
   const raw = pathname.split('?')[0] ?? '/'
   const normalized = raw.replace(/\/+$/, '') || '/'
 
+  if (normalized === '/word-unscrambler') return 'word-unscrambler'
   if (normalized === '/merge') return 'merge'
   if (normalized === '/extract') return 'extract'
   if (normalized === '/slim' || normalized === '/compress') return 'slim'
@@ -226,7 +272,7 @@ export function absoluteModeUrl(mode: SeoMode, origin: string): string {
 }
 
 /** Site content pages (not tool modes). */
-export type ContentPageId = 'privacy'
+export type ContentPageId = 'privacy' | 'heic-to-pdf'
 
 export type ContentPageSeo = {
   path: string
@@ -234,27 +280,44 @@ export type ContentPageSeo = {
   description: string
   ogTitle: string
   ogDescription: string
+  /** Short header line above the article (below mode switch). */
+  tagline: string
+  footerLabel: string
 }
 
 export const CONTENT_PAGE_SEO: Record<ContentPageId, ContentPageSeo> = {
   privacy: {
     path: '/privacy',
-    title: 'Privacy & about — Staypress',
+    title: 'Privacy & about — Bento Tools',
     description:
-      'How Staypress keeps PDFs and images on your device. What never leaves the browser, what optional network features exist, and who builds the product.',
-    ogTitle: 'Privacy & about — Staypress',
+      'How Bento Tools keeps files and letters on your device. What never leaves the browser, what optional network features exist, and who builds the product.',
+    ogTitle: 'Privacy & about — Bento Tools',
     ogDescription:
-      'Private PDF tools that run in your browser. Files are not uploaded for conversion — learn what that means and what optional services still contact the network.',
+      'Browser tools that run on your device. Files are not uploaded for conversion — learn what that means and what optional services still contact the network.',
+    tagline: 'How private processing works — and what still uses the network.',
+    footerLabel: 'Privacy',
+  },
+  'heic-to-pdf': {
+    path: '/guides/heic-to-pdf',
+    title: 'Convert HEIC to PDF in the browser — no upload | Bento Tools',
+    description:
+      'Turn iPhone HEIC photos into a PDF on your device. Free Bento Tools guide: private, no account, nothing uploaded for conversion.',
+    ogTitle: 'Convert HEIC to PDF privately — no upload',
+    ogDescription:
+      'iPhone HEIC photos → one PDF in the browser. Bento Tools keeps files on your device — no cloud convert step.',
+    tagline: 'iPhone photos to PDF — privately, in the browser.',
+    footerLabel: 'Guide',
   },
 }
 
 /** Content pages that get their own static HTML shell at build. */
-export const CONTENT_PAGE_SHELLS: ContentPageId[] = ['privacy']
+export const CONTENT_PAGE_SHELLS: ContentPageId[] = ['privacy', 'heic-to-pdf']
 
 export function contentPageFromPathname(pathname: string): ContentPageId | null {
   const raw = pathname.split('?')[0] ?? '/'
   const normalized = raw.replace(/\/+$/, '') || '/'
   if (normalized === '/privacy') return 'privacy'
+  if (normalized === '/guides/heic-to-pdf') return 'heic-to-pdf'
   return null
 }
 
@@ -283,12 +346,12 @@ export function buildContentPageJsonLd(
     image,
     isPartOf: {
       '@type': 'WebSite',
-      name: 'Staypress',
+      name: SITE_NAME,
       url: origin ? absoluteUrl('/', origin) : '/',
     },
     about: {
       '@type': 'WebApplication',
-      name: 'Staypress',
+      name: SITE_NAME,
       applicationCategory: 'UtilitiesApplication',
       operatingSystem: 'Any',
       offers: {
@@ -370,7 +433,7 @@ export function buildModeJsonLd(
         applicationCategory: 'UtilitiesApplication',
         operatingSystem: 'Any',
         browserRequirements:
-          'Requires JavaScript. PDF and image processing runs client-side in the browser.',
+          'Requires JavaScript. Processing runs client-side in the browser.',
         offers: {
           '@type': 'Offer',
           price: '0',

@@ -191,7 +191,7 @@ export function CompressMode({ onReadyChange }: CompressModeProps) {
   const downloadSlim = () => {
     if (!pdf || !outcome) return
     const base = safeBaseName(pdf.name)
-    downloadPdf(outcome.bytes, `${base}-staypress-slim-${dateStamp()}.pdf`)
+    downloadPdf(outcome.bytes, `${base}-bento-slim-${dateStamp()}.pdf`)
     trackToolUsed('slim', {
       detail: outcome.preset,
       pages: pdf.pageCount,

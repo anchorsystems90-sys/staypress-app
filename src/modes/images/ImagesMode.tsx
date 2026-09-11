@@ -173,7 +173,7 @@ export function ImagesMode({ onReadyChange }: ImagesModeProps) {
       const bytes = await imagesToPdf(images, pageSize, (current, total) => {
         setBusyLabel(`Making PDF… ${current}/${total}`)
       })
-      downloadPdf(bytes, `staypress-${dateStamp()}.pdf`)
+      downloadPdf(bytes, `bento-${dateStamp()}.pdf`)
       trackToolUsed('images', { pages: images.length })
     } catch (err) {
       console.error(err)

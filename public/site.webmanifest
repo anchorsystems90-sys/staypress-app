@@ -1,7 +1,7 @@
 {
-  "name": "Staypress",
-  "short_name": "Staypress",
-  "description": "Private PDF tools in your browser. Files never leave your device.",
+  "name": "Bento Tools",
+  "short_name": "Bento",
+  "description": "Useful browser tools. No signup. Files stay on your device.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#dde5eb",

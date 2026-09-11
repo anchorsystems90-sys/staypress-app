@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import { FeedbackDialog } from './components/FeedbackDialog'
@@ -9,17 +9,23 @@ import { ExtractMode } from './modes/extract/ExtractMode'
 import { ImagesMode } from './modes/images/ImagesMode'
 import { MergeMode } from './modes/merge/MergeMode'
 import { PrivacyPage } from './pages/PrivacyPage'
+import { HeicToPdfGuidePage } from './pages/HeicToPdfGuidePage'
 import {
   normalizeViewUrl,
   readViewFromUrl,
-  writeModeToUrl,
   writePageToUrl,
+  writeToolToUrl,
   type AppView,
 } from './routing'
-import { applyViewSeo, viewFromPathname } from './seo'
+import { applyViewSeo, CONTENT_PAGE_SEO, SITE_NAME, viewFromPathname } from './seo'
+import { isPdfTool, WORD_UNSCRAMBLER_META, type ToolId } from './toolCatalog'
 import type { AppMode } from './types'
 import { MODE_META } from './types'
 import './App.css'
+
+const WordUnscrambler = lazy(
+  () => import('./tools/word-unscrambler/WordUnscrambler'),
+)
 
 const GITHUB_REPO = 'https://github.com/anchorsystems90-sys/staypress-app'
 
@@ -30,9 +36,12 @@ export default function App() {
   const [feedbackOpen, setFeedbackOpen] = useState(false)
 
   const onTool = view.kind === 'tool'
-  const mode: AppMode = onTool ? view.mode : 'images'
-  const meta = MODE_META[mode]
-  const idleTool = onTool && !ready
+  const toolId: ToolId | null = onTool ? view.id : null
+  const pdfMode: AppMode | null = toolId && isPdfTool(toolId) ? toolId : null
+  const onPdf = pdfMode !== null
+  const onWord = toolId === 'word-unscrambler'
+  const pdfMeta = pdfMode ? MODE_META[pdfMode] : null
+  const idleTool = onTool && (onWord || !ready)
 
   useEffect(() => {
     normalizeViewUrl(view)
@@ -57,27 +66,50 @@ export default function App() {
     setStatus(nextStatus)
   }, [])
 
-  const openTool = (next: AppMode) => {
-    setView({ kind: 'tool', mode: next })
+  const openTool = (next: ToolId) => {
+    setView({ kind: 'tool', id: next })
     setReady(false)
     setStatus('')
-    writeModeToUrl(next, 'push')
+    writeToolToUrl(next, 'push')
+  }
+
+  const openPdfTool = (next: AppMode) => {
+    openTool(next)
+  }
+
+  const openPage = (page: 'privacy' | 'heic-to-pdf') => {
+    setView({ kind: 'page', page })
+    setReady(false)
+    setStatus('')
+    writePageToUrl(page, 'push')
   }
 
   const openPrivacy = () => {
-    setView({ kind: 'page', page: 'privacy' })
-    setReady(false)
-    setStatus('')
-    writePageToUrl('privacy', 'push')
+    openPage('privacy')
   }
 
   const goHome = () => {
     openTool('images')
   }
 
+  const contentTagline =
+    view.kind === 'page' ? CONTENT_PAGE_SEO[view.page].tagline : null
+
+  const idleTagline = onWord
+    ? WORD_UNSCRAMBLER_META.tagline
+    : idleTool && pdfMeta
+      ? pdfMeta.tagline
+      : null
+
+  const idlePrivacy = onWord
+    ? WORD_UNSCRAMBLER_META.privacyIdle
+    : idleTool && pdfMeta
+      ? pdfMeta.privacyIdle
+      : null
+
   return (
     <div
-      className={`app ${onTool && ready ? 'app--ready' : 'app--idle'}${
+      className={`app ${onPdf && ready ? 'app--ready' : 'app--idle'}${
         view.kind === 'page' ? ' app--content' : ''
       }`}
     >
@@ -98,64 +130,81 @@ export default function App() {
               }}
             >
               <span className="brand__mark" aria-hidden="true">
-                S
+                B
               </span>
-              <span className="brand__name">Staypress</span>
+              <span className="brand__name">{SITE_NAME}</span>
             </a>
           </p>
-          <ModeSwitcher
-            mode={onTool ? mode : null}
-            onChange={openTool}
-          />
+          {(onPdf || view.kind === 'page') && (
+            <ModeSwitcher mode={pdfMode} onChange={openPdfTool} />
+          )}
         </div>
 
-        {idleTool && (
+        {idleTagline && (
           <>
-            <p className="tagline">{meta.tagline}</p>
-            <p className="privacy">{meta.privacyIdle}</p>
+            <p className="tagline">{idleTagline}</p>
+            {idlePrivacy && <p className="privacy">{idlePrivacy}</p>}
           </>
         )}
-        {onTool && ready && status && (
+        {onPdf && ready && status && (
           <p className="header__status">
             <span className="header__status-dot" aria-hidden="true" />
             {status}
           </p>
         )}
-        {view.kind === 'page' && (
-          <p className="tagline content-page__tagline">
-            How private processing works — and what still uses the network.
-          </p>
+        {contentTagline && (
+          <p className="tagline content-page__tagline">{contentTagline}</p>
         )}
       </header>
 
       <main className="main">
         {view.kind === 'page' && view.page === 'privacy' && (
-          <PrivacyPage onOpenMode={openTool} />
+          <PrivacyPage
+            onOpenTool={openTool}
+            onOpenGuide={() => openPage('heic-to-pdf')}
+          />
         )}
-        {onTool && mode === 'images' && (
+        {view.kind === 'page' && view.page === 'heic-to-pdf' && (
+          <HeicToPdfGuidePage
+            onOpenMode={openPdfTool}
+            onOpenPrivacy={openPrivacy}
+          />
+        )}
+        {onPdf && pdfMode === 'images' && (
           <ImagesMode key="images" onReadyChange={onReadyChange} />
         )}
-        {onTool && mode === 'merge' && (
+        {onPdf && pdfMode === 'merge' && (
           <MergeMode key="merge" onReadyChange={onReadyChange} />
         )}
-        {onTool && mode === 'extract' && (
+        {onPdf && pdfMode === 'extract' && (
           <ExtractMode key="extract" onReadyChange={onReadyChange} />
         )}
-        {onTool && mode === 'slim' && (
+        {onPdf && pdfMode === 'slim' && (
           <CompressMode key="slim" onReadyChange={onReadyChange} />
+        )}
+        {onWord && (
+          <Suspense
+            fallback={
+              <p className="unscramble__loading" role="status">
+                Loading Word Unscrambler…
+              </p>
+            }
+          >
+            <WordUnscrambler />
+          </Suspense>
         )}
       </main>
 
-      {idleTool && <SeoIdleContent mode={mode} />}
+      {idleTool && toolId && <SeoIdleContent tool={toolId} />}
 
       <footer className="footer">
         <p className="footer__privacy">
-          {onTool && ready
-            ? meta.privacyReady
+          {onPdf && ready && pdfMeta
+            ? pdfMeta.privacyReady
             : 'No account. No upload. Everything runs on this device.'}
         </p>
         <p className="footer__maker">
-          <span className="footer__maker-label">An open-source tool from</span>{' '}
+          <span className="footer__maker-label">An open-source product from</span>{' '}
           <a
             className="footer__maker-link"
             href="https://anchorsystems.dev/"
@@ -182,14 +231,28 @@ export default function App() {
         <nav className="footer__links" aria-label="Project">
           <a
             className="footer__link"
-            href="/privacy"
+            href={CONTENT_PAGE_SEO.privacy.path}
             onClick={(e) => {
               e.preventDefault()
               if (view.kind === 'page' && view.page === 'privacy') return
-              openPrivacy()
+              openPage('privacy')
             }}
           >
-            Privacy
+            {CONTENT_PAGE_SEO.privacy.footerLabel}
+          </a>
+          <span className="footer__maker-sep" aria-hidden="true">
+            ·
+          </span>
+          <a
+            className="footer__link"
+            href={CONTENT_PAGE_SEO['heic-to-pdf'].path}
+            onClick={(e) => {
+              e.preventDefault()
+              if (view.kind === 'page' && view.page === 'heic-to-pdf') return
+              openPage('heic-to-pdf')
+            }}
+          >
+            {CONTENT_PAGE_SEO['heic-to-pdf'].footerLabel}
           </a>
           <span className="footer__maker-sep" aria-hidden="true">
             ·

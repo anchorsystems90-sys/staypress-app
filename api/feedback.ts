@@ -56,7 +56,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const apiKey = process.env.RESEND_API_KEY
   const to = process.env.FEEDBACK_TO_EMAIL
   const from =
-    process.env.FEEDBACK_FROM_EMAIL || 'Staypress <onboarding@resend.dev>'
+    process.env.FEEDBACK_FROM_EMAIL || 'Bento Tools <onboarding@resend.dev>'
 
   if (!apiKey || !to) {
     res.status(503).json({ error: 'Feedback is not configured yet.' })
@@ -87,7 +87,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const label = kind === 'bug' ? 'Bug report' : 'Feature request'
-  const subject = `[Staypress] ${label}`
+  const subject = `[Bento Tools] ${label}`
   const text = `${label}\n\n${message}\n`
   const html = `<p><strong>${label}</strong></p><p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>`
 

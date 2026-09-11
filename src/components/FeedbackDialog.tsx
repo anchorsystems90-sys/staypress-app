@@ -112,7 +112,7 @@ export function FeedbackDialog({ open, onClose }: Props) {
             </h2>
             <p id={descId} className="feedback-dialog__lede">
               Report a bug, request a feature, or just say hi to the team.
-              Your note is emailed to us — PDF files stay on your device.
+              Your note is emailed to us — files and letters stay on your device.
             </p>
           </div>
           <button
@@ -130,7 +130,7 @@ export function FeedbackDialog({ open, onClose }: Props) {
           <div className="feedback-dialog__success" role="status">
             <p className="feedback-dialog__success-title">Thanks — sent.</p>
             <p className="feedback-dialog__success-copy">
-              We read every report. Close this and keep converting.
+              We read every report. Close this and keep going.
             </p>
             <button type="button" className="btn btn--primary" onClick={onClose}>
               Done

@@ -36,8 +36,20 @@
   force = false
 
 [[redirects]]
+  from = "/word-unscrambler"
+  to = "/word-unscrambler/"
+  status = 200
+  force = false
+
+[[redirects]]
   from = "/privacy"
   to = "/privacy/"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/guides/heic-to-pdf"
+  to = "/guides/heic-to-pdf/"
   status = 200
   force = false
 

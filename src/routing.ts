@@ -6,6 +6,8 @@ import {
   type ContentPageId,
 } from './seo'
 import { CONTENT_PAGE_SEO, modeFromPathname } from './seoData'
+import type { ToolId } from './toolCatalog'
+import { isPdfTool } from './toolCatalog'
 import type { AppMode } from './types'
 import { parseAppMode } from './types'
 
@@ -13,10 +15,10 @@ export type { AppView }
 
 /**
  * Resolve app view from the current URL.
- * Prefer path routes (`/merge`, `/privacy`); fall back to legacy `?mode=` query.
+ * Prefer path routes (`/merge`, `/word-unscrambler`, `/privacy`); fall back to legacy `?mode=` query.
  */
 export function readViewFromUrl(): AppView {
-  if (typeof window === 'undefined') return { kind: 'tool', mode: 'images' }
+  if (typeof window === 'undefined') return { kind: 'tool', id: 'images' }
 
   const page = contentPageFromPathname(window.location.pathname)
   if (page) return { kind: 'page', page }
@@ -24,16 +26,17 @@ export function readViewFromUrl(): AppView {
   const params = new URLSearchParams(window.location.search)
   const queryMode = params.get('mode')
   if (queryMode != null && queryMode !== '') {
-    return { kind: 'tool', mode: parseAppMode(queryMode) }
+    return { kind: 'tool', id: parseAppMode(queryMode) }
   }
 
-  return { kind: 'tool', mode: modeFromPathname(window.location.pathname) }
+  return { kind: 'tool', id: modeFromPathname(window.location.pathname) }
 }
 
 /** @deprecated Prefer readViewFromUrl. */
 export function readModeFromUrl(): AppMode {
   const view = readViewFromUrl()
-  return view.kind === 'tool' ? view.mode : 'images'
+  if (view.kind === 'tool' && isPdfTool(view.id)) return view.id
+  return 'images'
 }
 
 function navigate(pathname: string, method: 'push' | 'replace') {
@@ -48,9 +51,13 @@ function navigate(pathname: string, method: 'push' | 'replace') {
   }
 }
 
-/** Navigate to a mode path. Clears legacy `?mode=` so links stay clean. */
+export function writeToolToUrl(id: ToolId, method: 'push' | 'replace' = 'push') {
+  navigate(pathForMode(id), method)
+}
+
+/** Navigate to a PDF mode path. Clears legacy `?mode=` so links stay clean. */
 export function writeModeToUrl(mode: AppMode, method: 'push' | 'replace' = 'push') {
-  navigate(pathForMode(mode), method)
+  writeToolToUrl(mode, method)
 }
 
 /** Navigate to a content page path (e.g. /privacy). */
@@ -72,7 +79,16 @@ export function normalizeViewUrl(view: AppView) {
     return
   }
 
-  normalizeModeUrl(view.mode)
+  if (isPdfTool(view.id)) {
+    normalizeModeUrl(view.id)
+    return
+  }
+
+  const target = pathForMode(view.id)
+  const current = window.location.pathname.replace(/\/+$/, '') || '/'
+  if (current !== target || window.location.search.includes('mode=')) {
+    writeToolToUrl(view.id, 'replace')
+  }
 }
 
 /** One-time cleanup: `?mode=merge` → `/merge`, `/images` → `/`. */

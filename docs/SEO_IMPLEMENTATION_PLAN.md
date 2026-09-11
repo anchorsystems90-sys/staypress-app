@@ -42,7 +42,7 @@
 | Semantic H1 + body copy | Done | Idle-only `SeoIdleContent` per mode |
 | FAQ content | Done | 4 FAQs per mode + FAQPage JSON-LD |
 | JSON-LD | Done | WebApplication + FAQPage (client + build shells) |
-| Editorial / long-tail pages | Partial | `/privacy` live; guide still missing |
+| Editorial / long-tail pages | Done | `/privacy` + `/guides/heic-to-pdf` |
 | Search Console + offsite | Ops, not code | Manual after domain live |
 
 ---
@@ -193,14 +193,14 @@ Per mode, store in data (not hardcode across files):
 ### E2. Product rules for content
 
 - [x] Privacy/about page: real answers, same design system  
-- [x] Footer link: **Privacy**  
-- [x] Routing + static shell + sitemap entry for `/privacy`  
-- [ ] Guide page (later)  
+- [x] Footer link: **Privacy** · **Guide**  
+- [x] Routing + static shell + sitemap for `/privacy` and `/guides/heic-to-pdf`  
+- [x] Guide page with internal tool links  
 
 ### E3. Acceptance
 
 - [x] `/privacy` indexable unique title + shell  
-- [ ] Guide with internal links (later)  
+- [x] Guide with internal links  
 
 ---
 
@@ -248,8 +248,8 @@ Use as the execution sequence when coding starts:
 | 9 | JSON-LD inject client + optional build shell | Code | 6 | **Done** |
 | 10 | Validate rich results + social debuggers on prod | QA | 5, 9 | After deploy |
 | 11 | Privacy / about short page | Code + copy | 7 | **Done** |
-| 12 | One long-tail guide page | Code + copy | 11 |
-| 13 | Footer links to content; internal links | Code | 11–12 |
+| 12 | One long-tail guide page | Code + copy | 11 | **Done** |
+| 13 | Footer links to content; internal links | Code | 11–12 | **Done** |
 | 14 | Post-launch link + content review (30 days) | Ops | 3 |
 
 **Suggested ship grouping**

@@ -1,40 +1,40 @@
-# Staypress
+# Bento Tools
 
-**Private PDF tools in your browser.** No account. No upload. Files stay put.
+**Useful tools. No signup. No nonsense.** Browser utilities that run on your device.
 
-Staypress is a free, open-source, browser-based PDF toolkit: **images → PDF**, **merge**, **PDF → images**, and **slim**. Everything runs client-side.
+Bento Tools is a free, open-source suite from **[Anchor Systems](https://anchorsystems.dev/)**. The first family is private PDF tools (**images → PDF**, **merge**, **PDF → images**, **slim**), plus **Word Unscrambler**. Everything that touches your files or letters runs client-side.
 
-A free product from **[Anchor Systems](https://anchorsystems.dev/)** — technology delivery that ships.
+The homepage is still Images to PDF until there are enough tools to justify a directory.
 
 ---
 
-## Why Staypress
+## Why Bento Tools
 
 | | |
 |---|---|
-| **Private** | Conversion happens in your browser. Files are not uploaded for processing. |
-| **Focused** | A tight toolkit — not a convert-everything mega-app. |
-| **Practical** | Built for phone photos, documents, and local PDF workflows. |
+| **Private where it matters** | File conversion happens in your browser. Files are not uploaded for processing. |
+| **Focused** | One immediate problem → one simple tool → instant result. |
+| **Practical** | Built for phone photos, documents, letter jumbles, and local workflows. |
 
 ---
 
 ## Features (now)
 
-### Images → PDF
+### Images → PDF (`/`)
 
 - Drag-and-drop or choose **JPG, PNG, WebP, GIF, HEIC**
 - HEIC photos converted locally for preview + export
 - Oversize images downscaled on export (caps memory on phones)
 - Reorder pages · page size fit / A4 / US Letter · full-screen preview
 
-### Merge PDFs
+### Merge PDFs (`/merge`)
 
 - Drop multiple PDFs · see page counts
 - Reorder files · download one merged PDF
 - **Arrange pages (advanced):** preview every page, reorder or remove pages, then merge
 - Clear errors for password-protected / invalid files
 
-### PDF → images
+### PDF → images (`/extract`)
 
 - One PDF in · each page rendered in the browser (pdf.js)
 - Export as **JPG** (quality) or **PNG**
@@ -42,25 +42,33 @@ A free product from **[Anchor Systems](https://anchorsystems.dev/)** — technol
 - Download any single page · multi-page **ZIP** for all pages
 - Soft warning above 40 pages · hard cap at 150 pages
 
-### Slim PDF
+### Slim PDF (`/slim`)
 
 - Honest in-browser rebuild — not Adobe-class compression
 - **Rebuild lightly** — object streams / page copy (minimal quality risk)
 - **Balanced / Smaller** — pages re-encoded as JPEGs for clearer size wins
 - Before/after size + % change · clear feedback when gains are tiny
 
+### Word Unscrambler (`/word-unscrambler`)
+
+- Type letters and find valid English words you can make from them
+- Filter by length · copy the result list
+- Word list and matching stay in the browser
+
 ### Shared
 
-- Mobile sticky download actions
-- SEO routes: `/` (images → PDF), `/merge`, `/extract`, `/slim` (legacy `?mode=` still works)
-- Per-mode title + meta; build emits HTML shells so crawlers see the right tags
+- Mobile sticky download actions on PDF tools
+- SEO routes: `/`, `/merge`, `/extract`, `/slim`, `/word-unscrambler` (legacy `?mode=` still works for PDF tools)
+- Per-tool title + meta; build emits HTML shells so crawlers see the right tags
 - Soft credit to Anchor Systems
 
 ### Roadmap
 
-Split / protect and other polish remain optional.  
-Full product plan: [docs/TOOLKIT_IMPLEMENTATION_PLAN.md](docs/TOOLKIT_IMPLEMENTATION_PLAN.md)  
-SEO (indexing, on-page, schema, content): [docs/SEO_IMPLEMENTATION_PLAN.md](docs/SEO_IMPLEMENTATION_PLAN.md)
+A Bento Tools directory homepage is postponed until more utilities ship.  
+PDF split / protect remain optional.  
+Product context: [BENTO_TOOLS_CONTEXT.md](BENTO_TOOLS_CONTEXT.md)  
+PDF toolkit plan (historical): [docs/TOOLKIT_IMPLEMENTATION_PLAN.md](docs/TOOLKIT_IMPLEMENTATION_PLAN.md)  
+SEO: [docs/SEO_IMPLEMENTATION_PLAN.md](docs/SEO_IMPLEMENTATION_PLAN.md)
 
 ---
 
@@ -94,7 +102,7 @@ Open the URL shown in the terminal (usually `http://localhost:5173`).
 - [JSZip](https://stuk.github.io/jszip/) — multi-page image downloads
 - [heic2any](https://github.com/alexcorvi/heic2any) — client-side HEIC conversion
 
-Static host only — no application backend required.
+Static host only — no application backend required for tools.
 
 ---
 
@@ -119,7 +127,7 @@ That makes the build emit:
 
 | Artifact | Purpose |
 |----------|---------|
-| Absolute `canonical` + `og:url` on `/`, `/merge`, `/extract`, `/slim`, `/privacy` | Correct indexing + shares |
+| Absolute `canonical` + `og:url` on tool paths + `/privacy` + `/guides/heic-to-pdf` | Correct indexing + shares |
 | Absolute `og:image` / `twitter:image` → `/og.png` (1200×630) | Social cards |
 | `sitemap.xml` | Submit in Google Search Console |
 | `robots.txt` `Sitemap:` line | Points crawlers at the sitemap |
@@ -128,7 +136,7 @@ That makes the build emit:
 
 1. Pick one canonical host (apex or `www`); 301 the other  
 2. `VITE_SITE_URL` on Production only  
-3. Deploy and view-source each mode path — absolute URLs present  
+3. Deploy and view-source each tool path — absolute URLs present  
 4. [Google Search Console](https://search.google.com/search-console) → verify property → submit `https://your-domain/sitemap.xml`  
 5. Optional: re-scrape OG on [opengraph.xyz](https://www.opengraph.xyz/) or Facebook Debugger  
 
@@ -144,11 +152,11 @@ The footer **Feedback** dialog posts to `/api/feedback` (Vercel serverless) and 
 |----------|---------|
 | `RESEND_API_KEY` | API key from Resend |
 | `FEEDBACK_TO_EMAIL` | Inbox that should receive reports (e.g. you@anchorsystems.dev) |
-| `FEEDBACK_FROM_EMAIL` | Optional. Default: `Staypress <onboarding@resend.dev>`. Use a verified domain sender in production (e.g. `Staypress <feedback@yourdomain.com>`). |
+| `FEEDBACK_FROM_EMAIL` | Optional. Default: `Bento Tools <onboarding@resend.dev>`. Use a verified domain sender in production (e.g. `Bento Tools <feedback@yourdomain.com>`). |
 
 Local testing needs the API route (`vercel dev`) or a deployed preview — plain `npm run dev` serves the UI only.
 
-PDF conversion still never uploads your files; only the text the user types in the form is sent.
+Tools still never upload your files or letters; only the text the user types in the form is sent.
 
 ### Post-deploy smoke checklist
 
@@ -157,10 +165,11 @@ PDF conversion still never uploads your files; only the text the user types in t
 - [ ] Merge mode: 2+ PDFs → one file, reorder works
 - [ ] Extract: auto render · per-page download · ZIP
 - [ ] Slim: preset · before/after sizes
+- [ ] Word Unscrambler: letters → words · copy
 - [ ] Privacy line + no unexpected uploads of user files
-- [ ] `/`, `/merge`, `/extract`, `/slim`, `/privacy` load correctly (view-source meta matches)
+- [ ] `/`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/privacy`, `/guides/heic-to-pdf` load correctly
 - [ ] Production: absolute canonical + `og:image` when `VITE_SITE_URL` set
-- [ ] `/og.png` loads; social debugger shows Staypress card
+- [ ] `/og.png` loads; social debugger shows Bento Tools card
 - [ ] `sitemap.xml` includes tools + privacy + Search Console
 - [ ] Old `?mode=merge` redirects/normalizes to `/merge`
 - [ ] Feedback form sends email (Resend env set on Vercel)
@@ -173,12 +182,15 @@ PDF conversion still never uploads your files; only the text the user types in t
 api/
   feedback.ts             # Vercel: email bug / feature feedback via Resend
 src/
-  App.tsx                 # Shell, mode switch, footer
-  modes/
+  App.tsx                 # Shell, PDF mode switch, footer
+  toolCatalog.ts          # ToolId + PDF family vs standalone tools
+  modes/                  # PDF family
     images/ImagesMode.tsx
     merge/MergeMode.tsx
     extract/ExtractMode.tsx
     compress/CompressMode.tsx
+  tools/
+    word-unscrambler/     # First non-PDF tool (lazy-loaded)
   components/             # Stage, ModeSwitcher, Viewer, Icons, FeedbackDialog, SeoIdleContent
   lib/
     images.ts             # HEIC + rasterize / downscale
@@ -197,7 +209,7 @@ docs/
 
 ## Privacy
 
-Staypress does **not** upload your images or PDFs for conversion. Generation, merge, extract, and slim run entirely in the browser.
+Bento Tools does **not** upload your images, PDFs, or letters for processing. Generation, merge, extract, slim, and word matching run entirely in the browser.
 
 ---
 
@@ -205,10 +217,10 @@ Staypress does **not** upload your images or PDFs for conversion. Generation, me
 
 [MIT](LICENSE) © [Anchor Systems](https://anchorsystems.dev/)
 
-You can use, modify, and redistribute Staypress freely. The privacy promise is easy to audit: no server for conversion — read the source.
+You can use, modify, and redistribute Bento Tools freely. The privacy promise is easy to audit: no server for conversion — read the source.
 
 ---
 
 ## Credits
 
-**Staypress** — an open-source tool from [**Anchor Systems**](https://anchorsystems.dev/).
+**Bento Tools** — an open-source product from [**Anchor Systems**](https://anchorsystems.dev/).

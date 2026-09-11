@@ -1,4 +1,4 @@
-import type { AppMode } from './types'
+import type { ToolId } from './toolCatalog'
 import {
   absoluteContentPageUrl,
   absoluteModeUrl,
@@ -15,7 +15,9 @@ import {
   OG_IMAGE_WIDTH,
   resolveAssetUrl,
   serializeJsonLd,
+  SITE_NAME,
   type ContentPageId,
+  type SeoMode,
 } from './seoData'
 
 export type {
@@ -32,6 +34,7 @@ export {
   CONTENT_PAGE_SEO,
   CONTENT_PAGE_SHELLS,
   SEO_SHELL_MODES,
+  SITE_NAME,
   pathForMode,
   modeFromPathname,
   contentPageFromPathname,
@@ -48,7 +51,7 @@ export {
 } from './seoData'
 
 export type AppView =
-  | { kind: 'tool'; mode: AppMode }
+  | { kind: 'tool'; id: ToolId }
   | { kind: 'page'; page: ContentPageId }
 
 const JSON_LD_ID = 'staypress-jsonld'
@@ -113,17 +116,19 @@ function applySocialSeo(input: {
   setMeta('name', 'twitter:title', input.ogTitle)
   setMeta('name', 'twitter:description', input.ogDescription)
   setMeta('name', 'twitter:image', imageUrl)
+  setMeta('property', 'og:site_name', SITE_NAME)
+  setMeta('name', 'application-name', SITE_NAME)
   setCanonical(input.url)
 }
 
 export function viewFromPathname(pathname: string): AppView {
   const page = contentPageFromPathname(pathname)
   if (page) return { kind: 'page', page }
-  return { kind: 'tool', mode: modeFromPathname(pathname) }
+  return { kind: 'tool', id: modeFromPathname(pathname) }
 }
 
-/** Update document title, social meta, and JSON-LD for the active tool mode. */
-export function applyModeSeo(mode: AppMode, origin = window.location.origin): void {
+/** Update document title, social meta, and JSON-LD for the active tool. */
+export function applyModeSeo(mode: SeoMode, origin = window.location.origin): void {
   const seo = MODE_SEO[mode]
   applySocialSeo({
     title: seo.title,
@@ -162,5 +167,5 @@ export function applyViewSeo(
     applyContentPageSeo(view.page, origin)
     return
   }
-  applyModeSeo(view.mode, origin)
+  applyModeSeo(view.id, origin)
 }
