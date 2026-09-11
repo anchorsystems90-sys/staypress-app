@@ -16,6 +16,27 @@ const origin = Astro.site?.origin ?? 'https://bentotools.app'
   jsonLd={buildHomeJsonLd(origin)}
   variant="home"
 >
+  {/* Host 308s live in vercel.json / netlify.toml. Inline fallback for static preview hosts. */}
+  <script is:inline>
+    (() => {
+      const path = window.location.pathname.replace(/\/+$/, '') || '/'
+      if (path !== '/') return
+      const map = {
+        images: '/images-to-pdf',
+        merge: '/merge',
+        extract: '/extract',
+        slim: '/slim',
+      }
+      const params = new URLSearchParams(window.location.search)
+      const mode = params.get('mode')
+      if (!mode || !Object.prototype.hasOwnProperty.call(map, mode)) return
+      params.delete('mode')
+      const qs = params.toString()
+      window.location.replace(
+        map[mode] + (qs ? `?${qs}` : '') + window.location.hash,
+      )
+    })()
+  </script>
   <div class="home">
     <h1 class="home__lede">Simple tools that work in your browser.</h1>
 

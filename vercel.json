@@ -16,6 +16,30 @@
   ],
   "redirects": [
     {
+      "source": "/",
+      "has": [{ "type": "query", "key": "mode", "value": "images" }],
+      "destination": "/images-to-pdf",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "query", "key": "mode", "value": "merge" }],
+      "destination": "/merge",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "query", "key": "mode", "value": "extract" }],
+      "destination": "/extract",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "query", "key": "mode", "value": "slim" }],
+      "destination": "/slim",
+      "permanent": true
+    },
+    {
       "source": "/images",
       "destination": "/images-to-pdf",
       "permanent": true
