@@ -15,8 +15,8 @@ export function PrivacyPage({ onOpenTool, onOpenGuide }: Props) {
         <p className="content-page__lede">
           Bento Tools is a free, open-source suite of small browser utilities.
           PDF and file tools are designed so your documents are not uploaded to
-          process them. Word tools run locally too — letters never leave this
-          device.
+          process them. Word, text, and JSON tools run locally too — what you
+          type stays in this tab.
         </p>
       </header>
 
@@ -32,8 +32,10 @@ export function PrivacyPage({ onOpenTool, onOpenGuide }: Props) {
         </p>
         <p>
           Word Unscrambler matches letters against a word list in the same
-          browser tab. You only share a result when <em>you</em> copy or
-          download it and choose where it goes next.
+          browser tab. Text Cleaner, Case Converter, and JSON Formatter
+          transform whatever you paste here the same way. You only share a
+          result when <em>you</em> copy or download it and choose where it goes
+          next.
         </p>
       </section>
 
@@ -77,7 +79,7 @@ export function PrivacyPage({ onOpenTool, onOpenGuide }: Props) {
         <h2 id="tools" className="content-page__h2">
           The tools
         </h2>
-        <p>Jump back into a job. File tools share the same privacy story:</p>
+        <p>Jump back into a job. Every tool below runs in your browser:</p>
         <ul className="content-page__tools">
           {TOOLS.map(({ id, label }) => (
             <li key={id}>

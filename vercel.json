@@ -27,6 +27,9 @@
     { "source": "/slim", "destination": "/slim/index.html" },
     { "source": "/compress", "destination": "/slim/index.html" },
     { "source": "/word-unscrambler", "destination": "/word-unscrambler/index.html" },
+    { "source": "/text-cleaner", "destination": "/text-cleaner/index.html" },
+    { "source": "/case-converter", "destination": "/case-converter/index.html" },
+    { "source": "/json-formatter", "destination": "/json-formatter/index.html" },
     { "source": "/privacy", "destination": "/privacy/index.html" },
     {
       "source": "/guides/heic-to-pdf",

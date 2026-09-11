@@ -48,6 +48,24 @@
   force = false
 
 [[redirects]]
+  from = "/text-cleaner"
+  to = "/text-cleaner/"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/case-converter"
+  to = "/case-converter/"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/json-formatter"
+  to = "/json-formatter/"
+  status = 200
+  force = false
+
+[[redirects]]
   from = "/privacy"
   to = "/privacy/"
   status = 200

@@ -4,6 +4,9 @@ import {
   IconToolPdfToImages,
   IconToolSlimPdf,
   IconToolWordUnscrambler,
+  IconToolTextCleaner,
+  IconToolCaseConverter,
+  IconToolJsonFormatter,
 } from '../components/Icons'
 import { pathForMode } from '../seoData'
 import {
@@ -28,6 +31,12 @@ function ToolIcon({ id }: { id: ToolId }) {
       return <IconToolSlimPdf />
     case 'word-unscrambler':
       return <IconToolWordUnscrambler />
+    case 'text-cleaner':
+      return <IconToolTextCleaner />
+    case 'case-converter':
+      return <IconToolCaseConverter />
+    case 'json-formatter':
+      return <IconToolJsonFormatter />
   }
 }
 

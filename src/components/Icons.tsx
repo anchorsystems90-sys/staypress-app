@@ -250,3 +250,72 @@ export function IconToolWordUnscrambler() {
     </svg>
   )
 }
+
+/** Stacked lines being tidied. */
+export function IconToolTextCleaner() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M4.5 6.5h15M4.5 12h11M4.5 17.5h8"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M17.2 14.2 19.6 16.6M19.6 14.2 17.2 16.6"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+/** Aa. */
+export function IconToolCaseConverter() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M4.6 18 8.1 8.5 11.6 18M5.7 15.15h5.2"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14.4 18v-6.4c0-1.7 1.15-2.7 2.7-2.7 1.55 0 2.7 1 2.7 2.7V18"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M14.4 14.35h5.4"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+/** Braces. */
+export function IconToolJsonFormatter() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M9 5.25H7.4A2.15 2.15 0 0 0 5.25 7.4v2.35c0 .7-.55 1.25-1.25 1.25.7 0 1.25.55 1.25 1.25V16.6A2.15 2.15 0 0 0 7.4 18.75H9"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M15 5.25h1.6A2.15 2.15 0 0 1 18.75 7.4v2.35c0 .7.55 1.25 1.25 1.25-.7 0-1.25.55-1.25 1.25V16.6A2.15 2.15 0 0 1 16.6 18.75H15"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}

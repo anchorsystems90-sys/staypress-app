@@ -2,7 +2,15 @@
 export const SITE_NAME = 'Bento Tools'
 
 /** SEO-only tool ids — PDF modes plus standalone tools. Kept free of DOM types so Vite can import this. */
-export type SeoMode = 'images' | 'merge' | 'extract' | 'slim' | 'word-unscrambler'
+export type SeoMode =
+  | 'images'
+  | 'merge'
+  | 'extract'
+  | 'slim'
+  | 'word-unscrambler'
+  | 'text-cleaner'
+  | 'case-converter'
+  | 'json-formatter'
 
 /** Default share-card image (1200×630 PNG in /public). */
 export const OG_IMAGE_PATH = '/og.png'
@@ -18,7 +26,7 @@ export const HOME_SEO = {
   path: HOME_PATH,
   title: 'Bento Tools — simple tools in your browser',
   description:
-    'Simple tools that work in your browser. Convert images to PDF, merge and slim PDFs, unscramble words — free, no account.',
+    'Simple tools that work in your browser. Convert images to PDF, clean and convert text, format JSON, unscramble words — free, no account.',
   ogTitle: 'Bento Tools',
   ogDescription: 'Simple tools that work in your browser. No signup. No nonsense.',
 }
@@ -95,6 +103,33 @@ export const MODE_SEO: Record<SeoMode, ModeSeo> = {
     ogTitle: 'Word Unscrambler — find words from letters',
     ogDescription:
       'Type a jumble and get matching words instantly. Bento Tools runs the search on your device.',
+  },
+  'text-cleaner': {
+    path: '/text-cleaner',
+    title: 'Text Cleaner — tidy messy text in your browser | Bento Tools',
+    description:
+      'Remove extra spaces, blank lines, HTML, and duplicate lines in your browser. Free, no account — your text never leaves this device.',
+    ogTitle: 'Text Cleaner — tidy messy text locally',
+    ogDescription:
+      'Paste messy text and clean it on this device. Bento Tools does not upload what you paste.',
+  },
+  'case-converter': {
+    path: '/case-converter',
+    title: 'Case Converter — UPPER, title, camelCase & more | Bento Tools',
+    description:
+      'Convert text to uppercase, lowercase, Title Case, sentence case, camelCase, snake_case, and kebab-case in your browser. Free, no upload.',
+    ogTitle: 'Case Converter — change case locally',
+    ogDescription:
+      'Switch case styles instantly on this device. Bento Tools never uploads your text.',
+  },
+  'json-formatter': {
+    path: '/json-formatter',
+    title: 'JSON Formatter — pretty-print & minify locally | Bento Tools',
+    description:
+      'Format, minify, and validate JSON in your browser. Free, no account — your data never leaves this device.',
+    ogTitle: 'JSON Formatter — pretty-print locally',
+    ogDescription:
+      'Pretty-print or minify JSON on this device. Bento Tools does not upload your data.',
   },
 }
 
@@ -239,30 +274,114 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       },
     ],
   },
+  'text-cleaner': {
+    appName: 'Bento Tools — Text Cleaner',
+    h1: 'Clean messy text in your browser',
+    intro:
+      'Paste copied text and tidy it locally: extra spaces, blank lines, HTML tags, tabs, and duplicate lines. Free, no account — nothing is uploaded to process it.',
+    faqs: [
+      {
+        question: 'Is the text I paste uploaded?',
+        answer:
+          'No. Cleaning runs in this browser tab. Bento Tools does not send your text to a server to transform it.',
+      },
+      {
+        question: 'What can Text Cleaner do?',
+        answer:
+          'You can trim lines, collapse extra spaces, turn tabs into spaces, strip simple HTML, drop blank or duplicate lines, and remove special characters. Turn options on or off as you need them.',
+      },
+      {
+        question: 'Does it change my original clipboard?',
+        answer:
+          'Not until you copy or download the result. The original paste stays in the input box.',
+      },
+      {
+        question: 'Is Text Cleaner free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'case-converter': {
+    appName: 'Bento Tools — Case Converter',
+    h1: 'Convert text case in your browser',
+    intro:
+      'Switch between UPPERCASE, lowercase, Title Case, sentence case, camelCase, PascalCase, snake_case, kebab-case, and CONSTANT_CASE. The conversion stays on this device.',
+    faqs: [
+      {
+        question: 'Does Case Converter upload my text?',
+        answer:
+          'No. Case changes run in your browser. Nothing you type is sent away to convert it.',
+      },
+      {
+        question: 'What is the difference between Title Case and PascalCase?',
+        answer:
+          'Title Case keeps spaces and capitalizes each word. PascalCase, camelCase, snake_case, and kebab-case rebuild identifier-style names from the words in your text.',
+      },
+      {
+        question: 'Can I copy the result?',
+        answer:
+          'Yes. Copy puts the converted text on your clipboard. Download saves a .txt file.',
+      },
+      {
+        question: 'Is Case Converter free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'json-formatter': {
+    appName: 'Bento Tools — JSON Formatter',
+    h1: 'Format JSON without uploading',
+    intro:
+      'Pretty-print, minify, and validate JSON locally. If the text is invalid, you get a parse error instead of a silent rewrite. Free, no account.',
+    faqs: [
+      {
+        question: 'Is my JSON sent to a server?',
+        answer:
+          'No. Formatting and validation use the JSON parser in your browser. The payload stays on this device.',
+      },
+      {
+        question: 'What happens if the JSON is invalid?',
+        answer:
+          'The formatter shows the parse error and leaves your text as it is. Fix the issue, then format or minify again.',
+      },
+      {
+        question: 'Does it sort object keys?',
+        answer:
+          'No. Pretty-print and minify keep key order as the browser parsed it.',
+      },
+      {
+        question: 'Is the JSON Formatter free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
 }
 
 /** Modes that get their own static HTML shell at build (home is index.html). */
-export const SEO_SHELL_MODES: SeoMode[] = [
-  'images',
-  'merge',
-  'extract',
-  'slim',
-  'word-unscrambler',
-]
+export const SEO_SHELL_MODES = Object.keys(MODE_SEO) as SeoMode[]
 
 export function pathForMode(mode: SeoMode): string {
   return MODE_SEO[mode].path
+}
+
+const PATH_ALIASES: Record<string, SeoMode> = {
+  '/images': 'images',
+  '/compress': 'slim',
 }
 
 export function toolFromPathname(pathname: string): SeoMode | null {
   const raw = pathname.split('?')[0] ?? '/'
   const normalized = raw.replace(/\/+$/, '') || '/'
 
-  if (normalized === '/word-unscrambler') return 'word-unscrambler'
-  if (normalized === '/merge') return 'merge'
-  if (normalized === '/extract') return 'extract'
-  if (normalized === '/slim' || normalized === '/compress') return 'slim'
-  if (normalized === '/images-to-pdf' || normalized === '/images') return 'images'
+  const aliased = PATH_ALIASES[normalized]
+  if (aliased) return aliased
+
+  for (const id of SEO_SHELL_MODES) {
+    if (MODE_SEO[id].path === normalized) return id
+  }
   return null
 }
 

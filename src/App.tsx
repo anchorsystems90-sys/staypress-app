@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import { FeedbackDialog } from './components/FeedbackDialog'
@@ -20,14 +20,16 @@ import {
   type AppView,
 } from './routing'
 import { applyViewSeo, CONTENT_PAGE_SEO, SITE_NAME, viewFromPathname } from './seo'
-import { isPdfTool, WORD_UNSCRAMBLER_META, type ToolId } from './toolCatalog'
+import {
+  isPdfTool,
+  isStandaloneTool,
+  STANDALONE_META,
+  type ToolId,
+} from './toolCatalog'
+import { StandaloneWorkspace } from './tools/StandaloneWorkspace'
 import type { AppMode } from './types'
 import { MODE_META } from './types'
 import './App.css'
-
-const WordUnscrambler = lazy(
-  () => import('./tools/word-unscrambler/WordUnscrambler'),
-)
 
 const GITHUB_REPO = 'https://github.com/anchorsystems90-sys/staypress-app'
 
@@ -42,9 +44,10 @@ export default function App() {
   const toolId: ToolId | null = onTool ? view.id : null
   const pdfMode: AppMode | null = toolId && isPdfTool(toolId) ? toolId : null
   const onPdf = pdfMode !== null
-  const onWord = toolId === 'word-unscrambler'
+  const onStandalone = toolId !== null && isStandaloneTool(toolId)
+  const standaloneMeta = onStandalone && toolId ? STANDALONE_META[toolId] : null
   const pdfMeta = pdfMode ? MODE_META[pdfMode] : null
-  const idleTool = onTool && (onWord || !ready)
+  const idleTool = onTool && (onStandalone || !ready)
 
   useEffect(() => {
     normalizeViewUrl(view)
@@ -101,14 +104,14 @@ export default function App() {
   const contentTagline =
     view.kind === 'page' ? CONTENT_PAGE_SEO[view.page].tagline : null
 
-  const idleTagline = onWord
-    ? WORD_UNSCRAMBLER_META.tagline
+  const idleTagline = standaloneMeta
+    ? standaloneMeta.tagline
     : idleTool && pdfMeta
       ? pdfMeta.tagline
       : null
 
-  const idlePrivacy = onWord
-    ? WORD_UNSCRAMBLER_META.privacyIdle
+  const idlePrivacy = standaloneMeta
+    ? standaloneMeta.privacyIdle
     : idleTool && pdfMeta
       ? pdfMeta.privacyIdle
       : null
@@ -190,16 +193,8 @@ export default function App() {
         {onPdf && pdfMode === 'slim' && (
           <CompressMode key="slim" onReadyChange={onReadyChange} />
         )}
-        {onWord && (
-          <Suspense
-            fallback={
-              <p className="unscramble__loading" role="status">
-                Loading Word Unscrambler…
-              </p>
-            }
-          >
-            <WordUnscrambler />
-          </Suspense>
+        {onStandalone && toolId && isStandaloneTool(toolId) && (
+          <StandaloneWorkspace id={toolId} />
         )}
       </main>
 

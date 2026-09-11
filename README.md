@@ -2,7 +2,7 @@
 
 **Useful tools. No signup. No nonsense.** Browser utilities that run on your device.
 
-Bento Tools is a free, open-source suite from **[Anchor Systems](https://anchorsystems.dev/)**. The first family is private PDF tools (**images → PDF**, **merge**, **PDF → images**, **slim**), plus **Word Unscrambler**. Everything that touches your files or letters runs client-side.
+Bento Tools is a free, open-source suite from **[Anchor Systems](https://anchorsystems.dev/)**. The first families are private PDF tools, Word Unscrambler, text utilities, and a JSON formatter. Everything that touches your files, letters, or pasted text runs client-side.
 
 `/` is the Bento Tools directory. Each utility has its own URL.
 
@@ -55,10 +55,28 @@ Bento Tools is a free, open-source suite from **[Anchor Systems](https://anchors
 - Filter by length · copy the result list
 - Word list and matching stay in the browser
 
+### Text Cleaner (`/text-cleaner`)
+
+- Paste messy text and tidy it in the browser
+- Trim, collapse spaces, tabs → spaces, strip HTML, drop blank or duplicate lines
+- Copy or download the cleaned result
+
+### Case Converter (`/case-converter`)
+
+- UPPERCASE, lowercase, Title Case, sentence case
+- camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE
+- Copy or download — nothing is uploaded
+
+### JSON Formatter (`/json-formatter`)
+
+- Pretty-print, minify, and validate JSON locally
+- Parse errors stay on the page; invalid JSON is not rewritten
+- Copy or download a `.json` file
+
 ### Shared
 
 - Mobile sticky download actions on PDF tools
-- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler` (`/images` 301s to `/images-to-pdf`; legacy `?mode=` still works for PDF tools)
+- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter` (`/images` 301s to `/images-to-pdf`; legacy `?mode=` still works for PDF tools)
 - Per-tool title + meta; build emits HTML shells so crawlers see the right tags
 - Soft credit to Anchor Systems
 
@@ -165,8 +183,9 @@ Tools still never upload your files or letters; only the text the user types in 
 - [ ] Extract: auto render · per-page download · ZIP
 - [ ] Slim: preset · before/after sizes
 - [ ] Word Unscrambler: letters → words · copy
+- [ ] Text Cleaner / Case Converter / JSON Formatter: paste → copy locally
 - [ ] Privacy line + no unexpected uploads of user files
-- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/privacy`, `/guides/heic-to-pdf` load correctly
+- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/privacy`, `/guides/heic-to-pdf` load correctly
 - [ ] `/images` 301s to `/images-to-pdf`
 - [ ] Production: absolute canonical + `og:image` when `VITE_SITE_URL` set
 - [ ] `/og.png` loads; social debugger shows Bento Tools card
@@ -193,7 +212,10 @@ src/
     extract/ExtractMode.tsx
     compress/CompressMode.tsx
   tools/
-    word-unscrambler/     # First non-PDF tool (lazy-loaded)
+    word-unscrambler/     # Lazy-loaded standalone tools
+    text-cleaner/
+    case-converter/
+    json-formatter/
   components/             # Stage, ModeSwitcher, Viewer, Icons, FeedbackDialog, SeoIdleContent
   lib/
     images.ts             # HEIC + rasterize / downscale
@@ -212,7 +234,7 @@ docs/
 
 ## Privacy
 
-Bento Tools does **not** upload your images, PDFs, or letters for processing. Generation, merge, extract, slim, and word matching run entirely in the browser.
+Bento Tools does **not** upload your images, PDFs, letters, or pasted text for processing. Generation, merge, extract, slim, word matching, text cleanup, case conversion, and JSON formatting run entirely in the browser.
 
 ---
 

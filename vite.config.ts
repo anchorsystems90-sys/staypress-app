@@ -20,7 +20,7 @@ const rootDir = path.dirname(fileURLToPath(import.meta.url))
 
 /**
  * After Vite emits dist/index.html, copy mode and content shells so
- * `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/privacy`, `/guides/heic-to-pdf` ship unique meta for crawlers.
+ * `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/privacy`, `/guides/heic-to-pdf` ship unique meta for crawlers.
  * `/` is the Bento Tools homepage. Set VITE_SITE_URL for absolute canonical, og URLs, and sitemap.xml.
  */
 function modeSeoShells(siteUrl: string | undefined): Plugin {
