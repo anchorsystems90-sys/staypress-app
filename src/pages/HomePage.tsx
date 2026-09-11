@@ -1,3 +1,10 @@
+import {
+  IconToolImagesToPdf,
+  IconToolMergePdf,
+  IconToolPdfToImages,
+  IconToolSlimPdf,
+  IconToolWordUnscrambler,
+} from '../components/Icons'
 import { pathForMode } from '../seoData'
 import {
   TOOLS,
@@ -7,6 +14,21 @@ import {
 
 type Props = {
   onOpenTool: (id: ToolId) => void
+}
+
+function ToolIcon({ id }: { id: ToolId }) {
+  switch (id) {
+    case 'images':
+      return <IconToolImagesToPdf />
+    case 'merge':
+      return <IconToolMergePdf />
+    case 'extract':
+      return <IconToolPdfToImages />
+    case 'slim':
+      return <IconToolSlimPdf />
+    case 'word-unscrambler':
+      return <IconToolWordUnscrambler />
+  }
 }
 
 export function HomePage({ onOpenTool }: Props) {
@@ -38,8 +60,13 @@ export function HomePage({ onOpenTool }: Props) {
                       onOpenTool(tool.id)
                     }}
                   >
-                    <span className="home__tool-name">{tool.label}</span>
-                    <span className="home__tool-blurb">{tool.blurb}</span>
+                    <span className="home__tool-icon" aria-hidden="true">
+                      <ToolIcon id={tool.id} />
+                    </span>
+                    <span className="home__tool-copy">
+                      <span className="home__tool-name">{tool.label}</span>
+                      <span className="home__tool-blurb">{tool.blurb}</span>
+                    </span>
                   </a>
                 </li>
               ))}

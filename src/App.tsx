@@ -212,7 +212,7 @@ export default function App() {
             : 'No account. No upload. Everything runs on this device.'}
         </p>
         <p className="footer__maker">
-          <span className="footer__maker-label">An open-source product from</span>{' '}
+          Bento Tools by{' '}
           <a
             className="footer__maker-link"
             href="https://anchorsystems.dev/"
@@ -220,20 +220,6 @@ export default function App() {
             rel="noopener noreferrer"
           >
             Anchor Systems
-          </a>
-          <span className="footer__maker-sep" aria-hidden="true">
-            ·
-          </span>
-          <a
-            className="footer__cta"
-            href="https://anchorsystems.dev/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Technology delivery that ships
-            <span className="footer__cta-arrow" aria-hidden="true">
-              →
-            </span>
           </a>
         </p>
         <nav className="footer__links" aria-label="Project">

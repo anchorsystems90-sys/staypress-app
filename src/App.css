@@ -1304,43 +1304,12 @@
   line-height: 1.5;
 }
 
-.footer__maker {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: flex-start;
-  gap: 0.35rem 0.45rem;
-  position: relative;
-  padding: 0.8rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--ink) 9%, transparent);
-  border-radius: var(--radius-md);
-  background: color-mix(in srgb, var(--paper-hot) 65%, transparent);
-  backdrop-filter: blur(10px);
-  overflow: hidden;
-}
-
-.footer__maker::before {
-  content: '';
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 3px;
-  background: var(--gradient-accent);
-}
-
-.app--idle .footer__maker {
-  justify-content: center;
-}
-
-.footer__maker-label {
-  color: var(--muted);
-}
-
 .footer__maker-link {
-  font-weight: 700;
-  color: var(--ink);
+  font-weight: 600;
+  color: color-mix(in srgb, var(--muted) 35%, var(--ink));
   text-decoration: none;
   letter-spacing: -0.01em;
-  border-bottom: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
   transition:
     color 0.15s ease,
     border-color 0.15s ease;
@@ -1356,37 +1325,7 @@
   user-select: none;
 }
 
-.footer__cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-weight: 600;
-  color: var(--accent-deep);
-  text-decoration: none;
-  background: linear-gradient(90deg, var(--accent-deep), var(--accent-hot));
-  -webkit-background-clip: text;
-  background-clip: text;
-  transition: color 0.15s ease, gap 0.2s var(--ease-out);
-}
-
-.footer__cta:hover {
-  color: transparent;
-  gap: 0.45rem;
-}
-
-.footer__cta-arrow {
-  font-size: 0.95em;
-  line-height: 1;
-  color: var(--accent-deep);
-  transition: transform 0.2s var(--ease-out);
-}
-
-.footer__cta:hover .footer__cta-arrow {
-  transform: translateX(2px);
-}
-
 .footer__maker-link:focus-visible,
-.footer__cta:focus-visible,
 .footer__link:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
@@ -1699,9 +1638,14 @@
 
 /* —— Homepage directory —— */
 
+.app--home .header,
+.app--home .main,
+.app--home .footer {
+  max-width: 48rem;
+}
+
 .app--home .main {
   justify-content: flex-start;
-  max-width: 36rem;
   padding-top: 0.35rem;
 }
 
@@ -1722,7 +1666,7 @@
 }
 
 .home__family {
-  margin: 0 0 1.6rem;
+  margin: 0 0 1.75rem;
 }
 
 .home__family:last-child {
@@ -1730,7 +1674,7 @@
 }
 
 .home__family-title {
-  margin: 0 0 0.65rem;
+  margin: 0 0 0.7rem;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -1742,35 +1686,78 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+}
+
+.home__list > li {
+  min-width: 0;
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 }
 
 .home__tool {
   display: flex;
-  flex-direction: column;
-  gap: 0.18rem;
-  padding: 0.85rem 1rem;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex: 1;
+  width: 100%;
+  padding: 0.9rem 1rem;
   border-radius: var(--radius-md);
-  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
-  background: color-mix(in srgb, var(--paper-hot) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  background: color-mix(in srgb, var(--paper-hot) 92%, transparent);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--ink) 5%, transparent);
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
   transition:
     border-color 0.18s ease,
     box-shadow 0.18s ease,
+    background-color 0.18s ease,
     transform 0.18s var(--ease-out);
 }
 
 .home__tool:hover {
-  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
-  box-shadow: 0 10px 24px -16px color-mix(in srgb, var(--ink) 45%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 48%, transparent);
+  background: var(--paper-hot);
+  box-shadow: var(--shadow-float);
+  transform: translateY(-1px);
+}
+
+.home__tool:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--ink) 6%, transparent);
 }
 
 .home__tool:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+.home__tool-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 11%, var(--paper-hot));
+  color: var(--accent-deep);
+}
+
+.home__tool-svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  display: block;
+}
+
+.home__tool-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.16rem;
+  min-width: 0;
 }
 
 .home__tool-name {
@@ -1783,6 +1770,12 @@
   font-size: 0.86rem;
   font-weight: 500;
   color: var(--muted);
+}
+
+@media (min-width: 600px) {
+  .home__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* —— Content pages (privacy / about) —— */
@@ -2432,10 +2425,6 @@
   .app--idle .footer {
     text-align: left;
     align-items: flex-start;
-  }
-
-  .app--idle .footer__maker {
-    justify-content: flex-start;
   }
 
   .app--idle .footer__links {
