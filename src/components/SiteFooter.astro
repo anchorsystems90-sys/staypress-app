@@ -1,0 +1,43 @@
+---
+import FeedbackTrigger from './FeedbackTrigger'
+import {
+  CONTENT_PAGE_SEO,
+  DEFAULT_FOOTER_PRIVACY,
+  GITHUB_REPO,
+} from '../seoData'
+---
+
+<footer class="footer">
+  <p class="footer__privacy">{DEFAULT_FOOTER_PRIVACY}</p>
+  <p class="footer__maker">
+    Bento Tools by{' '}
+    <a
+      class="footer__maker-link"
+      href="https://anchorsystems.dev/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Anchor Systems
+    </a>
+  </p>
+  <nav class="footer__links" aria-label="Project">
+    <a class="footer__link" href={CONTENT_PAGE_SEO.privacy.path}>
+      {CONTENT_PAGE_SEO.privacy.footerLabel}
+    </a>
+    <span class="footer__maker-sep" aria-hidden="true">·</span>
+    <a class="footer__link" href={CONTENT_PAGE_SEO['heic-to-pdf'].path}>
+      {CONTENT_PAGE_SEO['heic-to-pdf'].footerLabel}
+    </a>
+    <span class="footer__maker-sep" aria-hidden="true">·</span>
+    <a
+      class="footer__link"
+      href={GITHUB_REPO}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Source
+    </a>
+    <span class="footer__maker-sep" aria-hidden="true">·</span>
+    <FeedbackTrigger client:idle />
+  </nav>
+</footer>

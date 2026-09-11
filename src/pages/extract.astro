@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import SeoContent from '../components/SeoContent.astro'
+import ExtractPdfIsland from '../islands/ExtractPdfIsland'
+import { MODE_SEO, buildModeJsonLd } from '../seoData'
+import { MODE_META } from '../types'
+
+const id = 'extract' as const
+const seo = MODE_SEO[id]
+const meta = MODE_META[id]
+const origin = Astro.site?.origin ?? 'https://bentotools.app'
+---
+
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+  ogTitle={seo.ogTitle}
+  ogDescription={seo.ogDescription}
+  path={seo.path}
+  jsonLd={buildModeJsonLd(id, origin)}
+  variant="pdf"
+  pdfMode={id}
+  tagline={meta.tagline}
+  privacyIdle={meta.privacyIdle}
+>
+  <ExtractPdfIsland client:load />
+  <SeoContent slot="seo" tool={id} />
+</BaseLayout>

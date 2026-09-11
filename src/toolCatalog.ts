@@ -119,6 +119,13 @@ export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
   },
 }
 
+/** Other tools in the same family — used for static related-tool links. */
+export function relatedTools(id: ToolId): readonly ToolDirectoryEntry[] {
+  const current = TOOLS.find((tool) => tool.id === id)
+  if (!current) return []
+  return TOOLS.filter((tool) => tool.family === current.family && tool.id !== id)
+}
+
 export const WORD_UNSCRAMBLER_META = {
   id: 'word-unscrambler' as const,
   family: 'words' as const,

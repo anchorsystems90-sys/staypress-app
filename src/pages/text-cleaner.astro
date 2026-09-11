@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import SeoContent from '../components/SeoContent.astro'
+import TextCleaner from '../tools/text-cleaner/TextCleaner'
+import { MODE_SEO, buildModeJsonLd } from '../seoData'
+import { STANDALONE_META } from '../toolCatalog'
+
+const id = 'text-cleaner' as const
+const seo = MODE_SEO[id]
+const meta = STANDALONE_META[id]
+const origin = Astro.site?.origin ?? 'https://bentotools.app'
+---
+
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+  ogTitle={seo.ogTitle}
+  ogDescription={seo.ogDescription}
+  path={seo.path}
+  jsonLd={buildModeJsonLd(id, origin)}
+  variant="standalone"
+  tagline={meta.tagline}
+  privacyIdle={meta.privacyIdle}
+>
+  <TextCleaner client:load />
+  <SeoContent slot="seo" tool={id} />
+</BaseLayout>

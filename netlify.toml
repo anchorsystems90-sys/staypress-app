@@ -10,80 +10,17 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
-# Mode shells ship as /merge/index.html etc. Clean paths without trailing slash.
-[[redirects]]
-  from = "/images-to-pdf"
-  to = "/images-to-pdf/"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/merge"
-  to = "/merge/"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/extract"
-  to = "/extract/"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/slim"
-  to = "/slim/"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/compress"
-  to = "/slim/"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/word-unscrambler"
-  to = "/word-unscrambler/"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/text-cleaner"
-  to = "/text-cleaner/"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/case-converter"
-  to = "/case-converter/"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/json-formatter"
-  to = "/json-formatter/"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/privacy"
-  to = "/privacy/"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/guides/heic-to-pdf"
-  to = "/guides/heic-to-pdf/"
-  status = 200
-  force = false
-
 [[redirects]]
   from = "/images"
   to = "/images-to-pdf"
   status = 301
 
-# SPA fallback for unknown client routes (mode shells above take precedence)
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+  from = "/compress"
+  to = "/slim"
+  status = 301
+
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301

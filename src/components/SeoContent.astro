@@ -1,0 +1,48 @@
+---
+import { MODE_PAGE_CONTENT, pathForMode, type SeoMode } from '../seoData'
+import { relatedTools } from '../toolCatalog'
+
+type Props = {
+  tool: SeoMode
+}
+
+const { tool } = Astro.props
+const content = MODE_PAGE_CONTENT[tool]
+const related = relatedTools(tool)
+---
+
+<section class="seo-idle" aria-label="About this tool">
+  <h1 class="seo-idle__title">{content.h1}</h1>
+  <p class="seo-idle__intro">{content.intro}</p>
+
+  <div class="seo-idle__faqs">
+    <h2 class="seo-idle__faqs-heading">Common questions</h2>
+    <div class="seo-idle__faq-list">
+      {
+        content.faqs.map((faq) => (
+          <details class="seo-idle__faq">
+            <summary class="seo-idle__faq-q">{faq.question}</summary>
+            <p class="seo-idle__faq-a">{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+
+  {
+    related.length > 0 && (
+      <div class="seo-idle__faqs">
+        <h2 class="seo-idle__faqs-heading">Related tools</h2>
+        <ul class="content-page__tools">
+          {related.map((item) => (
+            <li>
+              <a class="content-page__tool-link" href={pathForMode(item.id)}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+</section>

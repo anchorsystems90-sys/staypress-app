@@ -5,13 +5,15 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
   },
   "dependencies": {
+    "@astrojs/react": "^4.4.2",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "astro": "^5.18.2",
     "heic2any": "^0.0.4",
     "jszip": "^3.10.1",
     "pdf-lib": "^1.17.1",

@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import ToolIcon from '../components/ToolIcon.astro'
+import { HOME_SEO, buildHomeJsonLd, pathForMode } from '../seoData'
+import { TOOLS, TOOL_FAMILIES } from '../toolCatalog'
+
+const origin = Astro.site?.origin ?? 'https://bentotools.app'
+---
+
+<BaseLayout
+  title={HOME_SEO.title}
+  description={HOME_SEO.description}
+  ogTitle={HOME_SEO.ogTitle}
+  ogDescription={HOME_SEO.ogDescription}
+  path={HOME_SEO.path}
+  jsonLd={buildHomeJsonLd(origin)}
+  variant="home"
+>
+  <div class="home">
+    <h1 class="home__lede">Simple tools that work in your browser.</h1>
+
+    {
+      TOOL_FAMILIES.map((family) => {
+        const tools = TOOLS.filter((tool) => tool.family === family.id)
+        if (!tools.length) return null
+
+        return (
+          <section
+            class="home__family"
+            aria-labelledby={`home-family-${family.id}`}
+          >
+            <h2 id={`home-family-${family.id}`} class="home__family-title">
+              {family.label}
+            </h2>
+            <ul class="home__list">
+              {tools.map((tool) => (
+                <li>
+                  <a class="home__tool" href={pathForMode(tool.id)}>
+                    <span class="home__tool-icon" aria-hidden="true">
+                      <ToolIcon id={tool.id} />
+                    </span>
+                    <span class="home__tool-copy">
+                      <span class="home__tool-name">{tool.label}</span>
+                      <span class="home__tool-blurb">{tool.blurb}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      })
+    }
+  </div>
+</BaseLayout>

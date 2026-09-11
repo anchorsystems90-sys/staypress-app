@@ -76,8 +76,8 @@ Bento Tools is a free, open-source suite from **[Anchor Systems](https://anchors
 ### Shared
 
 - Mobile sticky download actions on PDF tools
-- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter` (`/images` 301s to `/images-to-pdf`; legacy `?mode=` still works for PDF tools)
-- Per-tool title + meta; build emits HTML shells so crawlers see the right tags
+- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter` (`/images` 301s to `/images-to-pdf`; `/compress` 301s to `/slim`)
+- Per-tool title, meta, JSON-LD, and static HTML (Astro). Tools hydrate as React islands.
 - Soft credit to Anchor Systems
 
 ### Roadmap
@@ -98,22 +98,23 @@ npm install
 npm run dev
 ```
 
-Open the URL shown in the terminal (usually `http://localhost:5173`).
+Open the URL shown in the terminal (usually `http://localhost:4321`).
 
 ### Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Local dev server (Vite) |
-| `npm run build` | Typecheck + production build → `dist/` |
+| `npm run dev` | Local Astro dev server |
+| `npm run build` | Production static build → `dist/` |
 | `npm run preview` | Preview the production build locally |
 
 ---
 
 ## Tech stack
 
-- [React](https://react.dev/) 19 + TypeScript
-- [Vite](https://vite.dev/) 6
+- [Astro](https://astro.build/) 5 — pages, layout, SEO, static HTML
+- [React](https://react.dev/) 19 islands — interactive tools only
+- [TypeScript](https://www.typescriptlang.org/)
 - [pdf-lib](https://pdf-lib.js.org/) — create & merge PDFs in the browser
 - [pdf.js](https://mozilla.github.io/pdf.js/) (`pdfjs-dist`) — render pages for PDF → images / slim
 - [JSZip](https://stuk.github.io/jszip/) — multi-page image downloads
@@ -137,17 +138,10 @@ Config included for **Vercel** (`vercel.json`), **Netlify** (`netlify.toml`), an
 Set on the host’s **Production** environment (not Preview), then rebuild:
 
 ```bash
-VITE_SITE_URL=https://your-canonical-domain.com
+VITE_SITE_URL=https://bentotools.app
 ```
 
-That makes the build emit:
-
-| Artifact | Purpose |
-|----------|---------|
-| Absolute `canonical` + `og:url` on tool paths + `/privacy` + `/guides/heic-to-pdf` | Correct indexing + shares |
-| Absolute `og:image` / `twitter:image` → `/og.png` (1200×630) | Social cards |
-| `sitemap.xml` | Submit in Google Search Console |
-| `robots.txt` `Sitemap:` line | Points crawlers at the sitemap |
+(`PUBLIC_SITE_URL` also works.) That sets Astro `site` for absolute canonicals, Open Graph URLs, `sitemap.xml`, and the `robots.txt` Sitemap line. The config defaults to `https://bentotools.app` when those env vars are unset.
 
 **Ops checklist (once domain is final):**
 
@@ -159,7 +153,7 @@ That makes the build emit:
 
 Full SEO roadmap: [docs/SEO_IMPLEMENTATION_PLAN.md](docs/SEO_IMPLEMENTATION_PLAN.md).
 
-Local/preview builds without `VITE_SITE_URL` still work; meta images stay root-relative (`/og.png`).
+Local/preview builds still emit absolute production canonicals (default `https://bentotools.app`).
 
 ### Feedback form (email via Resend)
 
@@ -187,10 +181,10 @@ Tools still never upload your files or letters; only the text the user types in 
 - [ ] Privacy line + no unexpected uploads of user files
 - [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/privacy`, `/guides/heic-to-pdf` load correctly
 - [ ] `/images` 301s to `/images-to-pdf`
-- [ ] Production: absolute canonical + `og:image` when `VITE_SITE_URL` set
+- [ ] `/compress` 301s to `/slim`
+- [ ] Production: absolute canonical + `og:image`
 - [ ] `/og.png` loads; social debugger shows Bento Tools card
 - [ ] `sitemap.xml` includes tools + privacy + Search Console
-- [ ] Old `?mode=merge` redirects/normalizes to `/merge`
 - [ ] Feedback form sends email (Resend env set on Vercel)
 
 ---
@@ -201,31 +195,26 @@ Tools still never upload your files or letters; only the text the user types in 
 api/
   feedback.ts             # Vercel: email bug / feature feedback via Resend
 src/
-  App.tsx                 # Shell, homepage, PDF mode switch, footer
+  pages/                  # Astro routes (static HTML)
+  layouts/BaseLayout.astro
+  islands/                # One React island per PDF tool
   toolCatalog.ts          # Directory metadata + PDF family vs standalone tools
-  pages/
-    HomePage.tsx
-    PrivacyPage.tsx
-  modes/                  # PDF family
+  seoData.ts              # Titles, FAQs, JSON-LD data
+  modes/                  # PDF family React tools
     images/ImagesMode.tsx
     merge/MergeMode.tsx
     extract/ExtractMode.tsx
     compress/CompressMode.tsx
   tools/
-    word-unscrambler/     # Lazy-loaded standalone tools
+    word-unscrambler/
     text-cleaner/
     case-converter/
     json-formatter/
-  components/             # Stage, ModeSwitcher, Viewer, Icons, FeedbackDialog, SeoIdleContent
+  components/             # Stage, Viewer, Icons, FeedbackDialog, Astro chrome
   lib/
-    images.ts             # HEIC + rasterize / downscale
+    images.ts
     download.ts
     pdf/
-      imagesToPdf.ts
-      merge.ts
-      extract.ts
-      compress.ts
-      common.ts
 docs/
   TOOLKIT_IMPLEMENTATION_PLAN.md
 ```
