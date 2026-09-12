@@ -1621,6 +1621,64 @@
   color: var(--muted);
 }
 
+.unscramble__wildcard-help {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.unscramble__more {
+  margin-top: 0.85rem;
+}
+
+.unscramble__more-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0.2rem 0;
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.unscramble__more-toggle:hover {
+  color: var(--accent-deep);
+}
+
+.unscramble__more-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.unscramble__filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 0.75rem 1rem;
+  margin-top: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  background: color-mix(in srgb, var(--paper-hot) 70%, transparent);
+}
+
+.unscramble__filters .unscramble__field {
+  flex: 1 1 auto;
+}
+
+.unscramble__input--filter {
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-weight: 600;
+}
+
 .unscramble__actions {
   display: flex;
   flex-wrap: wrap;
@@ -1636,6 +1694,12 @@
 
 .unscramble__results {
   margin-top: 1.35rem;
+}
+
+.unscramble__copy-tip {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
 }
 
 .unscramble__group {
@@ -1670,13 +1734,37 @@
 }
 
 .unscramble__word {
+  margin: 0;
   padding: 0.35rem 0.65rem;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--paper-hot) 80%, transparent);
   border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  background: color-mix(in srgb, var(--paper-hot) 80%, transparent);
+  color: var(--ink-soft);
+  font: inherit;
   font-size: 0.92rem;
   font-weight: 600;
   letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.unscramble__word:hover {
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  color: var(--ink);
+}
+
+.unscramble__word:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.unscramble__word--copied {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--paper-hot));
+  color: var(--accent-deep);
 }
 
 /* —— Text / JSON utilities —— */

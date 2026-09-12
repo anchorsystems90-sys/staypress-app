@@ -104,10 +104,10 @@ export const MODE_SEO: Record<SeoMode, ModeSeo> = {
     path: '/word-unscrambler',
     title: 'Word Unscrambler — find words from letters | Bento Tools',
     description:
-      'Unscramble letters into valid English words in your browser. Free, no account — your letters never leave this device.',
+      'Unscramble letters into valid English words in your browser. Use ? blanks and starts/contains/ends filters — free, private, no upload.',
     ogTitle: 'Word Unscrambler — find words from letters',
     ogDescription:
-      'Type a jumble and get matching words instantly. Bento Tools runs the search on your device.',
+      'Unscramble letters with optional blanks and filters. Bento Tools runs the search on your device.',
   },
   'text-cleaner': {
     path: '/text-cleaner',
@@ -260,7 +260,7 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
     appName: 'Bento Tools — Word Unscrambler',
     h1: 'Unscramble letters into words',
     intro:
-      'Type a jumble of letters and get valid English words you can make from them. Free, no account — the search runs in your browser.',
+      'Type a jumble of letters and get valid English words you can make from them. Use ? for an unknown letter, and optionally filter by starts with, contains, or ends with — free, no account, all in your browser.',
     faqs: [
       {
         question: 'Are my letters sent to a server?',
@@ -273,9 +273,14 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
           'It finds every dictionary word that can be spelled with the letters you entered, including shorter words that do not use every letter.',
       },
       {
-        question: 'Can I filter by word length?',
+        question: 'What does ? mean?',
         answer:
-          'Yes. Choose a specific length or “8 or more” if you only want longer words.',
+          'Each ? is one blank tile — an unknown letter. You can use up to two blanks. For example, c?t can match cat, cot, or cut.',
+      },
+      {
+        question: 'Can I filter the results?',
+        answer:
+          'Yes. Choose a word length, and open More filters for starts with, contains, and ends with. Filters only keep words you can still build from your letters (and blanks).',
       },
       {
         question: 'Is the Word Unscrambler free?',

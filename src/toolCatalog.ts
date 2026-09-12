@@ -73,7 +73,7 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     id: 'word-unscrambler',
     family: 'words',
     label: 'Word Unscrambler',
-    blurb: 'Find words from a jumble of letters.',
+    blurb: 'Unscramble letters, with optional ? blanks and filters.',
   },
   {
     id: 'text-cleaner',
