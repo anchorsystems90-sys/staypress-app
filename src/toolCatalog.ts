@@ -61,13 +61,13 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     id: 'extract',
     family: 'pdf',
     label: 'PDF → Images',
-    blurb: 'Export each page as a JPG or PNG.',
+    blurb: 'Convert each PDF page to a JPG or PNG.',
   },
   {
     id: 'slim',
     family: 'pdf',
     label: 'Slim PDF',
-    blurb: 'Rebuild a smaller file without uploading.',
+    blurb: 'Compress a PDF in your browser — no upload.',
   },
   {
     id: 'word-unscrambler',
@@ -119,11 +119,61 @@ export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
   },
 }
 
+/** Preferred sibling order for PDF-family related links. */
+const PDF_RELATED_ORDER: Record<AppMode, readonly AppMode[]> = {
+  images: ['extract', 'merge', 'slim'],
+  extract: ['images', 'slim', 'merge'],
+  slim: ['extract', 'images', 'merge'],
+  merge: ['extract', 'images', 'slim'],
+}
+
+/** Short contextual notes for PDF topic-cluster links. */
+const PDF_RELATED_NOTES: Partial<
+  Record<AppMode, Partial<Record<AppMode, string>>>
+> = {
+  images: {
+    extract: 'Export PDF pages back to JPG or PNG.',
+  },
+  extract: {
+    images: 'Need the reverse? Build a PDF from images.',
+    slim: 'Shrink a heavy PDF before or after exporting pages.',
+  },
+  slim: {
+    extract: 'Or convert PDF pages to JPG or PNG instead.',
+    images: 'Build a PDF from photos, then compress it here.',
+  },
+  merge: {
+    extract: 'Export pages from the merged file as images.',
+  },
+}
+
+export type RelatedToolLink = ToolDirectoryEntry & {
+  note?: string
+}
+
 /** Other tools in the same family — used for static related-tool links. */
-export function relatedTools(id: ToolId): readonly ToolDirectoryEntry[] {
+export function relatedTools(id: ToolId): readonly RelatedToolLink[] {
   const current = TOOLS.find((tool) => tool.id === id)
   if (!current) return []
-  return TOOLS.filter((tool) => tool.family === current.family && tool.id !== id)
+
+  const siblings = TOOLS.filter(
+    (tool) => tool.family === current.family && tool.id !== id,
+  )
+
+  if (!isPdfTool(id)) return siblings
+
+  const order = PDF_RELATED_ORDER[id]
+  const notes = PDF_RELATED_NOTES[id]
+  const byId = new Map(siblings.map((tool) => [tool.id, tool]))
+
+  return order
+    .map((relatedId) => {
+      const tool = byId.get(relatedId)
+      if (!tool) return null
+      const note = notes?.[relatedId]
+      return note ? { ...tool, note } : tool
+    })
+    .filter((tool): tool is RelatedToolLink => tool != null)
 }
 
 export const WORD_UNSCRAMBLER_META = {

@@ -33,12 +33,13 @@ const related = relatedTools(tool)
     related.length > 0 && (
       <div class="seo-idle__faqs">
         <h2 class="seo-idle__faqs-heading">Related tools</h2>
-        <ul class="content-page__tools">
+        <ul class="seo-idle__related-list">
           {related.map((item) => (
-            <li>
+            <li class="seo-idle__related">
               <a class="content-page__tool-link" href={pathForMode(item.id)}>
                 {item.label}
               </a>
+              {item.note && <p class="seo-idle__related-note">{item.note}</p>}
             </li>
           ))}
         </ul>

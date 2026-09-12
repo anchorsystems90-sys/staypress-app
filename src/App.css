@@ -848,6 +848,14 @@
   min-height: 2.4rem;
 }
 
+.extract-format-hint {
+  margin: 0 0 1rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
 .extract-preview-label {
   margin: 0 0 0.85rem;
   font-size: 0.8rem;
@@ -990,6 +998,20 @@
 .thumb__actions {
   display: flex;
   gap: 0.35rem;
+}
+
+.thumb__download {
+  flex: 1;
+  gap: 0.4rem;
+  min-height: 2.4rem;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.78rem;
+}
+
+.thumb__download svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex: 0 0 auto;
 }
 
 .icon-btn {
@@ -1492,6 +1514,27 @@
   font-size: 0.82rem;
   font-weight: 500;
   line-height: 1.5;
+  color: var(--muted);
+}
+
+.seo-idle__related-list {
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.seo-idle__related {
+  margin: 0;
+}
+
+.seo-idle__related-note {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.45;
   color: var(--muted);
 }
 

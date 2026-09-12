@@ -333,6 +333,10 @@ export function ExtractMode({ onReadyChange }: ExtractModeProps) {
             </div>
           </div>
 
+          <p className="extract-format-hint">
+            Each PDF page becomes one {format === 'png' ? 'PNG' : 'JPG'} image.
+          </p>
+
           <div className="extract-source">
             <div className="thumb__page pdf-thumb extract-source__icon" aria-hidden="true">
               <IconDoc />
@@ -373,7 +377,7 @@ export function ExtractMode({ onReadyChange }: ExtractModeProps) {
           {pages.length > 0 && (
             <>
               <p className="extract-preview-label">
-                Pages · download one, or preview
+                Pages · download each as {format === 'png' ? 'PNG' : 'JPG'}, or preview
               </p>
               <ul className="grid">
                 {pages.map((page, index) => (
@@ -405,12 +409,12 @@ export function ExtractMode({ onReadyChange }: ExtractModeProps) {
                     <div className="thumb__actions">
                       <button
                         type="button"
-                        className="icon-btn icon-btn--primary"
-                        aria-label={`Download page ${page.pageNumber}`}
+                        className="btn btn--ghost thumb__download"
                         onClick={() => downloadPage(page)}
                         disabled={busy || packing}
                       >
                         <IconDownload />
+                        Download {format === 'png' ? 'PNG' : 'JPG'}
                       </button>
                     </div>
                   </li>
@@ -458,7 +462,7 @@ export function ExtractMode({ onReadyChange }: ExtractModeProps) {
             className="btn btn--primary viewer__download"
             onClick={() => downloadPage(viewing)}
           >
-            Download this page
+            Download this page as {format === 'png' ? 'PNG' : 'JPG'}
           </button>
         </>
       )}

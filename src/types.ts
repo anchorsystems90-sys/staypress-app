@@ -59,13 +59,13 @@ export const MODE_META: Record<AppMode, ModeMeta> = {
   extract: {
     id: 'extract',
     label: 'PDF → images',
-    tagline: 'PDF pages to images.',
+    tagline: 'PDF pages → JPG or PNG.',
     privacyIdle: 'Private by design — nothing leaves this device.',
     privacyReady:
       'Pages are rendered locally in your browser. Your PDF is never uploaded.',
     stageTitle: 'Drop a PDF here',
     stageTitleReady: 'Choose a different PDF',
-    stageHint: 'or browse · each page becomes an image',
+    stageHint: 'or browse · each page becomes a JPG or PNG',
     stageHintReady: 'or browse · replace with another PDF',
   },
   slim: {
@@ -77,7 +77,7 @@ export const MODE_META: Record<AppMode, ModeMeta> = {
       'Your PDF is rebuilt locally in the browser. Nothing is uploaded for compression.',
     stageTitle: 'Drop a PDF here',
     stageTitleReady: 'Choose a different PDF',
-    stageHint: 'or browse · rebuild for a smaller file',
+    stageHint: 'or browse · compress locally in your browser',
     stageHintReady: 'or browse · replace with another PDF',
   },
 }

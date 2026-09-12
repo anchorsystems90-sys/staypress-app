@@ -84,21 +84,21 @@ export const MODE_SEO: Record<SeoMode, ModeSeo> = {
   },
   extract: {
     path: '/extract',
-    title: 'PDF to images (JPG/PNG) — private | Bento Tools',
+    title: 'PDF to Images — Convert Pages to JPG or PNG | Bento Tools',
     description:
-      'Turn each PDF page into a JPG or PNG in your browser. Free ZIP download, no upload — files stay on your device.',
-    ogTitle: 'PDF to images — private, no upload',
+      'Convert PDF pages to JPG or PNG in your browser. Download individual pages or a ZIP — free, private, no upload.',
+    ogTitle: 'PDF to images — convert pages locally',
     ogDescription:
-      'Export PDF pages as JPG or PNG locally. Bento Tools never uploads your file.',
+      'Turn each PDF page into a JPG or PNG on your device. Bento Tools never uploads your file.',
   },
   slim: {
     path: '/slim',
-    title: 'Compress PDF in browser — free & private | Bento Tools',
+    title: 'Compress PDF in Your Browser — Private, No Upload | Bento Tools',
     description:
-      'Shrink a PDF in your browser with honest, local rebuild options. Free, no account — nothing is uploaded for compression.',
-    ogTitle: 'Compress PDF privately — no upload',
+      'Compress a PDF in your browser with honest local rebuild options. Reduce file size without uploading — free, private, results vary by file.',
+    ogTitle: 'Compress PDF in your browser — no upload',
     ogDescription:
-      'Rebuild a smaller PDF on your device. Bento Tools does not upload your file.',
+      'Browser-based PDF compression on your device. Bento Tools does not upload your file.',
   },
   'word-unscrambler': {
     path: '/word-unscrambler',
@@ -197,27 +197,32 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
   },
   extract: {
     appName: 'Bento Tools — PDF to images',
-    h1: 'Export PDF pages as images',
+    h1: 'Convert PDF pages to images',
     intro:
-      'Turn each page of a PDF into a JPG or PNG without uploading the file. Download pages one by one or grab a ZIP of the full set.',
+      'Turn each page of a PDF into a JPG or PNG image in your browser. Export pages one by one, or download a ZIP of every page — nothing is uploaded to convert the file.',
     faqs: [
       {
-        question: 'Is my PDF uploaded when I extract images?',
+        question: 'Does converting a PDF to images upload my file?',
         answer:
-          'No. Pages are rendered in the browser with pdf.js. Your PDF stays on this device.',
+          'No. Pages are rendered locally with pdf.js. The PDF stays on this device.',
       },
       {
-        question: 'Can I choose JPG or PNG?',
+        question: 'Can I export PDF pages as JPG or PNG?',
         answer:
-          'Yes. Pick format (and JPG quality) before download. Each page can download alone, or take a multi-page ZIP.',
+          'Yes. Choose JPG or PNG (and JPG quality). Download one page, or a ZIP of all pages.',
       },
       {
-        question: 'How many pages can I export?',
+        question: 'Does this extract pictures embedded inside the PDF?',
+        answer:
+          'No. It converts each PDF page into an image of that page — useful for screenshots, slides, or sharing pages as JPG/PNG.',
+      },
+      {
+        question: 'How many pages can I convert?',
         answer:
           'There is a soft warning above 40 pages and a hard cap at 150 pages so browsers stay responsive.',
       },
       {
-        question: 'Does extract work offline after the page loads?',
+        question: 'Does it work offline after the page loads?',
         answer:
           'Once Bento Tools and its libraries are loaded, conversion does not need your files uploaded; a connection is only needed to load the app assets.',
       },
@@ -225,19 +230,19 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
   },
   slim: {
     appName: 'Bento Tools — Slim PDF',
-    h1: 'Compress a PDF without uploading',
+    h1: 'Compress a PDF in your browser',
     intro:
-      'Rebuild a smaller PDF on your device with honest presets. See before/after size — when gains are tiny, Bento Tools tells you plainly.',
+      'Reduce PDF size with a browser-based rebuild on this device. Pick how aggressive to go, compare before and after, and download the result — nothing is uploaded. Some already-efficient PDFs only shrink a little.',
     faqs: [
       {
-        question: 'Is this the same as Adobe Acrobat compression?',
+        question: 'Is this a browser-based PDF compressor?',
         answer:
-          'No. Bento Tools does a local rebuild (light repack or JPEG re-encode of pages). Results vary by file; some already-efficient PDFs barely shrink.',
+          'Yes. Compression runs locally in your browser. It is not a cloud upload compressor, and it is not the same as Adobe Acrobat’s advanced desktop or server engines.',
       },
       {
         question: 'Does Slim upload my document?',
         answer:
-          'No. Compression runs in the browser. Nothing is sent to a server for “cloud compress.”',
+          'No. Nothing is sent to a server for “cloud compress.” Your PDF stays on this device.',
       },
       {
         question: 'Which preset should I pick?',
