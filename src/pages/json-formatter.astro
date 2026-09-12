@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import SeoContent from '../components/SeoContent.astro'
+import JsonFormatter from '../tools/json-formatter/JsonFormatter'
+import { MODE_SEO, buildModeJsonLd } from '../seoData'
+import { STANDALONE_META } from '../toolCatalog'
+
+const id = 'json-formatter' as const
+const seo = MODE_SEO[id]
+const meta = STANDALONE_META[id]
+const origin = Astro.site?.origin ?? 'https://bentotools.app'
+---
+
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+  ogTitle={seo.ogTitle}
+  ogDescription={seo.ogDescription}
+  path={seo.path}
+  jsonLd={buildModeJsonLd(id, origin)}
+  variant="standalone"
+  tagline={meta.tagline}
+  privacyIdle={meta.privacyIdle}
+>
+  <JsonFormatter client:load />
+  <SeoContent slot="seo" tool={id} />
+</BaseLayout>

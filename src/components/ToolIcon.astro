@@ -1,0 +1,39 @@
+---
+import type { ToolId } from '../toolCatalog'
+import {
+  IconToolCaseConverter,
+  IconToolImagesToPdf,
+  IconToolJsonFormatter,
+  IconToolMergePdf,
+  IconToolPdfToImages,
+  IconToolSlimPdf,
+  IconToolTextCleaner,
+  IconToolWordUnscrambler,
+} from './Icons'
+
+type Props = {
+  id: ToolId
+}
+
+const { id } = Astro.props
+---
+
+{
+  id === 'images' ? (
+    <IconToolImagesToPdf />
+  ) : id === 'merge' ? (
+    <IconToolMergePdf />
+  ) : id === 'extract' ? (
+    <IconToolPdfToImages />
+  ) : id === 'slim' ? (
+    <IconToolSlimPdf />
+  ) : id === 'word-unscrambler' ? (
+    <IconToolWordUnscrambler />
+  ) : id === 'text-cleaner' ? (
+    <IconToolTextCleaner />
+  ) : id === 'case-converter' ? (
+    <IconToolCaseConverter />
+  ) : (
+    <IconToolJsonFormatter />
+  )
+}

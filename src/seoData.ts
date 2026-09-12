@@ -1,6 +1,11 @@
 /** Site-level product name (chrome, titles, JSON-LD). */
 export const SITE_NAME = 'Bento Tools'
 
+export const GITHUB_REPO = 'https://github.com/anchorsystems90-sys/staypress-app'
+
+export const DEFAULT_FOOTER_PRIVACY =
+  'No account. No upload. Everything runs on this device.'
+
 /** SEO-only tool ids — PDF modes plus standalone tools. Kept free of DOM types so Vite can import this. */
 export type SeoMode =
   | 'images'
@@ -360,7 +365,7 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
   },
 }
 
-/** Modes that get their own static HTML shell at build (home is index.html). */
+/** Indexable tool routes (home is `/`). */
 export const SEO_SHELL_MODES = Object.keys(MODE_SEO) as SeoMode[]
 
 export function pathForMode(mode: SeoMode): string {
@@ -480,7 +485,7 @@ export const CONTENT_PAGE_SEO: Record<ContentPageId, ContentPageSeo> = {
   },
 }
 
-/** Content pages that get their own static HTML shell at build. */
+/** Indexable content pages. */
 export const CONTENT_PAGE_SHELLS: ContentPageId[] = ['privacy', 'heic-to-pdf']
 
 export function contentPageFromPathname(pathname: string): ContentPageId | null {
@@ -533,57 +538,7 @@ export function buildContentPageJsonLd(
   }
 }
 
-/**
- * Rewrite built index.html head tags for a content page (e.g. /privacy).
- */
-export function injectContentPageSeoIntoHtml(
-  html: string,
-  page: ContentPageId,
-  siteOrigin?: string,
-): string {
-  const seo = CONTENT_PAGE_SEO[page]
-  const origin = (siteOrigin ?? '').replace(/\/+$/, '')
-  const pageUrl = origin ? absoluteUrl(seo.path, origin) : seo.path
-  const imageUrl = resolveAssetUrl(OG_IMAGE_PATH, origin || undefined)
-  const jsonLd = serializeJsonLd(buildContentPageJsonLd(page, origin || undefined))
-
-  let out = html
-  out = out.replace(
-    /<title>[^<]*<\/title>/i,
-    `<title>${escapeHtml(seo.title)}</title>`,
-  )
-  out = replaceMetaContent(out, 'name', 'description', seo.description)
-  out = replaceMetaContent(out, 'property', 'og:title', seo.ogTitle)
-  out = replaceMetaContent(out, 'property', 'og:description', seo.ogDescription)
-  out = replaceMetaContent(out, 'property', 'og:image', imageUrl)
-  out = replaceMetaContent(out, 'property', 'og:image:type', OG_IMAGE_TYPE)
-  out = replaceMetaContent(
-    out,
-    'property',
-    'og:image:width',
-    String(OG_IMAGE_WIDTH),
-  )
-  out = replaceMetaContent(
-    out,
-    'property',
-    'og:image:height',
-    String(OG_IMAGE_HEIGHT),
-  )
-  out = upsertMetaProperty(out, 'og:image:alt', OG_IMAGE_ALT)
-  out = replaceMetaContent(out, 'name', 'twitter:title', seo.ogTitle)
-  out = replaceMetaContent(out, 'name', 'twitter:description', seo.ogDescription)
-  out = replaceMetaContent(out, 'name', 'twitter:image', imageUrl)
-  out = upsertJsonLdScript(out, jsonLd)
-
-  if (origin) {
-    out = upsertMetaProperty(out, 'og:url', pageUrl)
-    out = upsertCanonical(out, pageUrl)
-  }
-
-  return out
-}
-
-/** JSON-LD graph: WebApplication + FAQPage (FAQs are visible on idle tool pages). */
+/** JSON-LD graph: WebApplication + FAQPage (FAQs are visible on tool pages). */
 export function buildModeJsonLd(
   mode: SeoMode,
   siteOrigin?: string,
@@ -634,169 +589,11 @@ export function serializeJsonLd(data: unknown): string {
   return JSON.stringify(data).replace(/</g, '\\u003c')
 }
 
-/**
- * Rewrite built index.html head tags for a given mode.
- * Used at build time so crawlers that skip JS still see the right meta.
- * Pass siteOrigin (VITE_SITE_URL) for absolute canonical, og:url, and og:image.
- */
-export function injectModeSeoIntoHtml(
-  html: string,
-  mode: SeoMode,
-  siteOrigin?: string,
-): string {
-  const seo = MODE_SEO[mode]
-  const origin = (siteOrigin ?? '').replace(/\/+$/, '')
-  const pageUrl = origin ? absoluteUrl(seo.path, origin) : seo.path
-  const imageUrl = resolveAssetUrl(OG_IMAGE_PATH, origin || undefined)
-  const jsonLd = serializeJsonLd(buildModeJsonLd(mode, origin || undefined))
-
-  let out = html
-  out = out.replace(
-    /<title>[^<]*<\/title>/i,
-    `<title>${escapeHtml(seo.title)}</title>`,
-  )
-  out = replaceMetaContent(out, 'name', 'description', seo.description)
-  out = replaceMetaContent(out, 'property', 'og:title', seo.ogTitle)
-  out = replaceMetaContent(out, 'property', 'og:description', seo.ogDescription)
-  out = replaceMetaContent(out, 'property', 'og:image', imageUrl)
-  out = replaceMetaContent(out, 'property', 'og:image:type', OG_IMAGE_TYPE)
-  out = replaceMetaContent(
-    out,
-    'property',
-    'og:image:width',
-    String(OG_IMAGE_WIDTH),
-  )
-  out = replaceMetaContent(
-    out,
-    'property',
-    'og:image:height',
-    String(OG_IMAGE_HEIGHT),
-  )
-  out = upsertMetaProperty(out, 'og:image:alt', OG_IMAGE_ALT)
-  out = replaceMetaContent(out, 'name', 'twitter:title', seo.ogTitle)
-  out = replaceMetaContent(out, 'name', 'twitter:description', seo.ogDescription)
-  out = replaceMetaContent(out, 'name', 'twitter:image', imageUrl)
-  out = upsertJsonLdScript(out, jsonLd)
-  out = upsertCanonical(out, pageUrl)
-
-  if (origin) {
-    out = upsertMetaProperty(out, 'og:url', pageUrl)
-  }
-
-  return out
-}
-
-/**
- * Rewrite built index.html head tags for the Bento Tools homepage (`/`).
- */
-export function injectHomeSeoIntoHtml(
-  html: string,
-  siteOrigin?: string,
-): string {
-  const origin = (siteOrigin ?? '').replace(/\/+$/, '')
-  const pageUrl = origin ? absoluteUrl(HOME_PATH, origin) : HOME_PATH
-  const imageUrl = resolveAssetUrl(OG_IMAGE_PATH, origin || undefined)
-  const jsonLd = serializeJsonLd(buildHomeJsonLd(origin || undefined))
-
-  let out = html
-  out = out.replace(
-    /<title>[^<]*<\/title>/i,
-    `<title>${escapeHtml(HOME_SEO.title)}</title>`,
-  )
-  out = replaceMetaContent(out, 'name', 'description', HOME_SEO.description)
-  out = replaceMetaContent(out, 'property', 'og:title', HOME_SEO.ogTitle)
-  out = replaceMetaContent(out, 'property', 'og:description', HOME_SEO.ogDescription)
-  out = replaceMetaContent(out, 'property', 'og:image', imageUrl)
-  out = replaceMetaContent(out, 'property', 'og:image:type', OG_IMAGE_TYPE)
-  out = replaceMetaContent(
-    out,
-    'property',
-    'og:image:width',
-    String(OG_IMAGE_WIDTH),
-  )
-  out = replaceMetaContent(
-    out,
-    'property',
-    'og:image:height',
-    String(OG_IMAGE_HEIGHT),
-  )
-  out = upsertMetaProperty(out, 'og:image:alt', OG_IMAGE_ALT)
-  out = replaceMetaContent(out, 'name', 'twitter:title', HOME_SEO.ogTitle)
-  out = replaceMetaContent(out, 'name', 'twitter:description', HOME_SEO.ogDescription)
-  out = replaceMetaContent(out, 'name', 'twitter:image', imageUrl)
-  out = upsertJsonLdScript(out, jsonLd)
-  out = upsertCanonical(out, pageUrl)
-
-  if (origin) {
-    out = upsertMetaProperty(out, 'og:url', pageUrl)
-  }
-
-  return out
-}
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-}
-
-function escapeAttr(value: string): string {
-  return escapeHtml(value)
-}
-
-function replaceMetaContent(
-  html: string,
-  attr: 'name' | 'property',
-  key: string,
-  content: string,
-): string {
-  const re = new RegExp(
-    `(<meta\\s+[^>]*${attr}=["']${key}["'][^>]*content=["'])([^"']*)(["'][^>]*>)`,
-    'i',
-  )
-  if (re.test(html)) {
-    return html.replace(re, `$1${escapeAttr(content)}$3`)
-  }
-  const reFlip = new RegExp(
-    `(<meta\\s+[^>]*content=["'])([^"']*)(["'][^>]*${attr}=["']${key}["'][^>]*>)`,
-    'i',
-  )
-  if (reFlip.test(html)) {
-    return html.replace(reFlip, `$1${escapeAttr(content)}$3`)
-  }
-  return html
-}
-
-function upsertMetaProperty(html: string, property: string, content: string): string {
-  const re = new RegExp(
-    `<meta\\s+[^>]*property=["']${property}["'][^>]*>`,
-    'i',
-  )
-  const tag = `<meta property="${property}" content="${escapeAttr(content)}" />`
-  if (re.test(html)) {
-    return html.replace(re, tag)
-  }
-  return html.replace('</head>', `    ${tag}\n  </head>`)
-}
-
-function upsertCanonical(html: string, href: string): string {
-  const re = /<link\s+[^>]*rel=["']canonical["'][^>]*>/i
-  const tag = `<link rel="canonical" href="${escapeAttr(href)}" />`
-  if (re.test(html)) {
-    return html.replace(re, tag)
-  }
-  return html.replace('</head>', `    ${tag}\n  </head>`)
-}
-
-const JSON_LD_SCRIPT_RE =
-  /<script\b[^>]*\bid=["']staypress-jsonld["'][^>]*>[\s\S]*?<\/script>/i
-
-function upsertJsonLdScript(html: string, json: string): string {
-  const tag = `<script type="application/ld+json" id="staypress-jsonld">${json}</script>`
-  if (JSON_LD_SCRIPT_RE.test(html)) {
-    return html.replace(JSON_LD_SCRIPT_RE, tag)
-  }
-  return html.replace('</head>', `    ${tag}\n  </head>`)
+/** Canonical paths for sitemap.xml (no aliases or redirects). */
+export function canonicalSitemapPaths(): string[] {
+  return [
+    HOME_PATH,
+    ...SEO_SHELL_MODES.map((mode) => MODE_SEO[mode].path),
+    ...CONTENT_PAGE_SHELLS.map((page) => CONTENT_PAGE_SEO[page].path),
+  ]
 }
