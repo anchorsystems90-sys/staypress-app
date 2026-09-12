@@ -1825,6 +1825,7 @@
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.25;
+  text-align: center;
   text-wrap: balance;
   color: var(--ink);
 }
