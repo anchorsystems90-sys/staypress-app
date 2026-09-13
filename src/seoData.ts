@@ -113,7 +113,7 @@ export const MODE_SEO: Record<SeoMode, ModeSeo> = {
     path: '/text-cleaner',
     title: 'Text Cleaner — tidy messy text in your browser | Bento Tools',
     description:
-      'Remove extra spaces, blank lines, HTML, and duplicate lines in your browser. Free, no account — your text never leaves this device.',
+      'Trim spaces, join lines, strip HTML, and remove blank or duplicate lines in your browser. Free, no account — your text never leaves this device.',
     ogTitle: 'Text Cleaner — tidy messy text locally',
     ogDescription:
       'Paste messy text and clean it on this device. Bento Tools does not upload what you paste.',
@@ -122,10 +122,10 @@ export const MODE_SEO: Record<SeoMode, ModeSeo> = {
     path: '/case-converter',
     title: 'Case Converter — UPPER, title, camelCase & more | Bento Tools',
     description:
-      'Convert text to uppercase, lowercase, Title Case, sentence case, camelCase, snake_case, and kebab-case in your browser. Free, no upload.',
+      'Convert text to UPPERCASE, Title Case, sentence case, plus camelCase, PascalCase, snake_case, kebab-case, and CONSTANT_CASE in your browser. Free, no upload.',
     ogTitle: 'Case Converter — change case locally',
     ogDescription:
-      'Switch case styles instantly on this device. Bento Tools never uploads your text.',
+      'Switch case styles and copy identifier formats on this device. Bento Tools never uploads your text.',
   },
   'json-formatter': {
     path: '/json-formatter',
@@ -293,7 +293,7 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
     appName: 'Bento Tools — Text Cleaner',
     h1: 'Clean messy text in your browser',
     intro:
-      'Paste copied text and tidy it locally: extra spaces, blank lines, HTML tags, tabs, and duplicate lines. Free, no account — nothing is uploaded to process it.',
+      'Paste copied text and tidy it locally: extra spaces, blank lines, join lines into a single flow, HTML tags, tabs, and duplicate lines. Free, no account — nothing is uploaded to process it.',
     faqs: [
       {
         question: 'Is the text I paste uploaded?',
@@ -303,7 +303,12 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       {
         question: 'What can Text Cleaner do?',
         answer:
-          'You can trim lines, collapse extra spaces, turn tabs into spaces, strip simple HTML, drop blank or duplicate lines, and remove special characters. Turn options on or off as you need them.',
+          'You can trim lines, collapse extra spaces, turn tabs into spaces, join lines into continuous text, strip simple HTML (including common entities), drop blank or duplicate lines, and remove special characters. Turn options on or off as you need them.',
+      },
+      {
+        question: 'What is the difference between Remove blank lines and Join lines?',
+        answer:
+          'Remove blank lines deletes empty lines but keeps the remaining line breaks. Join lines turns the remaining lines into one continuous paragraph by replacing breaks with spaces.',
       },
       {
         question: 'Does it change my original clipboard?',
@@ -321,7 +326,7 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
     appName: 'Bento Tools — Case Converter',
     h1: 'Convert text case in your browser',
     intro:
-      'Switch between UPPERCASE, lowercase, Title Case, sentence case, camelCase, PascalCase, snake_case, kebab-case, and CONSTANT_CASE. The conversion stays on this device.',
+      'Switch between UPPERCASE, lowercase, Title Case, sentence case, camelCase, PascalCase, snake_case, kebab-case, and CONSTANT_CASE. Identifier formats are listed together so you can copy any style — conversion stays on this device.',
     faqs: [
       {
         question: 'Does Case Converter upload my text?',
@@ -331,12 +336,17 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       {
         question: 'What is the difference between Title Case and PascalCase?',
         answer:
-          'Title Case keeps spaces and capitalizes each word. PascalCase, camelCase, snake_case, and kebab-case rebuild identifier-style names from the words in your text.',
+          'Title Case keeps spaces and capitalizes each word. PascalCase, camelCase, snake_case, kebab-case, and CONSTANT_CASE rebuild identifier-style names from the words in your text.',
+      },
+      {
+        question: 'Are acronyms preserved?',
+        answer:
+          'Clear ALL-CAPS tokens like AI or NASA stay uppercase in Title Case and Sentence case. Speculative name forms such as mcdonald → McDonald are not invented.',
       },
       {
         question: 'Can I copy the result?',
         answer:
-          'Yes. Copy puts the converted text on your clipboard. Download saves a .txt file.',
+          'Yes. Copy puts the converted text on your clipboard. Each identifier format also has its own copy control. Download saves a .txt file.',
       },
       {
         question: 'Is Case Converter free?',

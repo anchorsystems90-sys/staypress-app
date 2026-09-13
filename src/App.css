@@ -1931,6 +1931,75 @@
   margin-top: 1.15rem;
 }
 
+.text-tool__ids {
+  margin-top: 1.25rem;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  background: color-mix(in srgb, var(--paper-hot) 72%, transparent);
+}
+
+.text-tool__id-list {
+  list-style: none;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.text-tool__id-row {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr) auto;
+  gap: 0.55rem 0.75rem;
+  align-items: center;
+}
+
+.text-tool__id-name {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.text-tool__id-value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.text-tool__id-copy {
+  min-height: 2.1rem;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 560px) {
+  .text-tool__id-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'name copy'
+      'value value';
+  }
+
+  .text-tool__id-name {
+    grid-area: name;
+  }
+
+  .text-tool__id-value {
+    grid-area: value;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .text-tool__id-copy {
+    grid-area: copy;
+  }
+}
+
 /* —— Homepage directory —— */
 
 .app--home .header,
