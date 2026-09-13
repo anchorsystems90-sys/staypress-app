@@ -1,17 +1,31 @@
 import { useMemo, useState } from 'react'
 import { trackToolUsed } from '../../lib/analytics'
 import { dateStamp, downloadBlob } from '../../lib/download'
-import { formatJson, inspectJson } from './formatJson'
+import {
+  DEFAULT_JSON_OPTIONS,
+  INDENT_CHOICES,
+  SAMPLE_JSON,
+  formatJson,
+  inspectJson,
+  jsonDocStats,
+  type JsonFormatOptions,
+  type JsonIndent,
+} from './formatJson'
 
 export default function JsonFormatter() {
   const [input, setInput] = useState('')
   const [copied, setCopied] = useState(false)
+  const [options, setOptions] = useState<JsonFormatOptions>(DEFAULT_JSON_OPTIONS)
 
+  // Live inspect stays synchronous: Audit #7 showed ≤100 KB is ~ms and ~1 MB
+  // pastes are ~50 ms — not enough to justify debounce for typical use.
   const check = useMemo(() => inspectJson(input), [input])
-  const hasInput = input.trim().length > 0
+  const stats = useMemo(() => jsonDocStats(input), [input])
+  const hasInput = input.length > 0
+  const isValid = check.ok
 
   const apply = (mode: 'pretty' | 'minify') => {
-    const result = formatJson(input, mode)
+    const result = formatJson(input, mode, options)
     if (!result.ok) return
     setInput(result.text)
     setCopied(false)
@@ -31,10 +45,14 @@ export default function JsonFormatter() {
   }
 
   const downloadOutput = () => {
-    if (!hasInput) return
+    if (!isValid) return
     const blob = new Blob([input], { type: 'application/json;charset=utf-8' })
     downloadBlob(blob, `bento-formatted-${dateStamp()}.json`)
     trackToolUsed('json-formatter', { detail: 'download' })
+  }
+
+  const setIndent = (indent: JsonIndent) => {
+    setOptions((current) => ({ ...current, indent }))
   }
 
   return (
@@ -54,20 +72,82 @@ export default function JsonFormatter() {
             }}
           />
         </label>
+
+        <fieldset className="text-tool__modes">
+          <legend className="text-tool__label">Indent</legend>
+          <div className="text-tool__mode-row">
+            {INDENT_CHOICES.map((item) => (
+              <button
+                key={String(item.id)}
+                type="button"
+                className={`text-tool__mode${options.indent === item.id ? ' is-on' : ''}`}
+                aria-pressed={options.indent === item.id}
+                onClick={() => setIndent(item.id)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+
+        <label className="text-tool__check text-tool__check--solo">
+          <input
+            type="checkbox"
+            checked={options.sortKeys}
+            onChange={() =>
+              setOptions((current) => ({
+                ...current,
+                sortKeys: !current.sortKeys,
+              }))
+            }
+          />
+          Sort keys
+        </label>
       </div>
 
-      <p
-        className={`text-tool__hint${hasInput && !check.ok ? ' text-tool__hint--warn' : ''}`}
-        role="status"
-      >
-        {!hasInput
-          ? 'Paste JSON, then pretty-print or minify it on this device.'
-          : check.ok
-            ? 'Valid JSON.'
-            : check.error}
-      </p>
+      {!hasInput ? (
+        <p className="text-tool__hint" role="status">
+          Paste JSON, then pretty-print or minify it on this device.
+        </p>
+      ) : isValid ? (
+        <p className="text-tool__hint" role="status">
+          Valid JSON · {stats.characters.toLocaleString()} characters ·{' '}
+          {stats.lines.toLocaleString()} {stats.lines === 1 ? 'line' : 'lines'} ·{' '}
+          {stats.bytes.toLocaleString()} UTF-8{' '}
+          {stats.bytes === 1 ? 'byte' : 'bytes'}
+        </p>
+      ) : check.error ? (
+        <div className="text-tool__error" role="status">
+          <p className="text-tool__error-title">{check.error.title}</p>
+          {check.error.line != null && check.error.column != null ? (
+            <p className="text-tool__error-loc">
+              Line {check.error.line}, column {check.error.column}
+            </p>
+          ) : null}
+          <p className="text-tool__error-msg">{check.error.message}</p>
+          {check.error.context ? (
+            <pre className="text-tool__error-ctx">{check.error.context}</pre>
+          ) : null}
+          <p className="text-tool__hint text-tool__hint--compact">
+            {stats.characters.toLocaleString()} characters ·{' '}
+            {stats.lines.toLocaleString()} {stats.lines === 1 ? 'line' : 'lines'} ·{' '}
+            {stats.bytes.toLocaleString()} UTF-8{' '}
+            {stats.bytes === 1 ? 'byte' : 'bytes'}
+          </p>
+        </div>
+      ) : null}
 
       <div className="text-tool__actions">
+        <button
+          type="button"
+          className="btn btn--ghost"
+          onClick={() => {
+            setInput(SAMPLE_JSON)
+            setCopied(false)
+          }}
+        >
+          Sample
+        </button>
         <button
           type="button"
           className="btn btn--ghost"
@@ -83,7 +163,7 @@ export default function JsonFormatter() {
           type="button"
           className="btn btn--ghost"
           onClick={() => apply('minify')}
-          disabled={!check.ok}
+          disabled={!isValid}
         >
           Minify
         </button>
@@ -91,7 +171,12 @@ export default function JsonFormatter() {
           type="button"
           className="btn btn--ghost"
           onClick={downloadOutput}
-          disabled={!hasInput}
+          disabled={!isValid}
+          title={
+            hasInput && !isValid
+              ? 'Download is available when the JSON is valid.'
+              : undefined
+          }
         >
           Download
         </button>
@@ -107,7 +192,7 @@ export default function JsonFormatter() {
           type="button"
           className="btn btn--primary"
           onClick={() => apply('pretty')}
-          disabled={!check.ok}
+          disabled={!isValid}
         >
           Pretty-print
         </button>
