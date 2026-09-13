@@ -91,7 +91,7 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     id: 'json-formatter',
     family: 'developer',
     label: 'JSON Formatter',
-    blurb: 'Pretty-print, minify, and check JSON.',
+    blurb: 'Pretty-print, minify, and validate JSON locally.',
   },
 ]
 

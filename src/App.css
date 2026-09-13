@@ -1865,7 +1865,7 @@
 }
 
 .text-tool__modes {
-  margin: 0;
+  margin: 0.85rem 0 0;
   padding: 0;
   border: none;
 }
@@ -1918,6 +1918,51 @@
 
 .text-tool__hint--warn {
   color: var(--warn);
+}
+
+.text-tool__hint--compact {
+  margin: 0.55rem 0 0;
+  font-size: 0.82rem;
+}
+
+.text-tool__check--solo {
+  display: inline-flex;
+  margin-top: 0.75rem;
+}
+
+.text-tool__error {
+  margin: 0.85rem 0 0;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius-md);
+  border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent);
+  background: color-mix(in srgb, var(--warn) 8%, var(--paper-hot, #fff));
+}
+
+.text-tool__error-title {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--warn);
+}
+
+.text-tool__error-loc,
+.text-tool__error-msg {
+  margin: 0.35rem 0 0;
+  font-size: 0.86rem;
+  color: color-mix(in srgb, var(--warn) 70%, var(--ink));
+}
+
+.text-tool__error-ctx {
+  margin: 0.55rem 0 0;
+  padding: 0.55rem 0.65rem;
+  overflow-x: auto;
+  border-radius: calc(var(--radius-md) - 2px);
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  color: var(--ink-soft);
+  font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  white-space: pre;
 }
 
 .text-tool__actions {

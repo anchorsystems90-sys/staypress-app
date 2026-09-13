@@ -131,10 +131,10 @@ export const MODE_SEO: Record<SeoMode, ModeSeo> = {
     path: '/json-formatter',
     title: 'JSON Formatter — pretty-print & minify locally | Bento Tools',
     description:
-      'Format, minify, and validate JSON in your browser. Free, no account — your data never leaves this device.',
+      'Pretty-print, minify, and check JSON in your browser with clear parse errors. Free, no account — your data never leaves this device.',
     ogTitle: 'JSON Formatter — pretty-print locally',
     ogDescription:
-      'Pretty-print or minify JSON on this device. Bento Tools does not upload your data.',
+      'Pretty-print or minify JSON on this device, with line-aware validation feedback. Bento Tools does not upload your data.',
   },
 }
 
@@ -359,7 +359,7 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
     appName: 'Bento Tools — JSON Formatter',
     h1: 'Format JSON without uploading',
     intro:
-      'Pretty-print, minify, and validate JSON locally. If the text is invalid, you get a parse error instead of a silent rewrite. Free, no account.',
+      'Pretty-print, minify, and check JSON locally. Invalid input shows a clear parse error with location when the browser provides one — never a silent rewrite. Free, no account.',
     faqs: [
       {
         question: 'Is my JSON sent to a server?',
@@ -369,12 +369,12 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       {
         question: 'What happens if the JSON is invalid?',
         answer:
-          'The formatter shows the parse error and leaves your text as it is. Fix the issue, then format or minify again.',
+          'You see “Invalid JSON” with the parser message. When position information is available, the tool also shows line, column, and a short source snippet. Your text is left as it is until you fix it.',
       },
       {
         question: 'Does it sort object keys?',
         answer:
-          'No. Pretty-print and minify keep key order as the browser parsed it.',
+          'Only when you turn on Sort keys. By default, pretty-print and minify keep key order as the browser parsed it.',
       },
       {
         question: 'Is the JSON Formatter free?',
