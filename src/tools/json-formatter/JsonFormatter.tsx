@@ -1,13 +1,15 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { trackToolUsed } from '../../lib/analytics'
 import { dateStamp, downloadBlob } from '../../lib/download'
 import {
   DEFAULT_JSON_OPTIONS,
   INDENT_CHOICES,
   SAMPLE_JSON,
+  countSourceLines,
   formatJson,
   inspectJson,
   jsonDocStats,
+  mapTrimmedErrorLineToSource,
   type JsonFormatOptions,
   type JsonIndent,
 } from './formatJson'
@@ -16,13 +18,33 @@ export default function JsonFormatter() {
   const [input, setInput] = useState('')
   const [copied, setCopied] = useState(false)
   const [options, setOptions] = useState<JsonFormatOptions>(DEFAULT_JSON_OPTIONS)
+  const gutterRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLTextAreaElement>(null)
 
   // Live inspect stays synchronous: Audit #7 showed ≤100 KB is ~ms and ~1 MB
   // pastes are ~50 ms — not enough to justify debounce for typical use.
   const check = useMemo(() => inspectJson(input), [input])
   const stats = useMemo(() => jsonDocStats(input), [input])
+  const lineCount = useMemo(() => countSourceLines(input), [input])
+  const lineNumbers = useMemo(() => {
+    const lines = new Array<number>(lineCount)
+    for (let i = 0; i < lineCount; i++) lines[i] = i + 1
+    return lines
+  }, [lineCount])
+  const errorSourceLine = useMemo(() => {
+    if (check.ok || check.empty || !check.error) return null
+    return mapTrimmedErrorLineToSource(input, check.error.line)
+  }, [check, input])
+  const gutterDigits = Math.max(2, String(lineCount).length)
   const hasInput = input.length > 0
   const isValid = check.ok
+
+  const syncGutterScroll = () => {
+    const gutter = gutterRef.current
+    const text = textRef.current
+    if (!gutter || !text) return
+    gutter.scrollTop = text.scrollTop
+  }
 
   const apply = (mode: 'pretty' | 'minify') => {
     const result = formatJson(input, mode, options)
@@ -58,20 +80,44 @@ export default function JsonFormatter() {
   return (
     <section className="text-tool" aria-label="JSON Formatter">
       <div className="text-tool__panel">
-        <label className="text-tool__field">
-          <span className="text-tool__label">JSON</span>
-          <textarea
-            className="text-tool__textarea text-tool__textarea--code"
-            spellCheck={false}
-            rows={16}
-            placeholder='{"hello": "world"}'
-            value={input}
-            onChange={(e) => {
-              setInput(e.target.value)
-              setCopied(false)
-            }}
-          />
-        </label>
+        <div className="text-tool__field">
+          <label className="text-tool__label" htmlFor="json-formatter-input">
+            JSON
+          </label>
+          <div className="text-tool__editor">
+            <div
+              ref={gutterRef}
+              className="text-tool__gutter"
+              aria-hidden="true"
+              style={{ width: `${gutterDigits + 1.25}ch` }}
+            >
+              {lineNumbers.map((n) => (
+                <div
+                  key={n}
+                  className={`text-tool__gutter-line${
+                    errorSourceLine === n ? ' is-error' : ''
+                  }`}
+                >
+                  {n}
+                </div>
+              ))}
+            </div>
+            <textarea
+              id="json-formatter-input"
+              ref={textRef}
+              className="text-tool__textarea text-tool__textarea--code text-tool__textarea--lined"
+              spellCheck={false}
+              rows={16}
+              placeholder='{"hello": "world"}'
+              value={input}
+              onScroll={syncGutterScroll}
+              onChange={(e) => {
+                setInput(e.target.value)
+                setCopied(false)
+              }}
+            />
+          </div>
+        </div>
 
         <fieldset className="text-tool__modes">
           <legend className="text-tool__label">Indent</legend>

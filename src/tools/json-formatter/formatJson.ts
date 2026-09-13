@@ -249,9 +249,39 @@ export function jsonDocStats(text: string): JsonDocStats {
   if (text.length === 0) return { characters: 0, lines: 0, bytes: 0 }
   return {
     characters: text.length,
-    lines: text.split('\n').length,
+    lines: countSourceLines(text),
     bytes: utf8ByteLength(text),
   }
+}
+
+/**
+ * Logical newline-delimited line count for the editor gutter.
+ * Empty input is treated as one blank line.
+ * A trailing newline counts as an extra line (`"a\\n"` → 2), matching
+ * `String.prototype.split('\\n')`.
+ */
+export function countSourceLines(text: string): number {
+  if (text.length === 0) return 1
+  return text.split('\n').length
+}
+
+/** Count leading newlines removed by trimStart (used to map parse errors). */
+export function leadingNewlineCount(input: string): number {
+  const trimmedStart = input.length - input.trimStart().length
+  if (trimmedStart === 0) return 0
+  return input.slice(0, trimmedStart).split('\n').length - 1
+}
+
+/**
+ * Map a 1-based line from trimmed parse source onto the raw editor text.
+ * Returns null when the trimmed line is unavailable.
+ */
+export function mapTrimmedErrorLineToSource(
+  input: string,
+  trimmedLine: number | null | undefined,
+): number | null {
+  if (trimmedLine == null || trimmedLine < 1) return null
+  return trimmedLine + leadingNewlineCount(input)
 }
 
 export const SAMPLE_JSON = `{

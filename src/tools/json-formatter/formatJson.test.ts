@@ -3,10 +3,12 @@ import {
   DEFAULT_JSON_OPTIONS,
   SAMPLE_JSON,
   buildErrorContext,
+  countSourceLines,
   extractJsonErrorPosition,
   formatJson,
   inspectJson,
   jsonDocStats,
+  mapTrimmedErrorLineToSource,
   offsetToLineColumn,
   parseJsonIssue,
   sortedObjectKeys,
@@ -242,5 +244,62 @@ describe('stats, sample, download validity', () => {
   it('valid vs invalid download state helpers', () => {
     expect(inspectJson('{"ok":true}').ok).toBe(true)
     expect(inspectJson('{"ok":').ok).toBe(false)
+  })
+})
+
+describe('source line counts and error-line mapping', () => {
+  it('treats empty input as one gutter line', () => {
+    expect(countSourceLines('')).toBe(1)
+    expect(jsonDocStats('').lines).toBe(0)
+  })
+
+  it('counts one line without a newline', () => {
+    expect(countSourceLines('{"a":1}')).toBe(1)
+  })
+
+  it('counts multiple lines and trailing newlines', () => {
+    expect(countSourceLines('a\nb\nc')).toBe(3)
+    expect(countSourceLines('a\n')).toBe(2)
+    expect(countSourceLines('a\r\nb')).toBe(2)
+    expect(countSourceLines('{\n  "a": 1\n}\n')).toBe(4)
+  })
+
+  it('scales to 100+ lines', () => {
+    const text = Array.from({ length: 120 }, (_, i) => `"k${i}": ${i}`).join(',\n')
+    expect(countSourceLines(`{\n${text}\n}`)).toBe(122)
+  })
+
+  it('maps trimmed parse error lines onto editor lines with leading blanks', () => {
+    const input = '\n\n{\n  "a": 1,\n}'
+    const check = inspectJson(input)
+    expect(check.ok).toBe(false)
+    if (check.ok || check.empty) return
+    expect(check.error.line).toBeGreaterThan(0)
+    const mapped = mapTrimmedErrorLineToSource(input, check.error.line)
+    expect(mapped).toBe((check.error.line ?? 0) + 2)
+  })
+
+  it('keeps error lines aligned when there is no leading whitespace', () => {
+    const input = '{\n  "a": 1,\n}'
+    const check = inspectJson(input)
+    expect(check.ok).toBe(false)
+    if (check.ok || check.empty) return
+    expect(mapTrimmedErrorLineToSource(input, check.error.line)).toBe(
+      check.error.line,
+    )
+  })
+
+  it('returns null when no error line is available', () => {
+    expect(mapTrimmedErrorLineToSource('{"a":1}', null)).toBeNull()
+  })
+
+  it('updates line counts after pretty-print and minify', () => {
+    const pretty = formatJson('{"a":1,"b":2}', 'pretty', opts())
+    const mini = formatJson('{"a":1,"b":2}', 'minify', opts())
+    expect(pretty.ok && mini.ok).toBe(true)
+    if (!pretty.ok || !mini.ok) return
+    expect(countSourceLines(pretty.text)).toBeGreaterThan(1)
+    expect(countSourceLines(mini.text)).toBe(1)
+    expect(countSourceLines(SAMPLE_JSON)).toBeGreaterThan(5)
   })
 })
