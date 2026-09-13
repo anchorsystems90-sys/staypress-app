@@ -269,24 +269,34 @@ describe('source line counts and error-line mapping', () => {
     expect(countSourceLines(`{\n${text}\n}`)).toBe(122)
   })
 
-  it('maps trimmed parse error lines onto editor lines with leading blanks', () => {
+  it('reports editor-relative lines when leading blank lines are trimmed for parse', () => {
     const input = '\n\n{\n  "a": 1,\n}'
     const check = inspectJson(input)
     expect(check.ok).toBe(false)
     if (check.ok || check.empty) return
-    expect(check.error.line).toBeGreaterThan(0)
-    const mapped = mapTrimmedErrorLineToSource(input, check.error.line)
-    expect(mapped).toBe((check.error.line ?? 0) + 2)
+    // Physical closing-brace line is 5; structured error must match gutter.
+    expect(check.error.line).toBe(5)
+    expect(check.error.column).toBe(1)
+    expect(check.error.context).toContain('5 | }')
   })
 
-  it('keeps error lines aligned when there is no leading whitespace', () => {
+  it('keeps lines aligned when there is no leading whitespace', () => {
     const input = '{\n  "a": 1,\n}'
     const check = inspectJson(input)
     expect(check.ok).toBe(false)
     if (check.ok || check.empty) return
-    expect(mapTrimmedErrorLineToSource(input, check.error.line)).toBe(
-      check.error.line,
-    )
+    expect(check.error.line).toBe(3)
+    expect(mapTrimmedErrorLineToSource(input, 3)).toBe(3)
+  })
+
+  it('adjusts columns for leading spaces on the first content line', () => {
+    const input = '   {a:1}'
+    const check = inspectJson(input)
+    expect(check.ok).toBe(false)
+    if (check.ok || check.empty) return
+    expect(check.error.line).toBe(1)
+    // Trimmed error is near `{a`; editor column includes the 3 spaces.
+    expect(check.error.column).toBeGreaterThanOrEqual(4)
   })
 
   it('returns null when no error line is available', () => {

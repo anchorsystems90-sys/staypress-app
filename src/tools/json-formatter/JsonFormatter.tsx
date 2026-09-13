@@ -9,7 +9,6 @@ import {
   formatJson,
   inspectJson,
   jsonDocStats,
-  mapTrimmedErrorLineToSource,
   type JsonFormatOptions,
   type JsonIndent,
 } from './formatJson'
@@ -33,8 +32,9 @@ export default function JsonFormatter() {
   }, [lineCount])
   const errorSourceLine = useMemo(() => {
     if (check.ok || check.empty || !check.error) return null
-    return mapTrimmedErrorLineToSource(input, check.error.line)
-  }, [check, input])
+    // inspectJson reports editor-relative line numbers (post trim-offset map).
+    return check.error.line
+  }, [check])
   const gutterDigits = Math.max(2, String(lineCount).length)
   const hasInput = input.length > 0
   const isValid = check.ok
