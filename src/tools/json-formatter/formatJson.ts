@@ -156,13 +156,17 @@ export function buildErrorContext(
   return parts.join('\n')
 }
 
-export function parseJsonIssue(err: unknown, source: string): JsonParseIssue {
+export function parseJsonIssue(
+  err: unknown,
+  parseSource: string,
+  editorSource: string = parseSource,
+): JsonParseIssue {
   const message =
     err instanceof Error && err.message.trim()
       ? err.message
       : 'Invalid JSON.'
-  const position = extractJsonErrorPosition(message)
-  if (position == null) {
+  const parsePosition = extractJsonErrorPosition(message)
+  if (parsePosition == null) {
     return {
       title: 'Invalid JSON',
       message,
@@ -174,7 +178,7 @@ export function parseJsonIssue(err: unknown, source: string): JsonParseIssue {
   }
 
   // Only trust derived location when the offset falls within the parse source.
-  if (position < 0 || position > source.length) {
+  if (parsePosition < 0 || parsePosition > parseSource.length) {
     return {
       title: 'Invalid JSON',
       message,
@@ -185,14 +189,29 @@ export function parseJsonIssue(err: unknown, source: string): JsonParseIssue {
     }
   }
 
-  const { line, column } = offsetToLineColumn(source, position)
+  // Map parse-source offsets onto the editor text so Line/column/gutter match
+  // what the user sees (trim() removes leading whitespace before JSON.parse).
+  const leadingOffset = editorSource.length - editorSource.trimStart().length
+  const position = parsePosition + leadingOffset
+  if (position < 0 || position > editorSource.length) {
+    return {
+      title: 'Invalid JSON',
+      message,
+      position: null,
+      line: null,
+      column: null,
+      context: null,
+    }
+  }
+
+  const { line, column } = offsetToLineColumn(editorSource, position)
   return {
     title: 'Invalid JSON',
     message,
     position,
     line,
     column,
-    context: buildErrorContext(source, line, column),
+    context: buildErrorContext(editorSource, line, column),
   }
 }
 
@@ -208,7 +227,7 @@ export function inspectJson(input: string): JsonInspectResult {
     JSON.parse(trimmed)
     return { ok: true, text: trimmed }
   } catch (err) {
-    return { ok: false, empty: false, error: parseJsonIssue(err, trimmed) }
+    return { ok: false, empty: false, error: parseJsonIssue(err, trimmed, input) }
   }
 }
 
@@ -230,7 +249,7 @@ export function formatJson(
     )
     return { ok: true, text }
   } catch (err) {
-    return { ok: false, empty: false, error: parseJsonIssue(err, trimmed) }
+    return { ok: false, empty: false, error: parseJsonIssue(err, trimmed, input) }
   }
 }
 
@@ -249,9 +268,40 @@ export function jsonDocStats(text: string): JsonDocStats {
   if (text.length === 0) return { characters: 0, lines: 0, bytes: 0 }
   return {
     characters: text.length,
-    lines: text.split('\n').length,
+    lines: countSourceLines(text),
     bytes: utf8ByteLength(text),
   }
+}
+
+/**
+ * Logical newline-delimited line count for the editor gutter.
+ * Empty input is treated as one blank line.
+ * A trailing newline counts as an extra line (`"a\\n"` → 2), matching
+ * `String.prototype.split('\\n')`.
+ */
+export function countSourceLines(text: string): number {
+  if (text.length === 0) return 1
+  return text.split('\n').length
+}
+
+/** Count leading whitespace characters removed by trimStart before parse. */
+export function leadingTrimOffset(input: string): number {
+  return input.length - input.trimStart().length
+}
+
+/**
+ * Map a 1-based line from trimmed parse source onto the raw editor text.
+ * Prefer `inspectJson(...).error.line`, which is already editor-relative.
+ */
+export function mapTrimmedErrorLineToSource(
+  input: string,
+  trimmedLine: number | null | undefined,
+): number | null {
+  if (trimmedLine == null || trimmedLine < 1) return null
+  const leading = input.slice(0, leadingTrimOffset(input))
+  const newlineOffset =
+    leading.length === 0 ? 0 : leading.split('\n').length - 1
+  return trimmedLine + newlineOffset
 }
 
 export const SAMPLE_JSON = `{

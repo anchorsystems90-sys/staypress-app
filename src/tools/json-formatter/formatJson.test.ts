@@ -3,10 +3,12 @@ import {
   DEFAULT_JSON_OPTIONS,
   SAMPLE_JSON,
   buildErrorContext,
+  countSourceLines,
   extractJsonErrorPosition,
   formatJson,
   inspectJson,
   jsonDocStats,
+  mapTrimmedErrorLineToSource,
   offsetToLineColumn,
   parseJsonIssue,
   sortedObjectKeys,
@@ -242,5 +244,72 @@ describe('stats, sample, download validity', () => {
   it('valid vs invalid download state helpers', () => {
     expect(inspectJson('{"ok":true}').ok).toBe(true)
     expect(inspectJson('{"ok":').ok).toBe(false)
+  })
+})
+
+describe('source line counts and error-line mapping', () => {
+  it('treats empty input as one gutter line', () => {
+    expect(countSourceLines('')).toBe(1)
+    expect(jsonDocStats('').lines).toBe(0)
+  })
+
+  it('counts one line without a newline', () => {
+    expect(countSourceLines('{"a":1}')).toBe(1)
+  })
+
+  it('counts multiple lines and trailing newlines', () => {
+    expect(countSourceLines('a\nb\nc')).toBe(3)
+    expect(countSourceLines('a\n')).toBe(2)
+    expect(countSourceLines('a\r\nb')).toBe(2)
+    expect(countSourceLines('{\n  "a": 1\n}\n')).toBe(4)
+  })
+
+  it('scales to 100+ lines', () => {
+    const text = Array.from({ length: 120 }, (_, i) => `"k${i}": ${i}`).join(',\n')
+    expect(countSourceLines(`{\n${text}\n}`)).toBe(122)
+  })
+
+  it('reports editor-relative lines when leading blank lines are trimmed for parse', () => {
+    const input = '\n\n{\n  "a": 1,\n}'
+    const check = inspectJson(input)
+    expect(check.ok).toBe(false)
+    if (check.ok || check.empty) return
+    // Physical closing-brace line is 5; structured error must match gutter.
+    expect(check.error.line).toBe(5)
+    expect(check.error.column).toBe(1)
+    expect(check.error.context).toContain('5 | }')
+  })
+
+  it('keeps lines aligned when there is no leading whitespace', () => {
+    const input = '{\n  "a": 1,\n}'
+    const check = inspectJson(input)
+    expect(check.ok).toBe(false)
+    if (check.ok || check.empty) return
+    expect(check.error.line).toBe(3)
+    expect(mapTrimmedErrorLineToSource(input, 3)).toBe(3)
+  })
+
+  it('adjusts columns for leading spaces on the first content line', () => {
+    const input = '   {a:1}'
+    const check = inspectJson(input)
+    expect(check.ok).toBe(false)
+    if (check.ok || check.empty) return
+    expect(check.error.line).toBe(1)
+    // Trimmed error is near `{a`; editor column includes the 3 spaces.
+    expect(check.error.column).toBeGreaterThanOrEqual(4)
+  })
+
+  it('returns null when no error line is available', () => {
+    expect(mapTrimmedErrorLineToSource('{"a":1}', null)).toBeNull()
+  })
+
+  it('updates line counts after pretty-print and minify', () => {
+    const pretty = formatJson('{"a":1,"b":2}', 'pretty', opts())
+    const mini = formatJson('{"a":1,"b":2}', 'minify', opts())
+    expect(pretty.ok && mini.ok).toBe(true)
+    if (!pretty.ok || !mini.ok) return
+    expect(countSourceLines(pretty.text)).toBeGreaterThan(1)
+    expect(countSourceLines(mini.text)).toBe(1)
+    expect(countSourceLines(SAMPLE_JSON)).toBeGreaterThan(5)
   })
 })
