@@ -1,25 +1,63 @@
 import { useMemo, useState } from 'react'
 import { trackToolUsed } from '../../lib/analytics'
 import { dateStamp, downloadBlob } from '../../lib/download'
-import { CASE_MODES, convertCase, type CaseMode } from './convertCase'
+import {
+  CASE_MODES,
+  IDENTIFIER_MODES,
+  SAMPLE_CASE_INPUT,
+  convertCase,
+  countText,
+  identifierOutputs,
+  type CaseMode,
+  type IdentifierMode,
+} from './convertCase'
+
+const IDENTIFIER_LABELS: Record<IdentifierMode, string> = {
+  camel: 'camelCase',
+  pascal: 'PascalCase',
+  snake: 'snake_case',
+  kebab: 'kebab-case',
+  constant: 'CONSTANT_CASE',
+}
 
 export default function CaseConverter() {
   const [input, setInput] = useState('')
   const [mode, setMode] = useState<CaseMode>('title')
   const [copied, setCopied] = useState(false)
+  const [copiedId, setCopiedId] = useState<IdentifierMode | null>(null)
 
   const output = useMemo(() => convertCase(input, mode), [input, mode])
+  const identifiers = useMemo(() => identifierOutputs(input), [input])
+  const counts = countText(input)
   const hasOutput = output.length > 0
+  const hasIdentifiers = IDENTIFIER_MODES.some((id) => identifiers[id].length > 0)
 
   const copyOutput = async () => {
     if (!hasOutput) return
     try {
       await navigator.clipboard.writeText(output)
       setCopied(true)
+      setCopiedId(null)
       trackToolUsed('case-converter', { detail: mode })
       window.setTimeout(() => setCopied(false), 1600)
     } catch {
       setCopied(false)
+    }
+  }
+
+  const copyIdentifier = async (id: IdentifierMode) => {
+    const value = identifiers[id]
+    if (!value) return
+    try {
+      await navigator.clipboard.writeText(value)
+      setCopiedId(id)
+      setCopied(false)
+      trackToolUsed('case-converter', { detail: `id-${id}` })
+      window.setTimeout(() => {
+        setCopiedId((current) => (current === id ? null : current))
+      }, 1200)
+    } catch {
+      setCopiedId(null)
     }
   }
 
@@ -44,6 +82,7 @@ export default function CaseConverter() {
             onChange={(e) => {
               setInput(e.target.value)
               setCopied(false)
+              setCopiedId(null)
             }}
           />
         </label>
@@ -70,8 +109,11 @@ export default function CaseConverter() {
       </div>
 
       <p className="text-tool__hint">
-        Identifier styles (camelCase, snake_case, and similar) rebuild from the
-        words in your text.
+        {input
+          ? `${counts.characters.toLocaleString()} characters · ${counts.words.toLocaleString()} ${
+              counts.words === 1 ? 'word' : 'words'
+            }`
+          : 'Identifier styles rebuild from the words in your text.'}
       </p>
 
       <div className="text-tool__actions">
@@ -79,8 +121,20 @@ export default function CaseConverter() {
           type="button"
           className="btn btn--ghost"
           onClick={() => {
+            setInput(SAMPLE_CASE_INPUT)
+            setCopied(false)
+            setCopiedId(null)
+          }}
+        >
+          Sample
+        </button>
+        <button
+          type="button"
+          className="btn btn--ghost"
+          onClick={() => {
             setInput('')
             setCopied(false)
+            setCopiedId(null)
           }}
           disabled={!input}
         >
@@ -114,6 +168,28 @@ export default function CaseConverter() {
           placeholder="Converted text appears here."
         />
       </label>
+
+      {hasIdentifiers && (
+        <div className="text-tool__ids" aria-label="Identifier formats">
+          <p className="text-tool__label">Identifier formats</p>
+          <ul className="text-tool__id-list">
+            {IDENTIFIER_MODES.map((id) => (
+              <li key={id} className="text-tool__id-row">
+                <span className="text-tool__id-name">{IDENTIFIER_LABELS[id]}</span>
+                <code className="text-tool__id-value">{identifiers[id] || '—'}</code>
+                <button
+                  type="button"
+                  className="btn btn--ghost text-tool__id-copy"
+                  disabled={!identifiers[id]}
+                  onClick={() => void copyIdentifier(id)}
+                >
+                  {copiedId === id ? 'Copied' : 'Copy'}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
   )
 }

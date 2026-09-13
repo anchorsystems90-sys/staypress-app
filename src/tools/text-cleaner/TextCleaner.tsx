@@ -3,7 +3,10 @@ import { trackToolUsed } from '../../lib/analytics'
 import { dateStamp, downloadBlob } from '../../lib/download'
 import {
   DEFAULT_CLEAN_OPTIONS,
+  SAMPLE_CLEAN_INPUT,
   cleanText,
+  formatDelta,
+  textDelta,
   textStats,
   type CleanOptions,
 } from './clean'
@@ -14,6 +17,7 @@ const OPTION_LABELS: { key: keyof CleanOptions; label: string }[] = [
   { key: 'tabsToSpaces', label: 'Tabs → spaces' },
   { key: 'normalizeNewlines', label: 'Normalize line endings' },
   { key: 'removeBlankLines', label: 'Remove blank lines' },
+  { key: 'joinLines', label: 'Join lines' },
   { key: 'removeDuplicateLines', label: 'Remove duplicate lines' },
   { key: 'stripHtml', label: 'Strip HTML' },
   { key: 'removeSpecialChars', label: 'Remove special characters' },
@@ -26,7 +30,16 @@ export default function TextCleaner() {
 
   const output = useMemo(() => cleanText(input, options), [input, options])
   const stats = textStats(output)
+  const delta = useMemo(() => textDelta(input, output), [input, output])
+  const deltaLabel = input.length > 0 ? formatDelta(delta) : null
   const hasOutput = output.length > 0
+  const optionsDirty = useMemo(
+    () =>
+      (Object.keys(DEFAULT_CLEAN_OPTIONS) as (keyof CleanOptions)[]).some(
+        (key) => options[key] !== DEFAULT_CLEAN_OPTIONS[key],
+      ),
+    [options],
+  )
 
   const toggle = (key: keyof CleanOptions) => {
     setOptions((current) => ({ ...current, [key]: !current[key] }))
@@ -87,13 +100,36 @@ export default function TextCleaner() {
 
       <p className="text-tool__hint">
         {hasOutput
-          ? `${stats.characters.toLocaleString()} characters · ${stats.lines.toLocaleString()} ${
-              stats.lines === 1 ? 'line' : 'lines'
+          ? `${stats.characters.toLocaleString()} characters · ${stats.words.toLocaleString()} ${
+              stats.words === 1 ? 'word' : 'words'
+            } · ${stats.lines.toLocaleString()} ${stats.lines === 1 ? 'line' : 'lines'}${
+              deltaLabel ? ` · ${deltaLabel}` : ''
             }`
           : 'Choose options, then copy or download the cleaned result.'}
       </p>
 
       <div className="text-tool__actions">
+        <button
+          type="button"
+          className="btn btn--ghost"
+          onClick={() => {
+            setInput(SAMPLE_CLEAN_INPUT)
+            setCopied(false)
+          }}
+        >
+          Sample
+        </button>
+        <button
+          type="button"
+          className="btn btn--ghost"
+          onClick={() => {
+            setOptions({ ...DEFAULT_CLEAN_OPTIONS })
+            setCopied(false)
+          }}
+          disabled={!optionsDirty}
+        >
+          Reset options
+        </button>
         <button
           type="button"
           className="btn btn--ghost"

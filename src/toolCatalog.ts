@@ -79,13 +79,13 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     id: 'text-cleaner',
     family: 'text',
     label: 'Text Cleaner',
-    blurb: 'Trim, collapse, and tidy messy text.',
+    blurb: 'Trim, join lines, strip HTML, and tidy text.',
   },
   {
     id: 'case-converter',
     family: 'text',
     label: 'Case Converter',
-    blurb: 'Switch case styles without uploading.',
+    blurb: 'Switch case and copy camel/snake/kebab styles.',
   },
   {
     id: 'json-formatter',
@@ -147,6 +147,18 @@ const PDF_RELATED_NOTES: Partial<
   },
 }
 
+/** Short contextual notes for text-family related links. */
+const TEXT_RELATED_NOTES: Partial<
+  Record<NonPdfToolId, Partial<Record<NonPdfToolId, string>>>
+> = {
+  'text-cleaner': {
+    'case-converter': 'Need a different case after cleaning? Switch styles next.',
+  },
+  'case-converter': {
+    'text-cleaner': 'Clean messy spacing or HTML before converting case.',
+  },
+}
+
 export type RelatedToolLink = ToolDirectoryEntry & {
   note?: string
 }
@@ -160,20 +172,30 @@ export function relatedTools(id: ToolId): readonly RelatedToolLink[] {
     (tool) => tool.family === current.family && tool.id !== id,
   )
 
-  if (!isPdfTool(id)) return siblings
+  if (isPdfTool(id)) {
+    const order = PDF_RELATED_ORDER[id]
+    const notes = PDF_RELATED_NOTES[id]
+    const byId = new Map(siblings.map((tool) => [tool.id, tool]))
 
-  const order = PDF_RELATED_ORDER[id]
-  const notes = PDF_RELATED_NOTES[id]
-  const byId = new Map(siblings.map((tool) => [tool.id, tool]))
+    return order
+      .map((relatedId) => {
+        const tool = byId.get(relatedId)
+        if (!tool) return null
+        const note = notes?.[relatedId]
+        return note ? { ...tool, note } : tool
+      })
+      .filter((tool): tool is RelatedToolLink => tool != null)
+  }
 
-  return order
-    .map((relatedId) => {
-      const tool = byId.get(relatedId)
-      if (!tool) return null
-      const note = notes?.[relatedId]
+  if (current.family === 'text') {
+    const notes = TEXT_RELATED_NOTES[id as NonPdfToolId]
+    return siblings.map((tool) => {
+      const note = notes?.[tool.id as NonPdfToolId]
       return note ? { ...tool, note } : tool
     })
-    .filter((tool): tool is RelatedToolLink => tool != null)
+  }
+
+  return siblings
 }
 
 export const WORD_UNSCRAMBLER_META = {
