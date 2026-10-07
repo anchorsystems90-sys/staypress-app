@@ -15,6 +15,7 @@ import {
   IconToolSlimPdf,
   IconToolTextCleaner,
   IconToolUrlEncode,
+  IconToolUuidGenerator,
   IconToolWordCounter,
   IconToolWordUnscrambler,
 } from './Icons'
@@ -57,7 +58,9 @@ const { id } = Astro.props
     <IconToolJsonToCsv />
   ) : id === 'password-generator' ? (
     <IconToolPasswordGenerator />
-  ) : (
+  ) : id === 'passphrase-generator' ? (
     <IconToolPassphraseGenerator />
+  ) : (
+    <IconToolUuidGenerator />
   )
 }

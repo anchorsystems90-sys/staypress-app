@@ -24,6 +24,7 @@ export type SeoMode =
   | 'json-to-csv'
   | 'password-generator'
   | 'passphrase-generator'
+  | 'uuid-generator'
 
 /** Default share-card image (1200×630 PNG in /public). */
 export const OG_IMAGE_PATH = '/og.png'
@@ -200,6 +201,14 @@ images: {
     ogTitle: 'Passphrase Generator — memorable phrases locally',
     ogDescription:
       'Create strong word-based passphrases on this device. Bento Tools does not upload or store them.',
+  },'uuid-generator': {
+    path: '/uuid-generator',
+    title: 'UUID Generator — version 4 UUIDs in your browser | Bento Tools',
+    description:
+      'Generate RFC 4122 version-4 UUIDs in bulk in your browser. Toggle hyphens and case — free, private, nothing uploaded.',
+    ogTitle: 'UUID Generator — create UUIDs locally',
+    ogDescription:
+      'Generate random version-4 UUIDs on this device. Bento Tools does not upload anything.',
   },
 }
 
@@ -657,6 +666,33 @@ images: {
       },
       {
         question: 'Is the Passphrase Generator free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },'uuid-generator': {
+    appName: 'Bento Tools — UUID Generator',
+    h1: 'Generate version-4 UUIDs in your browser',
+    intro:
+      'Create RFC 4122 version-4 UUIDs locally, one or many at a time. Toggle hyphens and uppercase — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Are UUIDs uploaded?',
+        answer:
+          'No. UUIDs are generated in this browser with crypto.randomUUID or crypto.getRandomValues.',
+      },
+      {
+        question: 'Which UUID version is this?',
+        answer:
+          'Version 4 — random UUIDs. Version and variant bits follow RFC 4122.',
+      },
+      {
+        question: 'Can I generate many at once?',
+        answer:
+          'Yes. Use the count slider, then copy one UUID or copy all as a newline-separated list.',
+      },
+      {
+        question: 'Is the UUID Generator free?',
         answer:
           'Yes. It is a free Bento Tools utility with no account required.',
       },

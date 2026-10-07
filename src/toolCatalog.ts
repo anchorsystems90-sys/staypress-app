@@ -22,6 +22,7 @@ export type NonPdfToolId =
   | 'json-to-csv'
   | 'password-generator'
   | 'passphrase-generator'
+  | 'uuid-generator'
 
 /** All first-class tools. `AppMode` remains the four PDF tools only. */
 export type ToolId = AppMode | NonPdfToolId
@@ -157,6 +158,12 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     label: 'Passphrase Generator',
     blurb: 'Memorable word-based passphrases, generated locally.',
   },
+  {
+    id: 'uuid-generator',
+    family: 'security',
+    label: 'UUID Generator',
+    blurb: 'Generate version-4 UUIDs in bulk on this device.',
+  },
 ]
 
 export type StandaloneMeta = {
@@ -203,6 +210,9 @@ export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
     tagline: 'Memorable. Strong. Local.',
     privacyIdle:
       'Runs in your browser. Passphrases are generated on this device.',
+  },'uuid-generator': {
+    tagline: 'UUIDs on this device.',
+    privacyIdle: 'Runs in your browser. Nothing is uploaded.',
   },
 }
 
@@ -297,6 +307,9 @@ const SECURITY_RELATED_NOTES: Partial<
   },'passphrase-generator': {
     'password-generator':
       'Want symbol-heavy passwords instead? Open Password Generator.',
+  },'uuid-generator': {
+    'api-key-generator':
+      'Need a shorter opaque token? Generate an API key instead.',
   },
 }
 
