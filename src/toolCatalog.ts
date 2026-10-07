@@ -8,6 +8,7 @@ export type NonPdfToolId =
   | 'text-cleaner'
   | 'case-converter'
   | 'json-formatter'
+  | 'base64'
   | 'csv-column-extractor'
   | 'csv-to-json'
   | 'json-to-csv'
@@ -98,6 +99,12 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     blurb: 'Pretty-print, minify, and validate JSON locally.',
   },
   {
+    id: 'base64',
+    family: 'developer',
+    label: 'Base64',
+    blurb: 'Encode or decode Base64 text on this device.',
+  },
+  {
     id: 'csv-column-extractor',
     family: 'data',
     label: 'CSV Column Extractor',
@@ -138,6 +145,10 @@ export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
   'json-formatter': {
     tagline: 'Format JSON on this device.',
     privacyIdle: 'Runs in your browser. JSON never leaves this device.',
+  },
+  base64: {
+    tagline: 'Encode. Decode. Stay local.',
+    privacyIdle: 'Runs in your browser. Your text never leaves this device.',
   },
   'csv-column-extractor': {
     tagline: 'Keep the columns you need.',
@@ -193,6 +204,18 @@ const TEXT_RELATED_NOTES: Partial<
   },
 }
 
+/** Short contextual notes for developer-family related links. */
+const DEVELOPER_RELATED_NOTES: Partial<
+  Record<NonPdfToolId, Partial<Record<NonPdfToolId, string>>>
+> = {
+  'json-formatter': {
+    base64: 'Need to encode a payload next? Base64 encode or decode here.',
+  },
+  base64: {
+    'json-formatter': 'Working with JSON too? Pretty-print or minify it next.',
+  },
+}
+
 /** Short contextual notes for data-family related links. */
 const DATA_RELATED_NOTES: Partial<
   Record<NonPdfToolId, Partial<Record<NonPdfToolId, string>>>
@@ -240,6 +263,14 @@ export function relatedTools(id: ToolId): readonly RelatedToolLink[] {
 
   if (current.family === 'text') {
     const notes = TEXT_RELATED_NOTES[id as NonPdfToolId]
+    return siblings.map((tool) => {
+      const note = notes?.[tool.id as NonPdfToolId]
+      return note ? { ...tool, note } : tool
+    })
+  }
+
+  if (current.family === 'developer') {
+    const notes = DEVELOPER_RELATED_NOTES[id as NonPdfToolId]
     return siblings.map((tool) => {
       const note = notes?.[tool.id as NonPdfToolId]
       return note ? { ...tool, note } : tool

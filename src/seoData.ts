@@ -16,6 +16,7 @@ export type SeoMode =
   | 'text-cleaner'
   | 'case-converter'
   | 'json-formatter'
+  | 'base64'
   | 'csv-column-extractor'
   | 'csv-to-json'
   | 'json-to-csv'
@@ -34,7 +35,7 @@ export const HOME_SEO = {
   path: HOME_PATH,
   title: 'Bento Tools — simple tools in your browser',
   description:
-    'Simple tools that work in your browser. Convert images to PDF, clean and convert text, format JSON, convert CSV and JSON, unscramble words — free, no account.',
+    'Simple tools that work in your browser. Convert images to PDF, clean and convert text, format JSON, encode Base64, convert CSV and JSON, unscramble words — free, no account.',
   ogTitle: 'Bento Tools',
   ogDescription: 'Simple tools that work in your browser. No signup. No nonsense.',
 }
@@ -138,6 +139,15 @@ export const MODE_SEO: Record<SeoMode, ModeSeo> = {
     ogTitle: 'JSON Formatter — pretty-print locally',
     ogDescription:
       'Pretty-print or minify JSON on this device, with line-aware validation feedback. Bento Tools does not upload your data.',
+  },
+  base64: {
+    path: '/base64',
+    title: 'Base64 Encode & Decode — private, in your browser | Bento Tools',
+    description:
+      'Encode text to Base64 or decode Base64 back to text in your browser. Supports UTF-8 and URL-safe output — free, no upload.',
+    ogTitle: 'Base64 Encode & Decode — locally',
+    ogDescription:
+      'Encode or decode Base64 on this device. Bento Tools does not upload your text.',
   },
   'csv-column-extractor': {
     path: '/csv-column-extractor',
@@ -408,6 +418,34 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       },
       {
         question: 'Is the JSON Formatter free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  base64: {
+    appName: 'Bento Tools — Base64',
+    h1: 'Encode and decode Base64 in your browser',
+    intro:
+      'Turn text into Base64 or decode Base64 back to UTF-8 text. Optional URL-safe encoding for links and tokens — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Is my text uploaded?',
+        answer:
+          'No. Base64 encoding and decoding run in this browser tab. Bento Tools does not send your text to a server.',
+      },
+      {
+        question: 'Does it support unicode?',
+        answer:
+          'Yes. Encoding uses UTF-8 bytes, so characters beyond plain ASCII round-trip correctly.',
+      },
+      {
+        question: 'What is URL-safe Base64?',
+        answer:
+          'URL-safe mode swaps + and / for - and _, and omits padding = characters — handy for query strings and tokens. Decoding accepts both standard and URL-safe input.',
+      },
+      {
+        question: 'Is the Base64 tool free?',
         answer:
           'Yes. It is a free Bento Tools utility with no account required.',
       },

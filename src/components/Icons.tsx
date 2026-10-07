@@ -320,6 +320,27 @@ export function IconToolJsonFormatter() {
   )
 }
 
+/** Base64 — stacked bars suggesting encoded blocks. */
+export function IconToolBase64() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M5 7.25h14M5 12h10M5 16.75h12"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M16.75 10.5 19.5 12l-2.75 1.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 /** Grid / spreadsheet columns. */
 export function IconToolCsvColumnExtractor() {
   return (
