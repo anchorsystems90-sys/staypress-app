@@ -15,7 +15,20 @@ export type SeoMode =
   | 'word-unscrambler'
   | 'text-cleaner'
   | 'case-converter'
+  | 'word-counter'
   | 'json-formatter'
+  | 'base64'
+  | 'url-encode'
+  | 'csv-column-extractor'
+  | 'csv-to-json'
+  | 'json-to-csv'
+  | 'password-generator'
+  | 'passphrase-generator'
+  | 'uuid-generator'
+  | 'api-key-generator'
+  | 'hash-generator'
+  | 'hmac-generator'
+  | 'otp-secret'
 
 /** Default share-card image (1200×630 PNG in /public). */
 export const OG_IMAGE_PATH = '/og.png'
@@ -31,7 +44,7 @@ export const HOME_SEO = {
   path: HOME_PATH,
   title: 'Bento Tools — simple tools in your browser',
   description:
-    'Simple tools that work in your browser. Convert images to PDF, clean and convert text, format JSON, unscramble words — free, no account.',
+    'Simple tools that work in your browser. Convert images to PDF, clean and count text, format JSON, encode Base64 and URLs, convert CSV and JSON, generate passwords and secrets, unscramble words — free, no account.',
   ogTitle: 'Bento Tools',
   ogDescription: 'Simple tools that work in your browser. No signup. No nonsense.',
 }
@@ -127,6 +140,15 @@ export const MODE_SEO: Record<SeoMode, ModeSeo> = {
     ogDescription:
       'Switch case styles and copy identifier formats on this device. Bento Tools never uploads your text.',
   },
+  'word-counter': {
+    path: '/word-counter',
+    title: 'Word Counter — characters, sentences & reading time | Bento Tools',
+    description:
+      'Count words, characters, sentences, paragraphs, and lines in your browser. Free, private — your text never leaves this device.',
+    ogTitle: 'Word Counter — count text locally',
+    ogDescription:
+      'Live word and character counts on this device. Bento Tools does not upload what you paste.',
+  },
   'json-formatter': {
     path: '/json-formatter',
     title: 'JSON Formatter — pretty-print & minify locally | Bento Tools',
@@ -135,6 +157,114 @@ export const MODE_SEO: Record<SeoMode, ModeSeo> = {
     ogTitle: 'JSON Formatter — pretty-print locally',
     ogDescription:
       'Pretty-print or minify JSON on this device, with line-aware validation feedback. Bento Tools does not upload your data.',
+  },
+  base64: {
+    path: '/base64',
+    title: 'Base64 Encode & Decode — private, in your browser | Bento Tools',
+    description:
+      'Encode text to Base64 or decode Base64 back to text in your browser. Supports UTF-8 and URL-safe output — free, no upload.',
+    ogTitle: 'Base64 Encode & Decode — locally',
+    ogDescription:
+      'Encode or decode Base64 on this device. Bento Tools does not upload your text.',
+  },
+  'url-encode': {
+    path: '/url-encode',
+    title: 'URL Encode & Decode — private, in your browser | Bento Tools',
+    description:
+      'Percent-encode or decode URL and query-string text in your browser. Component or full-URL style — free, no upload.',
+    ogTitle: 'URL Encode & Decode — locally',
+    ogDescription:
+      'Encode or decode URLs on this device. Bento Tools does not upload your text.',
+  },
+  'csv-column-extractor': {
+    path: '/csv-column-extractor',
+    title: 'CSV Column Extractor — keep only the columns you need | Bento Tools',
+    description:
+      'Paste or open a CSV, pick the columns to keep, and copy or download the result in your browser. Free, private — your file never leaves this device.',
+    ogTitle: 'CSV Column Extractor — keep only the columns you need',
+    ogDescription:
+      'Select CSV columns locally and export a smaller file. Bento Tools does not upload your spreadsheet.',
+  },
+  'csv-to-json': {
+    path: '/csv-to-json',
+    title: 'CSV to JSON — private converter in your browser | Bento Tools',
+    description:
+      'Convert CSV to JSON objects or arrays in your browser. Free, no account — your spreadsheet never leaves this device.',
+    ogTitle: 'CSV to JSON — convert locally',
+    ogDescription:
+      'Turn CSV into JSON objects or arrays on this device. Bento Tools does not upload your spreadsheet.',
+  },
+  'json-to-csv': {
+    path: '/json-to-csv',
+    title: 'JSON to CSV — private converter in your browser | Bento Tools',
+    description:
+      'Convert a JSON array of objects or arrays to CSV in your browser. Free, no account — your payload never leaves this device.',
+    ogTitle: 'JSON to CSV — convert locally',
+    ogDescription:
+      'Turn JSON arrays into CSV on this device. Bento Tools does not upload your data.',
+  },
+  'password-generator': {
+    path: '/password-generator',
+    title: 'Password Generator — strong random passwords locally | Bento Tools',
+    description:
+      'Generate strong random passwords in your browser with length, character sets, and strength estimates. Free, private — nothing is uploaded.',
+    ogTitle: 'Password Generator — create passwords locally',
+    ogDescription:
+      'Create strong random passwords on this device. Bento Tools does not upload or store them.',
+  },
+  'passphrase-generator': {
+    path: '/passphrase-generator',
+    title: 'Passphrase Generator — memorable word phrases locally | Bento Tools',
+    description:
+      'Generate diceware-style passphrases from a local word list in your browser. Choose word count, separator, and options — free, private, nothing uploaded.',
+    ogTitle: 'Passphrase Generator — memorable phrases locally',
+    ogDescription:
+      'Create strong word-based passphrases on this device. Bento Tools does not upload or store them.',
+  },
+  'uuid-generator': {
+    path: '/uuid-generator',
+    title: 'UUID Generator — version 4 UUIDs in your browser | Bento Tools',
+    description:
+      'Generate RFC 4122 version-4 UUIDs in bulk in your browser. Toggle hyphens and case — free, private, nothing uploaded.',
+    ogTitle: 'UUID Generator — create UUIDs locally',
+    ogDescription:
+      'Generate random version-4 UUIDs on this device. Bento Tools does not upload anything.',
+  },
+  'api-key-generator': {
+    path: '/api-key-generator',
+    title: 'API Key Generator — random tokens locally | Bento Tools',
+    description:
+      'Generate random API keys and tokens in hex, base62, base32, or base64url in your browser. Free, private — nothing is uploaded.',
+    ogTitle: 'API Key Generator — create tokens locally',
+    ogDescription:
+      'Create random API keys on this device. Bento Tools does not upload or store them.',
+  },
+  'hash-generator': {
+    path: '/hash-generator',
+    title: 'Hash Generator — SHA hashes in your browser | Bento Tools',
+    description:
+      'Hash text with SHA-1, SHA-256, SHA-384, or SHA-512 in your browser using Web Crypto. Hex or Base64 output — free, private, nothing uploaded.',
+    ogTitle: 'Hash Generator — hash text locally',
+    ogDescription:
+      'Compute SHA digests on this device. Bento Tools does not upload your text.',
+  },
+  'hmac-generator': {
+    path: '/hmac-generator',
+    title: 'HMAC Generator — sign messages locally | Bento Tools',
+    description:
+      'Compute HMAC-SHA1, HMAC-SHA256, HMAC-SHA384, or HMAC-SHA512 in your browser with Web Crypto. Hex or Base64 output — free, private, nothing uploaded.',
+    ogTitle: 'HMAC Generator — sign messages locally',
+    ogDescription:
+      'Sign a message with a secret on this device. Bento Tools does not upload your payload or key.',
+  },
+  'otp-secret': {
+    path: '/otp-secret',
+    title: 'OTP Secret — TOTP secrets & otpauth URIs locally | Bento Tools',
+    description:
+      'Generate authenticator TOTP secrets, otpauth URIs, and live codes in your browser. Free, private — nothing is uploaded or stored.',
+    ogTitle: 'OTP Secret — create TOTP secrets locally',
+    ogDescription:
+      'Create TOTP secrets and otpauth URIs on this device. Bento Tools does not upload or store them.',
   },
 }
 
@@ -355,6 +485,34 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       },
     ],
   },
+  'word-counter': {
+    appName: 'Bento Tools — Word Counter',
+    h1: 'Count words and characters in your browser',
+    intro:
+      'Paste text and get live counts for words, characters (with and without spaces), sentences, paragraphs, lines, and a simple reading-time estimate — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Is my text uploaded?',
+        answer:
+          'No. Word Counter runs entirely in this browser tab. Bento Tools does not send what you paste to a server.',
+      },
+      {
+        question: 'How are words counted?',
+        answer:
+          'Words are whitespace-separated tokens after trimming. Multiple spaces between words do not create empty words.',
+      },
+      {
+        question: 'How is reading time estimated?',
+        answer:
+          'About 200 words per minute, rounded up to the next minute. It is a rough guide, not a precise measure of comprehension time.',
+      },
+      {
+        question: 'Is Word Counter free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
   'json-formatter': {
     appName: 'Bento Tools — JSON Formatter',
     h1: 'Format JSON without uploading',
@@ -383,6 +541,347 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       },
     ],
   },
+  base64: {
+    appName: 'Bento Tools — Base64',
+    h1: 'Encode and decode Base64 in your browser',
+    intro:
+      'Turn text into Base64 or decode Base64 back to UTF-8 text. Optional URL-safe encoding for links and tokens — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Is my text uploaded?',
+        answer:
+          'No. Base64 encoding and decoding run in this browser tab. Bento Tools does not send your text to a server.',
+      },
+      {
+        question: 'Does it support unicode?',
+        answer:
+          'Yes. Encoding uses UTF-8 bytes, so characters beyond plain ASCII round-trip correctly.',
+      },
+      {
+        question: 'What is URL-safe Base64?',
+        answer:
+          'URL-safe mode swaps + and / for - and _, and omits padding = characters — handy for query strings and tokens. Decoding accepts both standard and URL-safe input.',
+      },
+      {
+        question: 'Is the Base64 tool free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'url-encode': {
+    appName: 'Bento Tools — URL Encode',
+    h1: 'Encode and decode URLs in your browser',
+    intro:
+      'Percent-encode query values or a full URL, or decode encoded text back. Optional + as space for form values — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Is my text uploaded?',
+        answer:
+          'No. URL encoding and decoding run in this browser tab. Bento Tools does not send your text to a server.',
+      },
+      {
+        question: 'What is the difference between Component and Full URL?',
+        answer:
+          'Component mode encodes almost everything (like encodeURIComponent) — best for query values. Full URL mode keeps structural characters such as : / ? & # (like encodeURI).',
+      },
+      {
+        question: 'Why treat + as space?',
+        answer:
+          'Some form encodings use + for spaces. When decoding, that option converts bare + characters to spaces before percent-decoding.',
+      },
+      {
+        question: 'Is the URL Encode tool free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'csv-column-extractor': {
+    appName: 'Bento Tools — CSV Column Extractor',
+    h1: 'Extract CSV columns in your browser',
+    intro:
+      'Paste a CSV or open a file, choose the columns to keep, and copy or download a smaller CSV. Parsing stays on this device — free, no account, nothing uploaded to process the file.',
+    faqs: [
+      {
+        question: 'Is my CSV uploaded?',
+        answer:
+          'No. CSV Column Extractor reads and filters your spreadsheet in this browser tab. Bento Tools does not send the file to a server to extract columns.',
+      },
+      {
+        question: 'Which separators are supported?',
+        answer:
+          'Comma, semicolon, and tab. The tool sniffs the first line and uses the delimiter that best fits your paste or file.',
+      },
+      {
+        question: 'What if the first row is not a header?',
+        answer:
+          'Turn off “First row is a header.” Columns are then labeled Column 1, Column 2, and so on, and every row is treated as data.',
+      },
+      {
+        question: 'Can I reorder columns in the export?',
+        answer:
+          'Selected columns stay in their original left-to-right order. Uncheck the ones you do not need, then copy or download.',
+      },
+      {
+        question: 'Is CSV Column Extractor free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'csv-to-json': {
+    appName: 'Bento Tools — CSV to JSON',
+    h1: 'Convert CSV to JSON in your browser',
+    intro:
+      'Paste a CSV or open a file and get JSON objects or arrays. Conversion stays on this device — free, no account, nothing uploaded to transform your spreadsheet.',
+    faqs: [
+      {
+        question: 'Is my CSV uploaded?',
+        answer:
+          'No. CSV to JSON runs in your browser. Bento Tools does not send the spreadsheet to a server to convert it.',
+      },
+      {
+        question: 'What JSON shapes can I export?',
+        answer:
+          'An array of objects (using the header row as keys) or an array of arrays. Turn pretty-print on or off before you copy or download.',
+      },
+      {
+        question: 'How are numbers and booleans handled?',
+        answer:
+          'In object mode, plain numbers and true/false are coerced. Values with leading zeros stay strings so phone-like fields are preserved.',
+      },
+      {
+        question: 'Is CSV to JSON free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'json-to-csv': {
+    appName: 'Bento Tools — JSON to CSV',
+    h1: 'Convert JSON to CSV in your browser',
+    intro:
+      'Paste a JSON array of objects or arrays and download a CSV. Conversion stays on this device — free, no account, nothing uploaded to transform your payload.',
+    faqs: [
+      {
+        question: 'Is my JSON uploaded?',
+        answer:
+          'No. JSON to CSV runs in your browser. Bento Tools does not send the payload to a server to convert it.',
+      },
+      {
+        question: 'What JSON shapes are accepted?',
+        answer:
+          'An array of objects or an array of arrays. Object keys become CSV headers; missing keys become empty cells.',
+      },
+      {
+        question: 'What about nested JSON values?',
+        answer:
+          'Nested objects or arrays are stringified into a single CSV cell so the row stays flat. Nested structure is not expanded into extra columns.',
+      },
+      {
+        question: 'Is JSON to CSV free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'password-generator': {
+    appName: 'Bento Tools — Password Generator',
+    h1: 'Generate strong passwords in your browser',
+    intro:
+      'Create random passwords with length, character sets, and a simple strength estimate. Generation uses your browser’s crypto APIs — free, no account, nothing uploaded or stored.',
+    faqs: [
+      {
+        question: 'Are passwords uploaded or stored?',
+        answer:
+          'No. Passwords are generated in this browser tab with crypto.getRandomValues. Bento Tools does not send them to a server or keep a history.',
+      },
+      {
+        question: 'How random are the passwords?',
+        answer:
+          'Characters are chosen with rejection sampling so each symbol in the pool is equally likely. When length allows, each selected character class appears at least once.',
+      },
+      {
+        question: 'What does the strength estimate mean?',
+        answer:
+          'It is an approximate entropy score from length × pool size (bits). It is a rough guide, not a guarantee against every attack model.',
+      },
+      {
+        question: 'Is the Password Generator free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'passphrase-generator': {
+    appName: 'Bento Tools — Passphrase Generator',
+    h1: 'Generate memorable passphrases in your browser',
+    intro:
+      'Build diceware-style passphrases from a local EFF short word list. Choose word count, separator, capitalization, and an optional digit — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Are passphrases uploaded or stored?',
+        answer:
+          'No. Words are chosen in this browser tab with crypto randomness. Bento Tools does not send them to a server or keep a history.',
+      },
+      {
+        question: 'Which word list is used?',
+        answer:
+          'The EFF Short Wordlist #1 (diceware-style). The list ships with the app and is not fetched from the network when you generate.',
+      },
+      {
+        question: 'How strong is a six-word passphrase?',
+        answer:
+          'With this list, each word adds about 10.3 bits. Six words are roughly 62 bits before optional digits — a solid everyday default.',
+      },
+      {
+        question: 'Is the Passphrase Generator free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'uuid-generator': {
+    appName: 'Bento Tools — UUID Generator',
+    h1: 'Generate version-4 UUIDs in your browser',
+    intro:
+      'Create RFC 4122 version-4 UUIDs locally, one or many at a time. Toggle hyphens and uppercase — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Are UUIDs uploaded?',
+        answer:
+          'No. UUIDs are generated in this browser with crypto.randomUUID or crypto.getRandomValues.',
+      },
+      {
+        question: 'Which UUID version is this?',
+        answer:
+          'Version 4 — random UUIDs. Version and variant bits follow RFC 4122.',
+      },
+      {
+        question: 'Can I generate many at once?',
+        answer:
+          'Yes. Use the count slider, then copy one UUID or copy all as a newline-separated list.',
+      },
+      {
+        question: 'Is the UUID Generator free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'api-key-generator': {
+    appName: 'Bento Tools — API Key Generator',
+    h1: 'Generate API keys in your browser',
+    intro:
+      'Create random tokens in hex, base62, base32, or base64url with optional prefixes. Generation stays on this device — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Are keys uploaded or stored?',
+        answer:
+          'No. Keys are generated in this browser tab. Bento Tools does not send them to a server or keep a history.',
+      },
+      {
+        question: 'Which alphabet should I use?',
+        answer:
+          'Base62 is a solid general default. Hex is convenient for binary-looking tokens. Base32 and base64url help when you need URL-safe or case-insensitive alphabets.',
+      },
+      {
+        question: 'What does the bit estimate mean?',
+        answer:
+          'It is approximate entropy from length × alphabet size. It is a rough guide, not a guarantee for every threat model.',
+      },
+      {
+        question: 'Is the API Key Generator free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'hash-generator': {
+    appName: 'Bento Tools — Hash Generator',
+    h1: 'Hash text in your browser',
+    intro:
+      'Compute SHA-1, SHA-256, SHA-384, or SHA-512 digests of pasted text with Web Crypto. Hex or Base64 output — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Is my text uploaded?',
+        answer:
+          'No. Hashing uses the Web Crypto API in this browser. Bento Tools does not send your text to a server.',
+      },
+      {
+        question: 'Is SHA-1 safe for passwords?',
+        answer:
+          'No. Prefer SHA-256 or stronger for integrity checks, and never use a bare hash as a password store. This tool is for digests and checksums, not password hashing (bcrypt/argon2).',
+      },
+      {
+        question: 'What encoding is used?',
+        answer:
+          'Input is hashed as UTF-8 bytes. Output can be lowercase hex or standard Base64.',
+      },
+      {
+        question: 'Is the Hash Generator free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'hmac-generator': {
+    appName: 'Bento Tools — HMAC Generator',
+    h1: 'Sign messages with HMAC in your browser',
+    intro:
+      'Compute HMAC-SHA1 through HMAC-SHA512 of a message and secret with Web Crypto. Useful for webhook signatures and API auth checks — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Are my message and secret uploaded?',
+        answer:
+          'No. Signing uses the Web Crypto API in this browser. Bento Tools does not send your payload or secret to a server.',
+      },
+      {
+        question: 'How is the secret encoded?',
+        answer:
+          'Both the message and secret are treated as UTF-8 text. Output can be lowercase hex or standard Base64.',
+      },
+      {
+        question: 'Is this for password hashing?',
+        answer:
+          'No. HMAC is for keyed message authentication. For storing passwords, use a dedicated password hash such as argon2 or bcrypt.',
+      },
+      {
+        question: 'Is the HMAC Generator free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'otp-secret': {
+    appName: 'Bento Tools — OTP Secret',
+    h1: 'Create TOTP secrets in your browser',
+    intro:
+      'Generate authenticator-ready base32 secrets, otpauth URIs, and a live TOTP code. Everything stays on this device — free, no account, nothing uploaded or stored.',
+    faqs: [
+      {
+        question: 'Are secrets uploaded or stored?',
+        answer:
+          'No. Secrets are generated in this browser tab. Bento Tools does not send them to a server or keep a history. Copy them into your authenticator yourself.',
+      },
+      {
+        question: 'What can I do with the otpauth URI?',
+        answer:
+          'Paste it into an authenticator that accepts otpauth links, or use it with tooling that builds QR codes. This page does not phone home.',
+      },
+      {
+        question: 'Which algorithm should I pick?',
+        answer:
+          'SHA-1 remains the most widely supported default for authenticator apps. Prefer SHA-256 or SHA-512 when your app and server both support them.',
+      },
+      {
+        question: 'Is OTP Secret free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
 }
 
 /** Indexable tool routes (home is `/`). */
@@ -395,6 +894,7 @@ export function pathForMode(mode: SeoMode): string {
 const PATH_ALIASES: Record<string, SeoMode> = {
   '/images': 'images',
   '/compress': 'slim',
+  '/csv-json': 'csv-to-json',
 }
 
 export function toolFromPathname(pathname: string): SeoMode | null {

@@ -271,6 +271,26 @@ export function IconToolTextCleaner() {
   )
 }
 
+/** Word count — tally marks / lines. */
+export function IconToolWordCounter() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M5 7.5h4.5M5 12h7M5 16.5h5.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M15.5 8.25 18.75 16.5M18.75 8.25 15.5 16.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
 /** Aa. */
 export function IconToolCaseConverter() {
   return (
@@ -311,6 +331,288 @@ export function IconToolJsonFormatter() {
       />
       <path
         d="M15 5.25h1.6A2.15 2.15 0 0 1 18.75 7.4v2.35c0 .7.55 1.25 1.25 1.25-.7 0-1.25.55-1.25 1.25V16.6A2.15 2.15 0 0 1 16.6 18.75H15"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+/** Base64 — stacked bars suggesting encoded blocks. */
+export function IconToolBase64() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M5 7.25h14M5 12h10M5 16.75h12"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M16.75 10.5 19.5 12l-2.75 1.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+/** Link / percent-encoding. */
+export function IconToolUrlEncode() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M9.5 14.5 7.75 16.25a3.25 3.25 0 0 1-4.6-4.6L5.5 9.3"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14.5 9.5 16.25 7.75a3.25 3.25 0 0 1 4.6 4.6L18.5 14.7"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9.75 14.25 14.25 9.75"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+/** Grid / spreadsheet columns. */
+export function IconToolCsvColumnExtractor() {
+  return (
+    <svg {...HOME_ICON}>
+      <rect
+        x="3.5"
+        y="4.5"
+        width="17"
+        height="15"
+        rx="1.75"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+      <path
+        d="M3.5 9.25h17M3.5 14h17M9.25 4.5v15M14.75 4.5v15"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+/** Table to braces — CSV → JSON. */
+export function IconToolCsvToJson() {
+  return (
+    <svg {...HOME_ICON}>
+      <rect
+        x="3.25"
+        y="5"
+        width="7.5"
+        height="14"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+      <path
+        d="M3.25 9.25h7.5M3.25 13.5h7.5M6.25 5v14"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path
+        d="M14.1 7.1c0-1.15.85-1.85 2-1.85h1.15M14.1 16.9c0 1.15.85 1.85 2 1.85h1.15M19.9 7.1c0-1.15-.85-1.85-2-1.85H16.75M19.9 16.9c0 1.15-.85 1.85-2 1.85H16.75"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M12.4 12h1.1"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+/** Braces to table — JSON → CSV. */
+export function IconToolJsonToCsv() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M4.1 7.1c0-1.15.85-1.85 2-1.85H7.25M4.1 16.9c0 1.15.85 1.85 2 1.85H7.25M9.9 7.1c0-1.15-.85-1.85-2-1.85H6.75M9.9 16.9c0 1.15-.85 1.85-2 1.85H6.75"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M10.9 12h1.1"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <rect
+        x="13.25"
+        y="5"
+        width="7.5"
+        height="14"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+      <path
+        d="M13.25 9.25h7.5M13.25 13.5h7.5M16.25 5v14"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+/** Key — password / credentials. */
+export function IconToolPasswordGenerator() {
+  return (
+    <svg {...HOME_ICON}>
+      <circle
+        cx="8.25"
+        cy="12"
+        r="3.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+      <path
+        d="M11.5 12h7.25v2.4M15.75 12v2.15M18 12v2.15"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+/** Stacked words — passphrase. */
+export function IconToolPassphraseGenerator() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M5 8h9M5 12h14M5 16h11"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+/** Hash grid — UUID. */
+export function IconToolUuidGenerator() {
+  return (
+    <svg {...HOME_ICON}>
+      <rect
+        x="4.5"
+        y="7"
+        width="15"
+        height="10"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+      <path
+        d="M8 7v10M12 7v10M16 7v10M4.5 10.5h15M4.5 13.5h15"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+/** Token chip — API key. */
+export function IconToolApiKeyGenerator() {
+  return (
+    <svg {...HOME_ICON}>
+      <rect
+        x="4.25"
+        y="8.25"
+        width="15.5"
+        height="7.5"
+        rx="3.75"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+      <circle cx="9" cy="12" r="1.35" fill="currentColor" />
+      <path
+        d="M12.25 12h5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+/** Pound / hash mark. */
+export function IconToolHashGenerator() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M9 5.5 7.5 18.5M16.5 5.5 15 18.5M5 9.75h14M4.5 14.25h14"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+/** Keyed hash — HMAC. */
+export function IconToolHmacGenerator() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M9 5.5 7.5 18.5M16.5 5.5 15 18.5M5 9.75h14M4.5 14.25h14"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <circle
+        cx="18.25"
+        cy="6.5"
+        r="1.6"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+    </svg>
+  )
+}
+
+/** Clock + shield — OTP. */
+export function IconToolOtpSecret() {
+  return (
+    <svg {...HOME_ICON}>
+      <circle
+        cx="12"
+        cy="12"
+        r="7.25"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+      <path
+        d="M12 8.25V12l2.5 1.75"
         stroke="currentColor"
         strokeWidth="1.75"
         strokeLinecap="round"

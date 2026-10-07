@@ -49,6 +49,11 @@
   status = 301
 
 [[redirects]]
+  from = "/csv-json"
+  to = "/csv-to-json"
+  status = 301
+
+[[redirects]]
   from = "/index.html"
   to = "/"
   status = 301

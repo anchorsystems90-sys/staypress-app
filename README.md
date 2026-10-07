@@ -67,16 +67,89 @@ Bento Tools is a free, open-source suite from **[Anchor Systems](https://anchors
 - camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE
 - Copy or download — nothing is uploaded
 
+### Word Counter (`/word-counter`)
+
+- Live counts for words, characters, sentences, paragraphs, lines
+- Reading-time estimate · copy a plain-text summary
+- Nothing is uploaded
+
 ### JSON Formatter (`/json-formatter`)
 
 - Pretty-print, minify, and validate JSON locally
 - Parse errors stay on the page; invalid JSON is not rewritten
 - Copy or download a `.json` file
 
+### Base64 (`/base64`)
+
+- Encode text to Base64 or decode Base64 back to text
+- UTF-8 safe · optional URL-safe alphabet
+- Copy or download — nothing is uploaded
+
+### URL Encode (`/url-encode`)
+
+- Percent-encode or decode URL / query-string text
+- Component or full-URL style · optional + as space
+- Copy or download — nothing is uploaded
+
+### CSV Column Extractor (`/csv-column-extractor`)
+
+- Paste or open a CSV · pick columns to keep
+- Detects comma, semicolon, or tab separators
+- Copy or download the filtered `.csv` — nothing is uploaded
+
+### CSV → JSON (`/csv-to-json`)
+
+- Convert CSV to JSON objects or arrays
+- Header row toggle · pretty-print · sample data
+- Copy or download — nothing is uploaded
+
+### JSON → CSV (`/json-to-csv`)
+
+- Convert a JSON array of objects or arrays to CSV
+- Comma / semicolon / tab delimiter
+- Copy or download — nothing is uploaded
+
+### Password Generator (`/password-generator`)
+
+- Strong random passwords with length and character-set controls
+- Optional ambiguous-character exclusion · strength estimate
+- Generated with `crypto.getRandomValues` — nothing is uploaded
+
+### Passphrase Generator (`/passphrase-generator`)
+
+- Diceware-style phrases from the EFF short word list
+- Word count, separator, capitalize, optional digit · strength estimate
+- Generated locally — nothing is uploaded
+
+### UUID Generator (`/uuid-generator`)
+
+- RFC 4122 version-4 UUIDs · bulk generate
+- Hyphen / uppercase toggles · copy one or all
+
+### API Key Generator (`/api-key-generator`)
+
+- Random tokens in hex, base62, base32, or base64url
+- Length, count, optional prefix · entropy estimate
+
+### Hash Generator (`/hash-generator`)
+
+- SHA-1 / SHA-256 / SHA-384 / SHA-512 via Web Crypto
+- Hex or Base64 output — text never leaves this device
+
+### HMAC Generator (`/hmac-generator`)
+
+- HMAC-SHA1 through HMAC-SHA512 via Web Crypto
+- Message + secret · hex or Base64 — nothing uploaded
+
+### OTP Secret (`/otp-secret`)
+
+- Base32 TOTP secrets · otpauth URI · live code preview
+- Digits, period, and algorithm controls — nothing uploaded
+
 ### Shared
 
 - Mobile sticky download actions on PDF tools
-- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter` (`/images` 301s to `/images-to-pdf`; `/compress` 301s to `/slim`)
+- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/word-counter`, `/json-formatter`, `/base64`, `/url-encode`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv`, `/password-generator`, `/passphrase-generator`, `/uuid-generator`, `/api-key-generator`, `/hash-generator`, `/hmac-generator`, `/otp-secret` (`/images` 301s to `/images-to-pdf`; `/compress` 301s to `/slim`; `/csv-json` 301s to `/csv-to-json`)
 - Per-tool title, meta, JSON-LD, and static HTML (Astro). Tools hydrate as React islands.
 - Soft credit to Anchor Systems
 
@@ -177,9 +250,10 @@ Tools still never upload your files or letters; only the text the user types in 
 - [ ] Extract: auto render · per-page download · ZIP
 - [ ] Slim: preset · before/after sizes
 - [ ] Word Unscrambler: letters → words · copy
-- [ ] Text Cleaner / Case Converter / JSON Formatter: paste → copy locally
+- [ ] Text Cleaner / Case Converter / Word Counter / JSON Formatter / Base64 / URL Encode / CSV tools: paste → copy locally
+- [ ] Password / Passphrase / UUID / API Key / Hash / HMAC / OTP: generate · copy locally
 - [ ] Privacy line + no unexpected uploads of user files
-- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/privacy`, `/guides/heic-to-pdf` load correctly
+- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/word-counter`, `/json-formatter`, `/base64`, `/url-encode`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv`, `/password-generator`, `/passphrase-generator`, `/uuid-generator`, `/api-key-generator`, `/hash-generator`, `/hmac-generator`, `/otp-secret`, `/privacy`, `/guides/heic-to-pdf` load correctly
 - [ ] `/images` 301s to `/images-to-pdf`
 - [ ] `/compress` 301s to `/slim`
 - [ ] Production: absolute canonical + `og:image`
@@ -209,7 +283,20 @@ src/
     word-unscrambler/
     text-cleaner/
     case-converter/
+    word-counter/
     json-formatter/
+    base64/
+    url-encode/
+    csv-column-extractor/
+    csv-to-json/
+    json-to-csv/
+    password-generator/
+    passphrase-generator/
+    uuid-generator/
+    api-key-generator/
+    hash-generator/
+    hmac-generator/
+    otp-secret/
   components/             # Stage, Viewer, Icons, FeedbackDialog, Astro chrome
   lib/
     images.ts
@@ -223,7 +310,7 @@ docs/
 
 ## Privacy
 
-Bento Tools does **not** upload your images, PDFs, letters, or pasted text for processing. Generation, merge, extract, slim, word matching, text cleanup, case conversion, and JSON formatting run entirely in the browser.
+Bento Tools does **not** upload your images, PDFs, letters, pasted text, or CSV/JSON files for processing. Generation, merge, extract, slim, word matching, text cleanup, case conversion, word counting, JSON formatting, Base64 encode/decode, URL encode/decode, CSV column extraction, CSV to JSON, and JSON to CSV run entirely in the browser.
 
 ---
 

@@ -1,13 +1,26 @@
 ---
 import type { ToolId } from '../toolCatalog'
 import {
+  IconToolApiKeyGenerator,
+  IconToolBase64,
   IconToolCaseConverter,
+  IconToolCsvColumnExtractor,
+  IconToolCsvToJson,
+  IconToolHashGenerator,
+  IconToolHmacGenerator,
   IconToolImagesToPdf,
   IconToolJsonFormatter,
+  IconToolJsonToCsv,
   IconToolMergePdf,
+  IconToolOtpSecret,
+  IconToolPasswordGenerator,
+  IconToolPassphraseGenerator,
   IconToolPdfToImages,
   IconToolSlimPdf,
   IconToolTextCleaner,
+  IconToolUrlEncode,
+  IconToolUuidGenerator,
+  IconToolWordCounter,
   IconToolWordUnscrambler,
 } from './Icons'
 
@@ -33,7 +46,33 @@ const { id } = Astro.props
     <IconToolTextCleaner />
   ) : id === 'case-converter' ? (
     <IconToolCaseConverter />
-  ) : (
+  ) : id === 'word-counter' ? (
+    <IconToolWordCounter />
+  ) : id === 'json-formatter' ? (
     <IconToolJsonFormatter />
+  ) : id === 'base64' ? (
+    <IconToolBase64 />
+  ) : id === 'url-encode' ? (
+    <IconToolUrlEncode />
+  ) : id === 'csv-column-extractor' ? (
+    <IconToolCsvColumnExtractor />
+  ) : id === 'csv-to-json' ? (
+    <IconToolCsvToJson />
+  ) : id === 'json-to-csv' ? (
+    <IconToolJsonToCsv />
+  ) : id === 'password-generator' ? (
+    <IconToolPasswordGenerator />
+  ) : id === 'passphrase-generator' ? (
+    <IconToolPassphraseGenerator />
+  ) : id === 'uuid-generator' ? (
+    <IconToolUuidGenerator />
+  ) : id === 'api-key-generator' ? (
+    <IconToolApiKeyGenerator />
+  ) : id === 'hash-generator' ? (
+    <IconToolHashGenerator />
+  ) : id === 'hmac-generator' ? (
+    <IconToolHmacGenerator />
+  ) : (
+    <IconToolOtpSecret />
   )
 }

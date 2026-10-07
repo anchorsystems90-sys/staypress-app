@@ -1,13 +1,32 @@
 import type { AppMode } from './types'
 
 /** PDF-family tools. Keep this aligned with `AppMode` in types.ts. */
-export type ToolFamily = 'pdf' | 'words' | 'text' | 'developer'
+export type ToolFamily =
+  | 'pdf'
+  | 'words'
+  | 'text'
+  | 'developer'
+  | 'data'
+  | 'security'
 
 export type NonPdfToolId =
   | 'word-unscrambler'
   | 'text-cleaner'
   | 'case-converter'
+  | 'word-counter'
   | 'json-formatter'
+  | 'base64'
+  | 'url-encode'
+  | 'csv-column-extractor'
+  | 'csv-to-json'
+  | 'json-to-csv'
+  | 'password-generator'
+  | 'passphrase-generator'
+  | 'uuid-generator'
+  | 'api-key-generator'
+  | 'hash-generator'
+  | 'hmac-generator'
+  | 'otp-secret'
 
 /** All first-class tools. `AppMode` remains the four PDF tools only. */
 export type ToolId = AppMode | NonPdfToolId
@@ -34,6 +53,8 @@ export const TOOL_FAMILIES: readonly { id: ToolFamily; label: string }[] = [
   { id: 'words', label: 'Words' },
   { id: 'text', label: 'Text' },
   { id: 'developer', label: 'Developer' },
+  { id: 'data', label: 'Data' },
+  { id: 'security', label: 'Security' },
 ]
 
 export type ToolDirectoryEntry = {
@@ -88,10 +109,88 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     blurb: 'Switch case and copy camel/snake/kebab styles.',
   },
   {
+    id: 'word-counter',
+    family: 'text',
+    label: 'Word Counter',
+    blurb: 'Count words, characters, sentences, and more.',
+  },
+  {
     id: 'json-formatter',
     family: 'developer',
     label: 'JSON Formatter',
     blurb: 'Pretty-print, minify, and validate JSON locally.',
+  },
+  {
+    id: 'base64',
+    family: 'developer',
+    label: 'Base64',
+    blurb: 'Encode or decode Base64 text on this device.',
+  },
+  {
+    id: 'url-encode',
+    family: 'developer',
+    label: 'URL Encode',
+    blurb: 'Encode or decode URL and query-string text.',
+  },
+  {
+    id: 'csv-column-extractor',
+    family: 'data',
+    label: 'CSV Column Extractor',
+    blurb: 'Pick columns from a CSV and export only those.',
+  },
+  {
+    id: 'csv-to-json',
+    family: 'data',
+    label: 'CSV → JSON',
+    blurb: 'Turn a CSV into JSON objects or arrays.',
+  },
+  {
+    id: 'json-to-csv',
+    family: 'data',
+    label: 'JSON → CSV',
+    blurb: 'Turn a JSON array into a downloadable CSV.',
+  },
+  {
+    id: 'password-generator',
+    family: 'security',
+    label: 'Password Generator',
+    blurb: 'Create strong random passwords on this device.',
+  },
+  {
+    id: 'passphrase-generator',
+    family: 'security',
+    label: 'Passphrase Generator',
+    blurb: 'Memorable word-based passphrases, generated locally.',
+  },
+  {
+    id: 'uuid-generator',
+    family: 'security',
+    label: 'UUID Generator',
+    blurb: 'Generate version-4 UUIDs in bulk on this device.',
+  },
+  {
+    id: 'api-key-generator',
+    family: 'security',
+    label: 'API Key Generator',
+    blurb: 'Random tokens in hex, base62, base32, or base64url.',
+  },
+  {
+    id: 'hash-generator',
+    family: 'security',
+    label: 'Hash Generator',
+    blurb: 'SHA hashes of text with Web Crypto — no upload.',
+  },
+  {
+    id: 'hmac-generator',
+    family: 'security',
+    label: 'HMAC Generator',
+    blurb: 'Sign a message with a secret using HMAC.',
+  },
+  {
+    id: 'otp-secret',
+    family: 'security',
+    label: 'OTP Secret',
+    blurb: 'Create TOTP secrets and otpauth URIs locally.',
   },
 ]
 
@@ -113,9 +212,66 @@ export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
     tagline: 'Change case. Stay local.',
     privacyIdle: 'Runs in your browser. Text never leaves this device.',
   },
+  'word-counter': {
+    tagline: 'Words. Characters. Instantly.',
+    privacyIdle: 'Runs in your browser. Text never leaves this device.',
+  },
   'json-formatter': {
     tagline: 'Format JSON on this device.',
     privacyIdle: 'Runs in your browser. JSON never leaves this device.',
+  },
+  base64: {
+    tagline: 'Encode. Decode. Stay local.',
+    privacyIdle: 'Runs in your browser. Your text never leaves this device.',
+  },
+  'url-encode': {
+    tagline: 'Percent-encode. Decode. Stay local.',
+    privacyIdle: 'Runs in your browser. Your text never leaves this device.',
+  },
+  'csv-column-extractor': {
+    tagline: 'Keep the columns you need.',
+    privacyIdle: 'Runs in your browser. Your CSV never leaves this device.',
+  },
+  'csv-to-json': {
+    tagline: 'CSV in. JSON out.',
+    privacyIdle: 'Runs in your browser. Your CSV never leaves this device.',
+  },
+  'json-to-csv': {
+    tagline: 'JSON in. CSV out.',
+    privacyIdle: 'Runs in your browser. Your JSON never leaves this device.',
+  },
+  'password-generator': {
+    tagline: 'Strong passwords. Stay local.',
+    privacyIdle:
+      'Runs in your browser. Passwords are generated on this device.',
+  },
+  'passphrase-generator': {
+    tagline: 'Memorable. Strong. Local.',
+    privacyIdle:
+      'Runs in your browser. Passphrases are generated on this device.',
+  },
+  'uuid-generator': {
+    tagline: 'UUIDs on this device.',
+    privacyIdle: 'Runs in your browser. Nothing is uploaded.',
+  },
+  'api-key-generator': {
+    tagline: 'Random tokens. Stay local.',
+    privacyIdle:
+      'Runs in your browser. Keys are generated on this device.',
+  },
+  'hash-generator': {
+    tagline: 'Hash text. Stay local.',
+    privacyIdle: 'Runs in your browser. Your text never leaves this device.',
+  },
+  'hmac-generator': {
+    tagline: 'Sign with a secret. Stay local.',
+    privacyIdle:
+      'Runs in your browser. Message and secret never leave this device.',
+  },
+  'otp-secret': {
+    tagline: 'TOTP secrets. Stay local.',
+    privacyIdle:
+      'Runs in your browser. Secrets are generated on this device.',
   },
 }
 
@@ -153,9 +309,89 @@ const TEXT_RELATED_NOTES: Partial<
 > = {
   'text-cleaner': {
     'case-converter': 'Need a different case after cleaning? Switch styles next.',
+    'word-counter': 'Want the totals? Count words and characters next.',
   },
   'case-converter': {
     'text-cleaner': 'Clean messy spacing or HTML before converting case.',
+    'word-counter': 'Check length after converting? Open Word Counter.',
+  },
+  'word-counter': {
+    'text-cleaner': 'Need tidier copy first? Clean the text, then count.',
+    'case-converter': 'Changing case next? Convert styles without uploading.',
+  },
+}
+
+/** Short contextual notes for developer-family related links. */
+const DEVELOPER_RELATED_NOTES: Partial<
+  Record<NonPdfToolId, Partial<Record<NonPdfToolId, string>>>
+> = {
+  'json-formatter': {
+    base64: 'Need to encode a payload next? Base64 encode or decode here.',
+    'url-encode': 'Shipping a query string? URL-encode values here.',
+  },
+  base64: {
+    'json-formatter': 'Working with JSON too? Pretty-print or minify it next.',
+    'url-encode': 'Need percent-encoding instead? URL Encode is next door.',
+  },
+  'url-encode': {
+    base64: 'Encoding a token or blob? Try Base64 encode/decode.',
+    'json-formatter': 'Formatting a JSON body? Pretty-print it locally.',
+  },
+}
+
+/** Short contextual notes for data-family related links. */
+const DATA_RELATED_NOTES: Partial<
+  Record<NonPdfToolId, Partial<Record<NonPdfToolId, string>>>
+> = {
+  'csv-column-extractor': {
+    'csv-to-json': 'Need the whole file as JSON instead? Convert CSV → JSON next.',
+  },
+  'csv-to-json': {
+    'csv-column-extractor': 'Want fewer columns first? Extract them, then convert.',
+    'json-to-csv': 'Going the other way? Turn JSON back into CSV.',
+  },
+  'json-to-csv': {
+    'csv-to-json': 'Need JSON again? Convert CSV → JSON.',
+    'csv-column-extractor': 'Trim columns from the CSV after you export it.',
+  },
+}
+
+/** Short contextual notes for security-family related links. */
+const SECURITY_RELATED_NOTES: Partial<
+  Record<NonPdfToolId, Partial<Record<NonPdfToolId, string>>>
+> = {
+  'password-generator': {
+    'passphrase-generator':
+      'Prefer words you can type? Try a memorable passphrase next.',
+    'api-key-generator': 'Need a machine token instead? Generate an API key.',
+  },
+  'passphrase-generator': {
+    'password-generator':
+      'Want symbol-heavy passwords instead? Open Password Generator.',
+    'otp-secret': 'Setting up 2FA next? Create a TOTP secret locally.',
+  },
+  'uuid-generator': {
+    'api-key-generator':
+      'Need a shorter opaque token? Generate an API key instead.',
+    'hash-generator': 'Hashing an ID or payload? Open Hash Generator.',
+  },
+  'api-key-generator': {
+    'uuid-generator': 'Need a UUID instead of a custom alphabet token?',
+    'password-generator': 'Generating a login password? Use Password Generator.',
+  },
+  'hash-generator': {
+    'hmac-generator': 'Need a keyed signature instead? Open HMAC Generator.',
+    'api-key-generator': 'Need a random token rather than a digest?',
+  },
+  'hmac-generator': {
+    'hash-generator': 'Just need a plain hash? Open Hash Generator.',
+    'api-key-generator': 'Need a random secret to sign with? Generate a key.',
+  },
+  'otp-secret': {
+    'password-generator':
+      'Need the account password too? Generate one locally.',
+    'passphrase-generator':
+      'Want a memorable backup phrase? Try Passphrase Generator.',
   },
 }
 
@@ -189,6 +425,30 @@ export function relatedTools(id: ToolId): readonly RelatedToolLink[] {
 
   if (current.family === 'text') {
     const notes = TEXT_RELATED_NOTES[id as NonPdfToolId]
+    return siblings.map((tool) => {
+      const note = notes?.[tool.id as NonPdfToolId]
+      return note ? { ...tool, note } : tool
+    })
+  }
+
+  if (current.family === 'developer') {
+    const notes = DEVELOPER_RELATED_NOTES[id as NonPdfToolId]
+    return siblings.map((tool) => {
+      const note = notes?.[tool.id as NonPdfToolId]
+      return note ? { ...tool, note } : tool
+    })
+  }
+
+  if (current.family === 'data') {
+    const notes = DATA_RELATED_NOTES[id as NonPdfToolId]
+    return siblings.map((tool) => {
+      const note = notes?.[tool.id as NonPdfToolId]
+      return note ? { ...tool, note } : tool
+    })
+  }
+
+  if (current.family === 'security') {
+    const notes = SECURITY_RELATED_NOTES[id as NonPdfToolId]
     return siblings.map((tool) => {
       const note = notes?.[tool.id as NonPdfToolId]
       return note ? { ...tool, note } : tool
