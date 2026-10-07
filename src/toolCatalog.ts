@@ -7,6 +7,7 @@ export type NonPdfToolId =
   | 'word-unscrambler'
   | 'text-cleaner'
   | 'case-converter'
+  | 'word-counter'
   | 'json-formatter'
   | 'base64'
   | 'url-encode'
@@ -94,6 +95,12 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     blurb: 'Switch case and copy camel/snake/kebab styles.',
   },
   {
+    id: 'word-counter',
+    family: 'text',
+    label: 'Word Counter',
+    blurb: 'Count words, characters, sentences, and more.',
+  },
+  {
     id: 'json-formatter',
     family: 'developer',
     label: 'JSON Formatter',
@@ -147,6 +154,10 @@ export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
   },
   'case-converter': {
     tagline: 'Change case. Stay local.',
+    privacyIdle: 'Runs in your browser. Text never leaves this device.',
+  },
+  'word-counter': {
+    tagline: 'Words. Characters. Instantly.',
     privacyIdle: 'Runs in your browser. Text never leaves this device.',
   },
   'json-formatter': {
@@ -209,9 +220,15 @@ const TEXT_RELATED_NOTES: Partial<
 > = {
   'text-cleaner': {
     'case-converter': 'Need a different case after cleaning? Switch styles next.',
+    'word-counter': 'Want the totals? Count words and characters next.',
   },
   'case-converter': {
     'text-cleaner': 'Clean messy spacing or HTML before converting case.',
+    'word-counter': 'Check length after converting? Open Word Counter.',
+  },
+  'word-counter': {
+    'text-cleaner': 'Need tidier copy first? Clean the text, then count.',
+    'case-converter': 'Changing case next? Convert styles without uploading.',
   },
 }
 

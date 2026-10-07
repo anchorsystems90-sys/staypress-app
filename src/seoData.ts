@@ -15,6 +15,7 @@ export type SeoMode =
   | 'word-unscrambler'
   | 'text-cleaner'
   | 'case-converter'
+  | 'word-counter'
   | 'json-formatter'
   | 'base64'
   | 'url-encode'
@@ -36,7 +37,7 @@ export const HOME_SEO = {
   path: HOME_PATH,
   title: 'Bento Tools — simple tools in your browser',
   description:
-    'Simple tools that work in your browser. Convert images to PDF, clean and convert text, format JSON, encode Base64 and URLs, convert CSV and JSON, unscramble words — free, no account.',
+    'Simple tools that work in your browser. Convert images to PDF, clean and count text, format JSON, encode Base64 and URLs, convert CSV and JSON, unscramble words — free, no account.',
   ogTitle: 'Bento Tools',
   ogDescription: 'Simple tools that work in your browser. No signup. No nonsense.',
 }
@@ -131,6 +132,15 @@ export const MODE_SEO: Record<SeoMode, ModeSeo> = {
     ogTitle: 'Case Converter — change case locally',
     ogDescription:
       'Switch case styles and copy identifier formats on this device. Bento Tools never uploads your text.',
+  },
+  'word-counter': {
+    path: '/word-counter',
+    title: 'Word Counter — characters, sentences & reading time | Bento Tools',
+    description:
+      'Count words, characters, sentences, paragraphs, and lines in your browser. Free, private — your text never leaves this device.',
+    ogTitle: 'Word Counter — count text locally',
+    ogDescription:
+      'Live word and character counts on this device. Bento Tools does not upload what you paste.',
   },
   'json-formatter': {
     path: '/json-formatter',
@@ -400,6 +410,34 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       },
       {
         question: 'Is Case Converter free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'word-counter': {
+    appName: 'Bento Tools — Word Counter',
+    h1: 'Count words and characters in your browser',
+    intro:
+      'Paste text and get live counts for words, characters (with and without spaces), sentences, paragraphs, lines, and a simple reading-time estimate — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Is my text uploaded?',
+        answer:
+          'No. Word Counter runs entirely in this browser tab. Bento Tools does not send what you paste to a server.',
+      },
+      {
+        question: 'How are words counted?',
+        answer:
+          'Words are whitespace-separated tokens after trimming. Multiple spaces between words do not create empty words.',
+      },
+      {
+        question: 'How is reading time estimated?',
+        answer:
+          'About 200 words per minute, rounded up to the next minute. It is a rough guide, not a precise measure of comprehension time.',
+      },
+      {
+        question: 'Is Word Counter free?',
         answer:
           'Yes. It is a free Bento Tools utility with no account required.',
       },

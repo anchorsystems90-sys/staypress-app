@@ -271,6 +271,26 @@ export function IconToolTextCleaner() {
   )
 }
 
+/** Word count — tally marks / lines. */
+export function IconToolWordCounter() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M5 7.5h4.5M5 12h7M5 16.5h5.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M15.5 8.25 18.75 16.5M18.75 8.25 15.5 16.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
 /** Aa. */
 export function IconToolCaseConverter() {
   return (

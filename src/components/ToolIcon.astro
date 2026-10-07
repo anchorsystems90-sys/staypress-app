@@ -13,6 +13,7 @@ import {
   IconToolSlimPdf,
   IconToolTextCleaner,
   IconToolUrlEncode,
+  IconToolWordCounter,
   IconToolWordUnscrambler,
 } from './Icons'
 
@@ -38,6 +39,8 @@ const { id } = Astro.props
     <IconToolTextCleaner />
   ) : id === 'case-converter' ? (
     <IconToolCaseConverter />
+  ) : id === 'word-counter' ? (
+    <IconToolWordCounter />
   ) : id === 'json-formatter' ? (
     <IconToolJsonFormatter />
   ) : id === 'base64' ? (
