@@ -23,6 +23,7 @@ export type NonPdfToolId =
   | 'password-generator'
   | 'passphrase-generator'
   | 'uuid-generator'
+  | 'api-key-generator'
 
 /** All first-class tools. `AppMode` remains the four PDF tools only. */
 export type ToolId = AppMode | NonPdfToolId
@@ -164,6 +165,12 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     label: 'UUID Generator',
     blurb: 'Generate version-4 UUIDs in bulk on this device.',
   },
+  {
+    id: 'api-key-generator',
+    family: 'security',
+    label: 'API Key Generator',
+    blurb: 'Random tokens in hex, base62, base32, or base64url.',
+  },
 ]
 
 export type StandaloneMeta = {
@@ -213,6 +220,10 @@ export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
   },'uuid-generator': {
     tagline: 'UUIDs on this device.',
     privacyIdle: 'Runs in your browser. Nothing is uploaded.',
+  },'api-key-generator': {
+    tagline: 'Random tokens. Stay local.',
+    privacyIdle:
+      'Runs in your browser. Keys are generated on this device.',
   },
 }
 
@@ -304,12 +315,16 @@ const SECURITY_RELATED_NOTES: Partial<
 'password-generator': {
     'passphrase-generator':
       'Prefer words you can type? Try a memorable passphrase next.',
+    'api-key-generator': 'Need a machine token instead? Generate an API key.',
   },'passphrase-generator': {
     'password-generator':
       'Want symbol-heavy passwords instead? Open Password Generator.',
   },'uuid-generator': {
     'api-key-generator':
       'Need a shorter opaque token? Generate an API key instead.',
+  },'api-key-generator': {
+    'uuid-generator': 'Need a UUID instead of a custom alphabet token?',
+    'password-generator': 'Generating a login password? Use Password Generator.',
   },
 }
 

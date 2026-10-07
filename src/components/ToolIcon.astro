@@ -1,6 +1,7 @@
 ---
 import type { ToolId } from '../toolCatalog'
 import {
+  IconToolApiKeyGenerator,
   IconToolBase64,
   IconToolCaseConverter,
   IconToolCsvColumnExtractor,
@@ -60,7 +61,9 @@ const { id } = Astro.props
     <IconToolPasswordGenerator />
   ) : id === 'passphrase-generator' ? (
     <IconToolPassphraseGenerator />
-  ) : (
+  ) : id === 'uuid-generator' ? (
     <IconToolUuidGenerator />
+  ) : (
+    <IconToolApiKeyGenerator />
   )
 }

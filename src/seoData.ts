@@ -25,6 +25,7 @@ export type SeoMode =
   | 'password-generator'
   | 'passphrase-generator'
   | 'uuid-generator'
+  | 'api-key-generator'
 
 /** Default share-card image (1200×630 PNG in /public). */
 export const OG_IMAGE_PATH = '/og.png'
@@ -209,6 +210,14 @@ images: {
     ogTitle: 'UUID Generator — create UUIDs locally',
     ogDescription:
       'Generate random version-4 UUIDs on this device. Bento Tools does not upload anything.',
+  },'api-key-generator': {
+    path: '/api-key-generator',
+    title: 'API Key Generator — random tokens locally | Bento Tools',
+    description:
+      'Generate random API keys and tokens in hex, base62, base32, or base64url in your browser. Free, private — nothing is uploaded.',
+    ogTitle: 'API Key Generator — create tokens locally',
+    ogDescription:
+      'Create random API keys on this device. Bento Tools does not upload or store them.',
   },
 }
 
@@ -693,6 +702,33 @@ images: {
       },
       {
         question: 'Is the UUID Generator free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },'api-key-generator': {
+    appName: 'Bento Tools — API Key Generator',
+    h1: 'Generate API keys in your browser',
+    intro:
+      'Create random tokens in hex, base62, base32, or base64url with optional prefixes. Generation stays on this device — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Are keys uploaded or stored?',
+        answer:
+          'No. Keys are generated in this browser tab. Bento Tools does not send them to a server or keep a history.',
+      },
+      {
+        question: 'Which alphabet should I use?',
+        answer:
+          'Base62 is a solid general default. Hex is convenient for binary-looking tokens. Base32 and base64url help when you need URL-safe or case-insensitive alphabets.',
+      },
+      {
+        question: 'What does the bit estimate mean?',
+        answer:
+          'It is approximate entropy from length × alphabet size. It is a rough guide, not a guarantee for every threat model.',
+      },
+      {
+        question: 'Is the API Key Generator free?',
         answer:
           'Yes. It is a free Bento Tools utility with no account required.',
       },
