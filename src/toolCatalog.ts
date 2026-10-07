@@ -1,7 +1,13 @@
 import type { AppMode } from './types'
 
 /** PDF-family tools. Keep this aligned with `AppMode` in types.ts. */
-export type ToolFamily = 'pdf' | 'words' | 'text' | 'developer' | 'data'
+export type ToolFamily =
+  | 'pdf'
+  | 'words'
+  | 'text'
+  | 'developer'
+  | 'data'
+  | 'security'
 
 export type NonPdfToolId =
   | 'word-unscrambler'
@@ -14,6 +20,7 @@ export type NonPdfToolId =
   | 'csv-column-extractor'
   | 'csv-to-json'
   | 'json-to-csv'
+  | 'password-generator'
 
 /** All first-class tools. `AppMode` remains the four PDF tools only. */
 export type ToolId = AppMode | NonPdfToolId
@@ -41,6 +48,7 @@ export const TOOL_FAMILIES: readonly { id: ToolFamily; label: string }[] = [
   { id: 'text', label: 'Text' },
   { id: 'developer', label: 'Developer' },
   { id: 'data', label: 'Data' },
+  { id: 'security', label: 'Security' },
 ]
 
 export type ToolDirectoryEntry = {
@@ -136,6 +144,12 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     label: 'JSON → CSV',
     blurb: 'Turn a JSON array into a downloadable CSV.',
   },
+  {
+    id: 'password-generator',
+    family: 'security',
+    label: 'Password Generator',
+    blurb: 'Create strong random passwords on this device.',
+  },
 ]
 
 export type StandaloneMeta = {
@@ -144,45 +158,40 @@ export type StandaloneMeta = {
 }
 
 export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
-  'word-unscrambler': {
+'word-unscrambler': {
     tagline: 'Unscramble letters. Find words.',
     privacyIdle: 'Runs in your browser. Letters never leave this device.',
-  },
-  'text-cleaner': {
+  },'text-cleaner': {
     tagline: 'Paste messy text. Get a clean copy.',
     privacyIdle: 'Runs in your browser. Text never leaves this device.',
-  },
-  'case-converter': {
+  },'case-converter': {
     tagline: 'Change case. Stay local.',
     privacyIdle: 'Runs in your browser. Text never leaves this device.',
-  },
-  'word-counter': {
+  },'word-counter': {
     tagline: 'Words. Characters. Instantly.',
     privacyIdle: 'Runs in your browser. Text never leaves this device.',
-  },
-  'json-formatter': {
+  },'json-formatter': {
     tagline: 'Format JSON on this device.',
     privacyIdle: 'Runs in your browser. JSON never leaves this device.',
-  },
-  base64: {
+  },base64: {
     tagline: 'Encode. Decode. Stay local.',
     privacyIdle: 'Runs in your browser. Your text never leaves this device.',
-  },
-  'url-encode': {
+  },'url-encode': {
     tagline: 'Percent-encode. Decode. Stay local.',
     privacyIdle: 'Runs in your browser. Your text never leaves this device.',
-  },
-  'csv-column-extractor': {
+  },'csv-column-extractor': {
     tagline: 'Keep the columns you need.',
     privacyIdle: 'Runs in your browser. Your CSV never leaves this device.',
-  },
-  'csv-to-json': {
+  },'csv-to-json': {
     tagline: 'CSV in. JSON out.',
     privacyIdle: 'Runs in your browser. Your CSV never leaves this device.',
-  },
-  'json-to-csv': {
+  },'json-to-csv': {
     tagline: 'JSON in. CSV out.',
     privacyIdle: 'Runs in your browser. Your JSON never leaves this device.',
+  },'password-generator': {
+    tagline: 'Strong passwords. Stay local.',
+    privacyIdle:
+      'Runs in your browser. Passwords are generated on this device.',
   },
 }
 
@@ -267,6 +276,16 @@ const DATA_RELATED_NOTES: Partial<
   },
 }
 
+/** Short contextual notes for security-family related links. */
+const SECURITY_RELATED_NOTES: Partial<
+  Record<NonPdfToolId, Partial<Record<NonPdfToolId, string>>>
+> = {
+'password-generator': {
+    'passphrase-generator':
+      'Prefer words you can type? Try a memorable passphrase next.',
+  },
+}
+
 export type RelatedToolLink = ToolDirectoryEntry & {
   note?: string
 }
@@ -313,6 +332,14 @@ export function relatedTools(id: ToolId): readonly RelatedToolLink[] {
 
   if (current.family === 'data') {
     const notes = DATA_RELATED_NOTES[id as NonPdfToolId]
+    return siblings.map((tool) => {
+      const note = notes?.[tool.id as NonPdfToolId]
+      return note ? { ...tool, note } : tool
+    })
+  }
+
+  if (current.family === 'security') {
+    const notes = SECURITY_RELATED_NOTES[id as NonPdfToolId]
     return siblings.map((tool) => {
       const note = notes?.[tool.id as NonPdfToolId]
       return note ? { ...tool, note } : tool

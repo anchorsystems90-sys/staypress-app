@@ -109,10 +109,22 @@ Bento Tools is a free, open-source suite from **[Anchor Systems](https://anchors
 - Comma / semicolon / tab delimiter
 - Copy or download — nothing is uploaded
 
+### Password Generator (`/password-generator`)
+
+- Strong random passwords with length and character-set controls
+- Optional ambiguous-character exclusion · strength estimate
+- Generated with `crypto.getRandomValues` — nothing is uploaded
+
+
+
+
+
+
+
 ### Shared
 
 - Mobile sticky download actions on PDF tools
-- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/word-counter`, `/json-formatter`, `/base64`, `/url-encode`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv` (`/images` 301s to `/images-to-pdf`; `/compress` 301s to `/slim`; `/csv-json` 301s to `/csv-to-json`)
+- SEO routes: `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/word-counter`, `/json-formatter`, `/base64`, `/url-encode`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv`, `/password-generator` (`/images` 301s to `/images-to-pdf`; `/compress` 301s to `/slim`; `/csv-json` 301s to `/csv-to-json`)
 - Per-tool title, meta, JSON-LD, and static HTML (Astro). Tools hydrate as React islands.
 - Soft credit to Anchor Systems
 
@@ -214,8 +226,9 @@ Tools still never upload your files or letters; only the text the user types in 
 - [ ] Slim: preset · before/after sizes
 - [ ] Word Unscrambler: letters → words · copy
 - [ ] Text Cleaner / Case Converter / Word Counter / JSON Formatter / Base64 / URL Encode / CSV tools: paste → copy locally
+- [ ] Password: generate · copy locally
 - [ ] Privacy line + no unexpected uploads of user files
-- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/word-counter`, `/json-formatter`, `/base64`, `/url-encode`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv`, `/privacy`, `/guides/heic-to-pdf` load correctly
+- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/word-counter`, `/json-formatter`, `/base64`, `/url-encode`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv`, `/password-generator`, `/privacy`, `/guides/heic-to-pdf` load correctly
 - [ ] `/images` 301s to `/images-to-pdf`
 - [ ] `/compress` 301s to `/slim`
 - [ ] Production: absolute canonical + `og:image`
@@ -252,6 +265,7 @@ src/
     csv-column-extractor/
     csv-to-json/
     json-to-csv/
+    password-generator/
   components/             # Stage, Viewer, Icons, FeedbackDialog, Astro chrome
   lib/
     images.ts
