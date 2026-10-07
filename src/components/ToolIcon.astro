@@ -9,6 +9,7 @@ import {
   IconToolJsonFormatter,
   IconToolJsonToCsv,
   IconToolMergePdf,
+  IconToolPassphraseGenerator,
   IconToolPasswordGenerator,
   IconToolPdfToImages,
   IconToolSlimPdf,
@@ -54,7 +55,9 @@ const { id } = Astro.props
     <IconToolCsvToJson />
   ) : id === 'json-to-csv' ? (
     <IconToolJsonToCsv />
-  ) : (
+  ) : id === 'password-generator' ? (
     <IconToolPasswordGenerator />
+  ) : (
+    <IconToolPassphraseGenerator />
   )
 }

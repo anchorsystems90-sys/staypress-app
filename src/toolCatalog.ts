@@ -21,6 +21,7 @@ export type NonPdfToolId =
   | 'csv-to-json'
   | 'json-to-csv'
   | 'password-generator'
+  | 'passphrase-generator'
 
 /** All first-class tools. `AppMode` remains the four PDF tools only. */
 export type ToolId = AppMode | NonPdfToolId
@@ -150,6 +151,12 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     label: 'Password Generator',
     blurb: 'Create strong random passwords on this device.',
   },
+  {
+    id: 'passphrase-generator',
+    family: 'security',
+    label: 'Passphrase Generator',
+    blurb: 'Memorable word-based passphrases, generated locally.',
+  },
 ]
 
 export type StandaloneMeta = {
@@ -192,6 +199,10 @@ export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
     tagline: 'Strong passwords. Stay local.',
     privacyIdle:
       'Runs in your browser. Passwords are generated on this device.',
+  },'passphrase-generator': {
+    tagline: 'Memorable. Strong. Local.',
+    privacyIdle:
+      'Runs in your browser. Passphrases are generated on this device.',
   },
 }
 
@@ -283,6 +294,9 @@ const SECURITY_RELATED_NOTES: Partial<
 'password-generator': {
     'passphrase-generator':
       'Prefer words you can type? Try a memorable passphrase next.',
+  },'passphrase-generator': {
+    'password-generator':
+      'Want symbol-heavy passwords instead? Open Password Generator.',
   },
 }
 

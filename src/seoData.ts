@@ -23,6 +23,7 @@ export type SeoMode =
   | 'csv-to-json'
   | 'json-to-csv'
   | 'password-generator'
+  | 'passphrase-generator'
 
 /** Default share-card image (1200×630 PNG in /public). */
 export const OG_IMAGE_PATH = '/og.png'
@@ -38,7 +39,7 @@ export const HOME_SEO = {
   path: HOME_PATH,
   title: 'Bento Tools — simple tools in your browser',
   description:
-    'Simple tools that work in your browser. Convert images to PDF, clean and count text, format JSON, encode Base64 and URLs, convert CSV and JSON, generate passwords, unscramble words — free, no account.',
+    'Simple tools that work in your browser. Convert images to PDF, clean and count text, format JSON, encode Base64 and URLs, convert CSV and JSON, generate passwords and secrets, unscramble words — free, no account.',
   ogTitle: 'Bento Tools',
   ogDescription: 'Simple tools that work in your browser. No signup. No nonsense.',
 }
@@ -191,6 +192,14 @@ images: {
     ogTitle: 'Password Generator — create passwords locally',
     ogDescription:
       'Create strong random passwords on this device. Bento Tools does not upload or store them.',
+  },'passphrase-generator': {
+    path: '/passphrase-generator',
+    title: 'Passphrase Generator — memorable word phrases locally | Bento Tools',
+    description:
+      'Generate diceware-style passphrases from a local word list in your browser. Choose word count, separator, and options — free, private, nothing uploaded.',
+    ogTitle: 'Passphrase Generator — memorable phrases locally',
+    ogDescription:
+      'Create strong word-based passphrases on this device. Bento Tools does not upload or store them.',
   },
 }
 
@@ -621,6 +630,33 @@ images: {
       },
       {
         question: 'Is the Password Generator free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },'passphrase-generator': {
+    appName: 'Bento Tools — Passphrase Generator',
+    h1: 'Generate memorable passphrases in your browser',
+    intro:
+      'Build diceware-style passphrases from a local EFF short word list. Choose word count, separator, capitalization, and an optional digit — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Are passphrases uploaded or stored?',
+        answer:
+          'No. Words are chosen in this browser tab with crypto randomness. Bento Tools does not send them to a server or keep a history.',
+      },
+      {
+        question: 'Which word list is used?',
+        answer:
+          'The EFF Short Wordlist #1 (diceware-style). The list ships with the app and is not fetched from the network when you generate.',
+      },
+      {
+        question: 'How strong is a six-word passphrase?',
+        answer:
+          'With this list, each word adds about 10.3 bits. Six words are roughly 62 bits before optional digits — a solid everyday default.',
+      },
+      {
+        question: 'Is the Passphrase Generator free?',
         answer:
           'Yes. It is a free Bento Tools utility with no account required.',
       },
