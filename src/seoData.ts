@@ -17,6 +17,7 @@ export type SeoMode =
   | 'case-converter'
   | 'json-formatter'
   | 'base64'
+  | 'url-encode'
   | 'csv-column-extractor'
   | 'csv-to-json'
   | 'json-to-csv'
@@ -35,7 +36,7 @@ export const HOME_SEO = {
   path: HOME_PATH,
   title: 'Bento Tools — simple tools in your browser',
   description:
-    'Simple tools that work in your browser. Convert images to PDF, clean and convert text, format JSON, encode Base64, convert CSV and JSON, unscramble words — free, no account.',
+    'Simple tools that work in your browser. Convert images to PDF, clean and convert text, format JSON, encode Base64 and URLs, convert CSV and JSON, unscramble words — free, no account.',
   ogTitle: 'Bento Tools',
   ogDescription: 'Simple tools that work in your browser. No signup. No nonsense.',
 }
@@ -148,6 +149,15 @@ export const MODE_SEO: Record<SeoMode, ModeSeo> = {
     ogTitle: 'Base64 Encode & Decode — locally',
     ogDescription:
       'Encode or decode Base64 on this device. Bento Tools does not upload your text.',
+  },
+  'url-encode': {
+    path: '/url-encode',
+    title: 'URL Encode & Decode — private, in your browser | Bento Tools',
+    description:
+      'Percent-encode or decode URL and query-string text in your browser. Component or full-URL style — free, no upload.',
+    ogTitle: 'URL Encode & Decode — locally',
+    ogDescription:
+      'Encode or decode URLs on this device. Bento Tools does not upload your text.',
   },
   'csv-column-extractor': {
     path: '/csv-column-extractor',
@@ -446,6 +456,34 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       },
       {
         question: 'Is the Base64 tool free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'url-encode': {
+    appName: 'Bento Tools — URL Encode',
+    h1: 'Encode and decode URLs in your browser',
+    intro:
+      'Percent-encode query values or a full URL, or decode encoded text back. Optional + as space for form values — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Is my text uploaded?',
+        answer:
+          'No. URL encoding and decoding run in this browser tab. Bento Tools does not send your text to a server.',
+      },
+      {
+        question: 'What is the difference between Component and Full URL?',
+        answer:
+          'Component mode encodes almost everything (like encodeURIComponent) — best for query values. Full URL mode keeps structural characters such as : / ? & # (like encodeURI).',
+      },
+      {
+        question: 'Why treat + as space?',
+        answer:
+          'Some form encodings use + for spaces. When decoding, that option converts bare + characters to spaces before percent-decoding.',
+      },
+      {
+        question: 'Is the URL Encode tool free?',
         answer:
           'Yes. It is a free Bento Tools utility with no account required.',
       },

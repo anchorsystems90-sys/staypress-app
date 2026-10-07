@@ -79,6 +79,12 @@ Bento Tools is a free, open-source suite from **[Anchor Systems](https://anchors
 - UTF-8 safe · optional URL-safe alphabet
 - Copy or download — nothing is uploaded
 
+### URL Encode (`/url-encode`)
+
+- Percent-encode or decode URL / query-string text
+- Component or full-URL style · optional + as space
+- Copy or download — nothing is uploaded
+
 ### CSV Column Extractor (`/csv-column-extractor`)
 
 - Paste or open a CSV · pick columns to keep
@@ -100,7 +106,7 @@ Bento Tools is a free, open-source suite from **[Anchor Systems](https://anchors
 ### Shared
 
 - Mobile sticky download actions on PDF tools
-- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/base64`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv` (`/images` 301s to `/images-to-pdf`; `/compress` 301s to `/slim`; `/csv-json` 301s to `/csv-to-json`)
+- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/base64`, `/url-encode`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv` (`/images` 301s to `/images-to-pdf`; `/compress` 301s to `/slim`; `/csv-json` 301s to `/csv-to-json`)
 - Per-tool title, meta, JSON-LD, and static HTML (Astro). Tools hydrate as React islands.
 - Soft credit to Anchor Systems
 
@@ -201,9 +207,9 @@ Tools still never upload your files or letters; only the text the user types in 
 - [ ] Extract: auto render · per-page download · ZIP
 - [ ] Slim: preset · before/after sizes
 - [ ] Word Unscrambler: letters → words · copy
-- [ ] Text Cleaner / Case Converter / JSON Formatter / Base64 / CSV tools: paste → copy locally
+- [ ] Text Cleaner / Case Converter / JSON Formatter / Base64 / URL Encode / CSV tools: paste → copy locally
 - [ ] Privacy line + no unexpected uploads of user files
-- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/base64`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv`, `/privacy`, `/guides/heic-to-pdf` load correctly
+- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/base64`, `/url-encode`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv`, `/privacy`, `/guides/heic-to-pdf` load correctly
 - [ ] `/images` 301s to `/images-to-pdf`
 - [ ] `/compress` 301s to `/slim`
 - [ ] Production: absolute canonical + `og:image`
@@ -235,6 +241,7 @@ src/
     case-converter/
     json-formatter/
     base64/
+    url-encode/
     csv-column-extractor/
     csv-to-json/
     json-to-csv/
@@ -251,7 +258,7 @@ docs/
 
 ## Privacy
 
-Bento Tools does **not** upload your images, PDFs, letters, pasted text, or CSV/JSON files for processing. Generation, merge, extract, slim, word matching, text cleanup, case conversion, JSON formatting, Base64 encode/decode, CSV column extraction, CSV to JSON, and JSON to CSV run entirely in the browser.
+Bento Tools does **not** upload your images, PDFs, letters, pasted text, or CSV/JSON files for processing. Generation, merge, extract, slim, word matching, text cleanup, case conversion, JSON formatting, Base64 encode/decode, URL encode/decode, CSV column extraction, CSV to JSON, and JSON to CSV run entirely in the browser.
 
 ---
 

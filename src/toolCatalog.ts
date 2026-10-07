@@ -9,6 +9,7 @@ export type NonPdfToolId =
   | 'case-converter'
   | 'json-formatter'
   | 'base64'
+  | 'url-encode'
   | 'csv-column-extractor'
   | 'csv-to-json'
   | 'json-to-csv'
@@ -105,6 +106,12 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     blurb: 'Encode or decode Base64 text on this device.',
   },
   {
+    id: 'url-encode',
+    family: 'developer',
+    label: 'URL Encode',
+    blurb: 'Encode or decode URL and query-string text.',
+  },
+  {
     id: 'csv-column-extractor',
     family: 'data',
     label: 'CSV Column Extractor',
@@ -148,6 +155,10 @@ export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
   },
   base64: {
     tagline: 'Encode. Decode. Stay local.',
+    privacyIdle: 'Runs in your browser. Your text never leaves this device.',
+  },
+  'url-encode': {
+    tagline: 'Percent-encode. Decode. Stay local.',
     privacyIdle: 'Runs in your browser. Your text never leaves this device.',
   },
   'csv-column-extractor': {
@@ -210,9 +221,15 @@ const DEVELOPER_RELATED_NOTES: Partial<
 > = {
   'json-formatter': {
     base64: 'Need to encode a payload next? Base64 encode or decode here.',
+    'url-encode': 'Shipping a query string? URL-encode values here.',
   },
   base64: {
     'json-formatter': 'Working with JSON too? Pretty-print or minify it next.',
+    'url-encode': 'Need percent-encoding instead? URL Encode is next door.',
+  },
+  'url-encode': {
+    base64: 'Encoding a token or blob? Try Base64 encode/decode.',
+    'json-formatter': 'Formatting a JSON body? Pretty-print it locally.',
   },
 }
 

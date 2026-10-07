@@ -341,6 +341,34 @@ export function IconToolBase64() {
   )
 }
 
+/** Link / percent-encoding. */
+export function IconToolUrlEncode() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M9.5 14.5 7.75 16.25a3.25 3.25 0 0 1-4.6-4.6L5.5 9.3"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14.5 9.5 16.25 7.75a3.25 3.25 0 0 1 4.6 4.6L18.5 14.7"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9.75 14.25 14.25 9.75"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
 /** Grid / spreadsheet columns. */
 export function IconToolCsvColumnExtractor() {
   return (

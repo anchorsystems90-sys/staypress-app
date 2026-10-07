@@ -12,6 +12,7 @@ import {
   IconToolPdfToImages,
   IconToolSlimPdf,
   IconToolTextCleaner,
+  IconToolUrlEncode,
   IconToolWordUnscrambler,
 } from './Icons'
 
@@ -41,6 +42,8 @@ const { id } = Astro.props
     <IconToolJsonFormatter />
   ) : id === 'base64' ? (
     <IconToolBase64 />
+  ) : id === 'url-encode' ? (
+    <IconToolUrlEncode />
   ) : id === 'csv-column-extractor' ? (
     <IconToolCsvColumnExtractor />
   ) : id === 'csv-to-json' ? (
