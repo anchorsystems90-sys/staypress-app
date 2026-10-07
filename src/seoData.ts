@@ -27,6 +27,7 @@ export type SeoMode =
   | 'uuid-generator'
   | 'api-key-generator'
   | 'hash-generator'
+  | 'hmac-generator'
   | 'otp-secret'
 
 /** Default share-card image (1200×630 PNG in /public). */
@@ -76,7 +77,7 @@ export type ModePageContent = {
  * Keep each page about one job; privacy is the differentiator in every blurb.
  */
 export const MODE_SEO: Record<SeoMode, ModeSeo> = {
-images: {
+  images: {
     path: '/images-to-pdf',
     title: 'Images to PDF — Private, no upload | Bento Tools',
     description:
@@ -84,7 +85,8 @@ images: {
     ogTitle: 'Images to PDF — private, no upload',
     ogDescription:
       'Drop photos and get a PDF. Bento Tools runs entirely on your device — nothing is uploaded.',
-  },merge: {
+  },
+  merge: {
     path: '/merge',
     title: 'Merge PDFs privately — no upload | Bento Tools',
     description:
@@ -92,7 +94,8 @@ images: {
     ogTitle: 'Merge PDFs privately — no upload',
     ogDescription:
       'Combine PDFs locally. Bento Tools merges on your device — nothing is uploaded.',
-  },extract: {
+  },
+  extract: {
     path: '/extract',
     title: 'PDF to Images — Convert Pages to JPG or PNG | Bento Tools',
     description:
@@ -100,7 +103,8 @@ images: {
     ogTitle: 'PDF to images — convert pages locally',
     ogDescription:
       'Turn each PDF page into a JPG or PNG on your device. Bento Tools never uploads your file.',
-  },slim: {
+  },
+  slim: {
     path: '/slim',
     title: 'Compress PDF in Your Browser — Private, No Upload | Bento Tools',
     description:
@@ -108,7 +112,8 @@ images: {
     ogTitle: 'Compress PDF in your browser — no upload',
     ogDescription:
       'Browser-based PDF compression on your device. Bento Tools does not upload your file.',
-  },'word-unscrambler': {
+  },
+  'word-unscrambler': {
     path: '/word-unscrambler',
     title: 'Word Unscrambler — find words from letters | Bento Tools',
     description:
@@ -116,7 +121,8 @@ images: {
     ogTitle: 'Word Unscrambler — find words from letters',
     ogDescription:
       'Unscramble letters with optional blanks and filters. Bento Tools runs the search on your device.',
-  },'text-cleaner': {
+  },
+  'text-cleaner': {
     path: '/text-cleaner',
     title: 'Text Cleaner — tidy messy text in your browser | Bento Tools',
     description:
@@ -124,7 +130,8 @@ images: {
     ogTitle: 'Text Cleaner — tidy messy text locally',
     ogDescription:
       'Paste messy text and clean it on this device. Bento Tools does not upload what you paste.',
-  },'case-converter': {
+  },
+  'case-converter': {
     path: '/case-converter',
     title: 'Case Converter — UPPER, title, camelCase & more | Bento Tools',
     description:
@@ -132,7 +139,8 @@ images: {
     ogTitle: 'Case Converter — change case locally',
     ogDescription:
       'Switch case styles and copy identifier formats on this device. Bento Tools never uploads your text.',
-  },'word-counter': {
+  },
+  'word-counter': {
     path: '/word-counter',
     title: 'Word Counter — characters, sentences & reading time | Bento Tools',
     description:
@@ -140,7 +148,8 @@ images: {
     ogTitle: 'Word Counter — count text locally',
     ogDescription:
       'Live word and character counts on this device. Bento Tools does not upload what you paste.',
-  },'json-formatter': {
+  },
+  'json-formatter': {
     path: '/json-formatter',
     title: 'JSON Formatter — pretty-print & minify locally | Bento Tools',
     description:
@@ -148,7 +157,8 @@ images: {
     ogTitle: 'JSON Formatter — pretty-print locally',
     ogDescription:
       'Pretty-print or minify JSON on this device, with line-aware validation feedback. Bento Tools does not upload your data.',
-  },base64: {
+  },
+  base64: {
     path: '/base64',
     title: 'Base64 Encode & Decode — private, in your browser | Bento Tools',
     description:
@@ -156,7 +166,8 @@ images: {
     ogTitle: 'Base64 Encode & Decode — locally',
     ogDescription:
       'Encode or decode Base64 on this device. Bento Tools does not upload your text.',
-  },'url-encode': {
+  },
+  'url-encode': {
     path: '/url-encode',
     title: 'URL Encode & Decode — private, in your browser | Bento Tools',
     description:
@@ -164,7 +175,8 @@ images: {
     ogTitle: 'URL Encode & Decode — locally',
     ogDescription:
       'Encode or decode URLs on this device. Bento Tools does not upload your text.',
-  },'csv-column-extractor': {
+  },
+  'csv-column-extractor': {
     path: '/csv-column-extractor',
     title: 'CSV Column Extractor — keep only the columns you need | Bento Tools',
     description:
@@ -172,7 +184,8 @@ images: {
     ogTitle: 'CSV Column Extractor — keep only the columns you need',
     ogDescription:
       'Select CSV columns locally and export a smaller file. Bento Tools does not upload your spreadsheet.',
-  },'csv-to-json': {
+  },
+  'csv-to-json': {
     path: '/csv-to-json',
     title: 'CSV to JSON — private converter in your browser | Bento Tools',
     description:
@@ -180,7 +193,8 @@ images: {
     ogTitle: 'CSV to JSON — convert locally',
     ogDescription:
       'Turn CSV into JSON objects or arrays on this device. Bento Tools does not upload your spreadsheet.',
-  },'json-to-csv': {
+  },
+  'json-to-csv': {
     path: '/json-to-csv',
     title: 'JSON to CSV — private converter in your browser | Bento Tools',
     description:
@@ -188,7 +202,8 @@ images: {
     ogTitle: 'JSON to CSV — convert locally',
     ogDescription:
       'Turn JSON arrays into CSV on this device. Bento Tools does not upload your data.',
-  },'password-generator': {
+  },
+  'password-generator': {
     path: '/password-generator',
     title: 'Password Generator — strong random passwords locally | Bento Tools',
     description:
@@ -196,7 +211,8 @@ images: {
     ogTitle: 'Password Generator — create passwords locally',
     ogDescription:
       'Create strong random passwords on this device. Bento Tools does not upload or store them.',
-  },'passphrase-generator': {
+  },
+  'passphrase-generator': {
     path: '/passphrase-generator',
     title: 'Passphrase Generator — memorable word phrases locally | Bento Tools',
     description:
@@ -204,7 +220,8 @@ images: {
     ogTitle: 'Passphrase Generator — memorable phrases locally',
     ogDescription:
       'Create strong word-based passphrases on this device. Bento Tools does not upload or store them.',
-  },'uuid-generator': {
+  },
+  'uuid-generator': {
     path: '/uuid-generator',
     title: 'UUID Generator — version 4 UUIDs in your browser | Bento Tools',
     description:
@@ -212,7 +229,8 @@ images: {
     ogTitle: 'UUID Generator — create UUIDs locally',
     ogDescription:
       'Generate random version-4 UUIDs on this device. Bento Tools does not upload anything.',
-  },'api-key-generator': {
+  },
+  'api-key-generator': {
     path: '/api-key-generator',
     title: 'API Key Generator — random tokens locally | Bento Tools',
     description:
@@ -220,7 +238,8 @@ images: {
     ogTitle: 'API Key Generator — create tokens locally',
     ogDescription:
       'Create random API keys on this device. Bento Tools does not upload or store them.',
-  },'hash-generator': {
+  },
+  'hash-generator': {
     path: '/hash-generator',
     title: 'Hash Generator — SHA hashes in your browser | Bento Tools',
     description:
@@ -228,7 +247,17 @@ images: {
     ogTitle: 'Hash Generator — hash text locally',
     ogDescription:
       'Compute SHA digests on this device. Bento Tools does not upload your text.',
-  },'otp-secret': {
+  },
+  'hmac-generator': {
+    path: '/hmac-generator',
+    title: 'HMAC Generator — sign messages locally | Bento Tools',
+    description:
+      'Compute HMAC-SHA1, HMAC-SHA256, HMAC-SHA384, or HMAC-SHA512 in your browser with Web Crypto. Hex or Base64 output — free, private, nothing uploaded.',
+    ogTitle: 'HMAC Generator — sign messages locally',
+    ogDescription:
+      'Sign a message with a secret on this device. Bento Tools does not upload your payload or key.',
+  },
+  'otp-secret': {
     path: '/otp-secret',
     title: 'OTP Secret — TOTP secrets & otpauth URIs locally | Bento Tools',
     description:
@@ -240,7 +269,7 @@ images: {
 }
 
 export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
-images: {
+  images: {
     appName: 'Bento Tools — Images to PDF',
     h1: 'Convert images to PDF privately',
     intro:
@@ -267,7 +296,8 @@ images: {
           'Yes. The Images → PDF tool is free to use with no account required.',
       },
     ],
-  },merge: {
+  },
+  merge: {
     appName: 'Bento Tools — Merge PDFs',
     h1: 'Merge PDFs in your browser',
     intro:
@@ -294,7 +324,8 @@ images: {
           'Practical limits come from your device memory, not a cloud quota. Very large batches may be slower on phones.',
       },
     ],
-  },extract: {
+  },
+  extract: {
     appName: 'Bento Tools — PDF to images',
     h1: 'Convert PDF pages to images',
     intro:
@@ -326,7 +357,8 @@ images: {
           'Once Bento Tools and its libraries are loaded, conversion does not need your files uploaded; a connection is only needed to load the app assets.',
       },
     ],
-  },slim: {
+  },
+  slim: {
     appName: 'Bento Tools — Slim PDF',
     h1: 'Compress a PDF in your browser',
     intro:
@@ -353,7 +385,8 @@ images: {
           'Not always. If the file is already compact, you’ll see little gain and Bento Tools will say so rather than exaggerate.',
       },
     ],
-  },'word-unscrambler': {
+  },
+  'word-unscrambler': {
     appName: 'Bento Tools — Word Unscrambler',
     h1: 'Unscramble letters into words',
     intro:
@@ -385,7 +418,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'text-cleaner': {
+  },
+  'text-cleaner': {
     appName: 'Bento Tools — Text Cleaner',
     h1: 'Clean messy text in your browser',
     intro:
@@ -417,7 +451,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'case-converter': {
+  },
+  'case-converter': {
     appName: 'Bento Tools — Case Converter',
     h1: 'Convert text case in your browser',
     intro:
@@ -449,7 +484,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'word-counter': {
+  },
+  'word-counter': {
     appName: 'Bento Tools — Word Counter',
     h1: 'Count words and characters in your browser',
     intro:
@@ -476,7 +512,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'json-formatter': {
+  },
+  'json-formatter': {
     appName: 'Bento Tools — JSON Formatter',
     h1: 'Format JSON without uploading',
     intro:
@@ -503,7 +540,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },base64: {
+  },
+  base64: {
     appName: 'Bento Tools — Base64',
     h1: 'Encode and decode Base64 in your browser',
     intro:
@@ -530,7 +568,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'url-encode': {
+  },
+  'url-encode': {
     appName: 'Bento Tools — URL Encode',
     h1: 'Encode and decode URLs in your browser',
     intro:
@@ -557,7 +596,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'csv-column-extractor': {
+  },
+  'csv-column-extractor': {
     appName: 'Bento Tools — CSV Column Extractor',
     h1: 'Extract CSV columns in your browser',
     intro:
@@ -589,7 +629,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'csv-to-json': {
+  },
+  'csv-to-json': {
     appName: 'Bento Tools — CSV to JSON',
     h1: 'Convert CSV to JSON in your browser',
     intro:
@@ -616,7 +657,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'json-to-csv': {
+  },
+  'json-to-csv': {
     appName: 'Bento Tools — JSON to CSV',
     h1: 'Convert JSON to CSV in your browser',
     intro:
@@ -643,7 +685,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'password-generator': {
+  },
+  'password-generator': {
     appName: 'Bento Tools — Password Generator',
     h1: 'Generate strong passwords in your browser',
     intro:
@@ -670,7 +713,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'passphrase-generator': {
+  },
+  'passphrase-generator': {
     appName: 'Bento Tools — Passphrase Generator',
     h1: 'Generate memorable passphrases in your browser',
     intro:
@@ -697,7 +741,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'uuid-generator': {
+  },
+  'uuid-generator': {
     appName: 'Bento Tools — UUID Generator',
     h1: 'Generate version-4 UUIDs in your browser',
     intro:
@@ -724,7 +769,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'api-key-generator': {
+  },
+  'api-key-generator': {
     appName: 'Bento Tools — API Key Generator',
     h1: 'Generate API keys in your browser',
     intro:
@@ -751,7 +797,8 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'hash-generator': {
+  },
+  'hash-generator': {
     appName: 'Bento Tools — Hash Generator',
     h1: 'Hash text in your browser',
     intro:
@@ -778,7 +825,36 @@ images: {
           'Yes. It is a free Bento Tools utility with no account required.',
       },
     ],
-  },'otp-secret': {
+  },
+  'hmac-generator': {
+    appName: 'Bento Tools — HMAC Generator',
+    h1: 'Sign messages with HMAC in your browser',
+    intro:
+      'Compute HMAC-SHA1 through HMAC-SHA512 of a message and secret with Web Crypto. Useful for webhook signatures and API auth checks — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Are my message and secret uploaded?',
+        answer:
+          'No. Signing uses the Web Crypto API in this browser. Bento Tools does not send your payload or secret to a server.',
+      },
+      {
+        question: 'How is the secret encoded?',
+        answer:
+          'Both the message and secret are treated as UTF-8 text. Output can be lowercase hex or standard Base64.',
+      },
+      {
+        question: 'Is this for password hashing?',
+        answer:
+          'No. HMAC is for keyed message authentication. For storing passwords, use a dedicated password hash such as argon2 or bcrypt.',
+      },
+      {
+        question: 'Is the HMAC Generator free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'otp-secret': {
     appName: 'Bento Tools — OTP Secret',
     h1: 'Create TOTP secrets in your browser',
     intro:

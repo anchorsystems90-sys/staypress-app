@@ -7,13 +7,14 @@ import {
   IconToolCsvColumnExtractor,
   IconToolCsvToJson,
   IconToolHashGenerator,
+  IconToolHmacGenerator,
   IconToolImagesToPdf,
   IconToolJsonFormatter,
   IconToolJsonToCsv,
   IconToolMergePdf,
   IconToolOtpSecret,
-  IconToolPassphraseGenerator,
   IconToolPasswordGenerator,
+  IconToolPassphraseGenerator,
   IconToolPdfToImages,
   IconToolSlimPdf,
   IconToolTextCleaner,
@@ -69,6 +70,8 @@ const { id } = Astro.props
     <IconToolApiKeyGenerator />
   ) : id === 'hash-generator' ? (
     <IconToolHashGenerator />
+  ) : id === 'hmac-generator' ? (
+    <IconToolHmacGenerator />
   ) : (
     <IconToolOtpSecret />
   )

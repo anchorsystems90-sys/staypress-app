@@ -25,6 +25,7 @@ export type NonPdfToolId =
   | 'uuid-generator'
   | 'api-key-generator'
   | 'hash-generator'
+  | 'hmac-generator'
   | 'otp-secret'
 
 /** All first-class tools. `AppMode` remains the four PDF tools only. */
@@ -180,6 +181,12 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     blurb: 'SHA hashes of text with Web Crypto — no upload.',
   },
   {
+    id: 'hmac-generator',
+    family: 'security',
+    label: 'HMAC Generator',
+    blurb: 'Sign a message with a secret using HMAC.',
+  },
+  {
     id: 'otp-secret',
     family: 'security',
     label: 'OTP Secret',
@@ -193,55 +200,75 @@ export type StandaloneMeta = {
 }
 
 export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
-'word-unscrambler': {
+  'word-unscrambler': {
     tagline: 'Unscramble letters. Find words.',
     privacyIdle: 'Runs in your browser. Letters never leave this device.',
-  },'text-cleaner': {
+  },
+  'text-cleaner': {
     tagline: 'Paste messy text. Get a clean copy.',
     privacyIdle: 'Runs in your browser. Text never leaves this device.',
-  },'case-converter': {
+  },
+  'case-converter': {
     tagline: 'Change case. Stay local.',
     privacyIdle: 'Runs in your browser. Text never leaves this device.',
-  },'word-counter': {
+  },
+  'word-counter': {
     tagline: 'Words. Characters. Instantly.',
     privacyIdle: 'Runs in your browser. Text never leaves this device.',
-  },'json-formatter': {
+  },
+  'json-formatter': {
     tagline: 'Format JSON on this device.',
     privacyIdle: 'Runs in your browser. JSON never leaves this device.',
-  },base64: {
+  },
+  base64: {
     tagline: 'Encode. Decode. Stay local.',
     privacyIdle: 'Runs in your browser. Your text never leaves this device.',
-  },'url-encode': {
+  },
+  'url-encode': {
     tagline: 'Percent-encode. Decode. Stay local.',
     privacyIdle: 'Runs in your browser. Your text never leaves this device.',
-  },'csv-column-extractor': {
+  },
+  'csv-column-extractor': {
     tagline: 'Keep the columns you need.',
     privacyIdle: 'Runs in your browser. Your CSV never leaves this device.',
-  },'csv-to-json': {
+  },
+  'csv-to-json': {
     tagline: 'CSV in. JSON out.',
     privacyIdle: 'Runs in your browser. Your CSV never leaves this device.',
-  },'json-to-csv': {
+  },
+  'json-to-csv': {
     tagline: 'JSON in. CSV out.',
     privacyIdle: 'Runs in your browser. Your JSON never leaves this device.',
-  },'password-generator': {
+  },
+  'password-generator': {
     tagline: 'Strong passwords. Stay local.',
     privacyIdle:
       'Runs in your browser. Passwords are generated on this device.',
-  },'passphrase-generator': {
+  },
+  'passphrase-generator': {
     tagline: 'Memorable. Strong. Local.',
     privacyIdle:
       'Runs in your browser. Passphrases are generated on this device.',
-  },'uuid-generator': {
+  },
+  'uuid-generator': {
     tagline: 'UUIDs on this device.',
     privacyIdle: 'Runs in your browser. Nothing is uploaded.',
-  },'api-key-generator': {
+  },
+  'api-key-generator': {
     tagline: 'Random tokens. Stay local.',
     privacyIdle:
       'Runs in your browser. Keys are generated on this device.',
-  },'hash-generator': {
+  },
+  'hash-generator': {
     tagline: 'Hash text. Stay local.',
     privacyIdle: 'Runs in your browser. Your text never leaves this device.',
-  },'otp-secret': {
+  },
+  'hmac-generator': {
+    tagline: 'Sign with a secret. Stay local.',
+    privacyIdle:
+      'Runs in your browser. Message and secret never leave this device.',
+  },
+  'otp-secret': {
     tagline: 'TOTP secrets. Stay local.',
     privacyIdle:
       'Runs in your browser. Secrets are generated on this device.',
@@ -333,24 +360,34 @@ const DATA_RELATED_NOTES: Partial<
 const SECURITY_RELATED_NOTES: Partial<
   Record<NonPdfToolId, Partial<Record<NonPdfToolId, string>>>
 > = {
-'password-generator': {
+  'password-generator': {
     'passphrase-generator':
       'Prefer words you can type? Try a memorable passphrase next.',
     'api-key-generator': 'Need a machine token instead? Generate an API key.',
-  },'passphrase-generator': {
+  },
+  'passphrase-generator': {
     'password-generator':
       'Want symbol-heavy passwords instead? Open Password Generator.',
     'otp-secret': 'Setting up 2FA next? Create a TOTP secret locally.',
-  },'uuid-generator': {
+  },
+  'uuid-generator': {
     'api-key-generator':
       'Need a shorter opaque token? Generate an API key instead.',
     'hash-generator': 'Hashing an ID or payload? Open Hash Generator.',
-  },'api-key-generator': {
+  },
+  'api-key-generator': {
     'uuid-generator': 'Need a UUID instead of a custom alphabet token?',
     'password-generator': 'Generating a login password? Use Password Generator.',
-  },'hash-generator': {
+  },
+  'hash-generator': {
+    'hmac-generator': 'Need a keyed signature instead? Open HMAC Generator.',
     'api-key-generator': 'Need a random token rather than a digest?',
-  },'otp-secret': {
+  },
+  'hmac-generator': {
+    'hash-generator': 'Just need a plain hash? Open Hash Generator.',
+    'api-key-generator': 'Need a random secret to sign with? Generate a key.',
+  },
+  'otp-secret': {
     'password-generator':
       'Need the account password too? Generate one locally.',
     'passphrase-generator':
