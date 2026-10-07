@@ -319,3 +319,26 @@ export function IconToolJsonFormatter() {
     </svg>
   )
 }
+
+/** Grid / spreadsheet columns. */
+export function IconToolCsvColumnExtractor() {
+  return (
+    <svg {...HOME_ICON}>
+      <rect
+        x="3.5"
+        y="4.5"
+        width="17"
+        height="15"
+        rx="1.75"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+      <path
+        d="M3.5 9.25h17M3.5 14h17M9.25 4.5v15M14.75 4.5v15"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}

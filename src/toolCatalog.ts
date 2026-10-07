@@ -1,13 +1,14 @@
 import type { AppMode } from './types'
 
 /** PDF-family tools. Keep this aligned with `AppMode` in types.ts. */
-export type ToolFamily = 'pdf' | 'words' | 'text' | 'developer'
+export type ToolFamily = 'pdf' | 'words' | 'text' | 'developer' | 'data'
 
 export type NonPdfToolId =
   | 'word-unscrambler'
   | 'text-cleaner'
   | 'case-converter'
   | 'json-formatter'
+  | 'csv-column-extractor'
 
 /** All first-class tools. `AppMode` remains the four PDF tools only. */
 export type ToolId = AppMode | NonPdfToolId
@@ -34,6 +35,7 @@ export const TOOL_FAMILIES: readonly { id: ToolFamily; label: string }[] = [
   { id: 'words', label: 'Words' },
   { id: 'text', label: 'Text' },
   { id: 'developer', label: 'Developer' },
+  { id: 'data', label: 'Data' },
 ]
 
 export type ToolDirectoryEntry = {
@@ -93,6 +95,12 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     label: 'JSON Formatter',
     blurb: 'Pretty-print, minify, and validate JSON locally.',
   },
+  {
+    id: 'csv-column-extractor',
+    family: 'data',
+    label: 'CSV Column Extractor',
+    blurb: 'Pick columns from a CSV and export only those.',
+  },
 ]
 
 export type StandaloneMeta = {
@@ -116,6 +124,10 @@ export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
   'json-formatter': {
     tagline: 'Format JSON on this device.',
     privacyIdle: 'Runs in your browser. JSON never leaves this device.',
+  },
+  'csv-column-extractor': {
+    tagline: 'Keep the columns you need.',
+    privacyIdle: 'Runs in your browser. Your CSV never leaves this device.',
   },
 }
 

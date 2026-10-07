@@ -2058,6 +2058,34 @@
   margin-top: 0.9rem;
 }
 
+.text-tool__actions--inline {
+  margin-top: 0;
+}
+
+.text-tool__label-meta {
+  font-weight: 500;
+  color: color-mix(in srgb, var(--muted) 85%, transparent);
+}
+
+.text-tool__column-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 0.15rem;
+}
+
+.text-tool__mini {
+  min-height: 2rem;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.78rem;
+}
+
+.text-tool__column-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .text-tool__output-wrap {
   margin-top: 1.15rem;
 }

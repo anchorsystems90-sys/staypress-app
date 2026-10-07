@@ -2,6 +2,7 @@
 import type { ToolId } from '../toolCatalog'
 import {
   IconToolCaseConverter,
+  IconToolCsvColumnExtractor,
   IconToolImagesToPdf,
   IconToolJsonFormatter,
   IconToolMergePdf,
@@ -33,7 +34,9 @@ const { id } = Astro.props
     <IconToolTextCleaner />
   ) : id === 'case-converter' ? (
     <IconToolCaseConverter />
-  ) : (
+  ) : id === 'json-formatter' ? (
     <IconToolJsonFormatter />
+  ) : (
+    <IconToolCsvColumnExtractor />
   )
 }

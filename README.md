@@ -73,10 +73,16 @@ Bento Tools is a free, open-source suite from **[Anchor Systems](https://anchors
 - Parse errors stay on the page; invalid JSON is not rewritten
 - Copy or download a `.json` file
 
+### CSV Column Extractor (`/csv-column-extractor`)
+
+- Paste or open a CSV · pick columns to keep
+- Detects comma, semicolon, or tab separators
+- Copy or download the filtered `.csv` — nothing is uploaded
+
 ### Shared
 
 - Mobile sticky download actions on PDF tools
-- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter` (`/images` 301s to `/images-to-pdf`; `/compress` 301s to `/slim`)
+- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/csv-column-extractor` (`/images` 301s to `/images-to-pdf`; `/compress` 301s to `/slim`)
 - Per-tool title, meta, JSON-LD, and static HTML (Astro). Tools hydrate as React islands.
 - Soft credit to Anchor Systems
 
@@ -177,9 +183,9 @@ Tools still never upload your files or letters; only the text the user types in 
 - [ ] Extract: auto render · per-page download · ZIP
 - [ ] Slim: preset · before/after sizes
 - [ ] Word Unscrambler: letters → words · copy
-- [ ] Text Cleaner / Case Converter / JSON Formatter: paste → copy locally
+- [ ] Text Cleaner / Case Converter / JSON Formatter / CSV Column Extractor: paste → copy locally
 - [ ] Privacy line + no unexpected uploads of user files
-- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/privacy`, `/guides/heic-to-pdf` load correctly
+- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/csv-column-extractor`, `/privacy`, `/guides/heic-to-pdf` load correctly
 - [ ] `/images` 301s to `/images-to-pdf`
 - [ ] `/compress` 301s to `/slim`
 - [ ] Production: absolute canonical + `og:image`
@@ -210,6 +216,7 @@ src/
     text-cleaner/
     case-converter/
     json-formatter/
+    csv-column-extractor/
   components/             # Stage, Viewer, Icons, FeedbackDialog, Astro chrome
   lib/
     images.ts
@@ -223,7 +230,7 @@ docs/
 
 ## Privacy
 
-Bento Tools does **not** upload your images, PDFs, letters, or pasted text for processing. Generation, merge, extract, slim, word matching, text cleanup, case conversion, and JSON formatting run entirely in the browser.
+Bento Tools does **not** upload your images, PDFs, letters, pasted text, or CSV files for processing. Generation, merge, extract, slim, word matching, text cleanup, case conversion, JSON formatting, and CSV column extraction run entirely in the browser.
 
 ---
 

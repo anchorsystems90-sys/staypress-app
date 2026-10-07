@@ -16,6 +16,7 @@ export type SeoMode =
   | 'text-cleaner'
   | 'case-converter'
   | 'json-formatter'
+  | 'csv-column-extractor'
 
 /** Default share-card image (1200×630 PNG in /public). */
 export const OG_IMAGE_PATH = '/og.png'
@@ -31,7 +32,7 @@ export const HOME_SEO = {
   path: HOME_PATH,
   title: 'Bento Tools — simple tools in your browser',
   description:
-    'Simple tools that work in your browser. Convert images to PDF, clean and convert text, format JSON, unscramble words — free, no account.',
+    'Simple tools that work in your browser. Convert images to PDF, clean and convert text, format JSON, extract CSV columns, unscramble words — free, no account.',
   ogTitle: 'Bento Tools',
   ogDescription: 'Simple tools that work in your browser. No signup. No nonsense.',
 }
@@ -135,6 +136,15 @@ export const MODE_SEO: Record<SeoMode, ModeSeo> = {
     ogTitle: 'JSON Formatter — pretty-print locally',
     ogDescription:
       'Pretty-print or minify JSON on this device, with line-aware validation feedback. Bento Tools does not upload your data.',
+  },
+  'csv-column-extractor': {
+    path: '/csv-column-extractor',
+    title: 'CSV Column Extractor — keep only the columns you need | Bento Tools',
+    description:
+      'Paste or open a CSV, pick the columns to keep, and copy or download the result in your browser. Free, private — your file never leaves this device.',
+    ogTitle: 'CSV Column Extractor — keep only the columns you need',
+    ogDescription:
+      'Select CSV columns locally and export a smaller file. Bento Tools does not upload your spreadsheet.',
   },
 }
 
@@ -378,6 +388,39 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       },
       {
         question: 'Is the JSON Formatter free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'csv-column-extractor': {
+    appName: 'Bento Tools — CSV Column Extractor',
+    h1: 'Extract CSV columns in your browser',
+    intro:
+      'Paste a CSV or open a file, choose the columns to keep, and copy or download a smaller CSV. Parsing stays on this device — free, no account, nothing uploaded to process the file.',
+    faqs: [
+      {
+        question: 'Is my CSV uploaded?',
+        answer:
+          'No. CSV Column Extractor reads and filters your spreadsheet in this browser tab. Bento Tools does not send the file to a server to extract columns.',
+      },
+      {
+        question: 'Which separators are supported?',
+        answer:
+          'Comma, semicolon, and tab. The tool sniffs the first line and uses the delimiter that best fits your paste or file.',
+      },
+      {
+        question: 'What if the first row is not a header?',
+        answer:
+          'Turn off “First row is a header.” Columns are then labeled Column 1, Column 2, and so on, and every row is treated as data.',
+      },
+      {
+        question: 'Can I reorder columns in the export?',
+        answer:
+          'Selected columns stay in their original left-to-right order. Uncheck the ones you do not need, then copy or download.',
+      },
+      {
+        question: 'Is CSV Column Extractor free?',
         answer:
           'Yes. It is a free Bento Tools utility with no account required.',
       },
