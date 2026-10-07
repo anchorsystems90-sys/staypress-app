@@ -1317,6 +1317,23 @@
   animation: rise 0.8s var(--ease-out) 0.22s both;
 }
 
+.footer__ph {
+  display: inline-flex;
+  line-height: 0;
+  border-radius: 8px;
+}
+
+.footer__ph:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.footer__ph img {
+  display: block;
+  width: 250px;
+  height: 54px;
+}
+
 .footer__privacy,
 .footer__maker {
   margin: 0;
