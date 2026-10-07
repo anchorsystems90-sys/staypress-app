@@ -24,6 +24,7 @@ export type NonPdfToolId =
   | 'passphrase-generator'
   | 'uuid-generator'
   | 'api-key-generator'
+  | 'hash-generator'
 
 /** All first-class tools. `AppMode` remains the four PDF tools only. */
 export type ToolId = AppMode | NonPdfToolId
@@ -171,6 +172,12 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     label: 'API Key Generator',
     blurb: 'Random tokens in hex, base62, base32, or base64url.',
   },
+  {
+    id: 'hash-generator',
+    family: 'security',
+    label: 'Hash Generator',
+    blurb: 'SHA hashes of text with Web Crypto — no upload.',
+  },
 ]
 
 export type StandaloneMeta = {
@@ -224,6 +231,9 @@ export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
     tagline: 'Random tokens. Stay local.',
     privacyIdle:
       'Runs in your browser. Keys are generated on this device.',
+  },'hash-generator': {
+    tagline: 'Hash text. Stay local.',
+    privacyIdle: 'Runs in your browser. Your text never leaves this device.',
   },
 }
 
@@ -322,9 +332,12 @@ const SECURITY_RELATED_NOTES: Partial<
   },'uuid-generator': {
     'api-key-generator':
       'Need a shorter opaque token? Generate an API key instead.',
+    'hash-generator': 'Hashing an ID or payload? Open Hash Generator.',
   },'api-key-generator': {
     'uuid-generator': 'Need a UUID instead of a custom alphabet token?',
     'password-generator': 'Generating a login password? Use Password Generator.',
+  },'hash-generator': {
+    'api-key-generator': 'Need a random token rather than a digest?',
   },
 }
 

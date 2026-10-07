@@ -26,6 +26,7 @@ export type SeoMode =
   | 'passphrase-generator'
   | 'uuid-generator'
   | 'api-key-generator'
+  | 'hash-generator'
 
 /** Default share-card image (1200×630 PNG in /public). */
 export const OG_IMAGE_PATH = '/og.png'
@@ -218,6 +219,14 @@ images: {
     ogTitle: 'API Key Generator — create tokens locally',
     ogDescription:
       'Create random API keys on this device. Bento Tools does not upload or store them.',
+  },'hash-generator': {
+    path: '/hash-generator',
+    title: 'Hash Generator — SHA hashes in your browser | Bento Tools',
+    description:
+      'Hash text with SHA-1, SHA-256, SHA-384, or SHA-512 in your browser using Web Crypto. Hex or Base64 output — free, private, nothing uploaded.',
+    ogTitle: 'Hash Generator — hash text locally',
+    ogDescription:
+      'Compute SHA digests on this device. Bento Tools does not upload your text.',
   },
 }
 
@@ -729,6 +738,33 @@ images: {
       },
       {
         question: 'Is the API Key Generator free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },'hash-generator': {
+    appName: 'Bento Tools — Hash Generator',
+    h1: 'Hash text in your browser',
+    intro:
+      'Compute SHA-1, SHA-256, SHA-384, or SHA-512 digests of pasted text with Web Crypto. Hex or Base64 output — free, no account, nothing uploaded.',
+    faqs: [
+      {
+        question: 'Is my text uploaded?',
+        answer:
+          'No. Hashing uses the Web Crypto API in this browser. Bento Tools does not send your text to a server.',
+      },
+      {
+        question: 'Is SHA-1 safe for passwords?',
+        answer:
+          'No. Prefer SHA-256 or stronger for integrity checks, and never use a bare hash as a password store. This tool is for digests and checksums, not password hashing (bcrypt/argon2).',
+      },
+      {
+        question: 'What encoding is used?',
+        answer:
+          'Input is hashed as UTF-8 bytes. Output can be lowercase hex or standard Base64.',
+      },
+      {
+        question: 'Is the Hash Generator free?',
         answer:
           'Yes. It is a free Bento Tools utility with no account required.',
       },
