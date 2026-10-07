@@ -9,6 +9,8 @@ export type NonPdfToolId =
   | 'case-converter'
   | 'json-formatter'
   | 'csv-column-extractor'
+  | 'csv-to-json'
+  | 'json-to-csv'
 
 /** All first-class tools. `AppMode` remains the four PDF tools only. */
 export type ToolId = AppMode | NonPdfToolId
@@ -101,6 +103,18 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     label: 'CSV Column Extractor',
     blurb: 'Pick columns from a CSV and export only those.',
   },
+  {
+    id: 'csv-to-json',
+    family: 'data',
+    label: 'CSV → JSON',
+    blurb: 'Turn a CSV into JSON objects or arrays.',
+  },
+  {
+    id: 'json-to-csv',
+    family: 'data',
+    label: 'JSON → CSV',
+    blurb: 'Turn a JSON array into a downloadable CSV.',
+  },
 ]
 
 export type StandaloneMeta = {
@@ -128,6 +142,14 @@ export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
   'csv-column-extractor': {
     tagline: 'Keep the columns you need.',
     privacyIdle: 'Runs in your browser. Your CSV never leaves this device.',
+  },
+  'csv-to-json': {
+    tagline: 'CSV in. JSON out.',
+    privacyIdle: 'Runs in your browser. Your CSV never leaves this device.',
+  },
+  'json-to-csv': {
+    tagline: 'JSON in. CSV out.',
+    privacyIdle: 'Runs in your browser. Your JSON never leaves this device.',
   },
 }
 
@@ -171,6 +193,23 @@ const TEXT_RELATED_NOTES: Partial<
   },
 }
 
+/** Short contextual notes for data-family related links. */
+const DATA_RELATED_NOTES: Partial<
+  Record<NonPdfToolId, Partial<Record<NonPdfToolId, string>>>
+> = {
+  'csv-column-extractor': {
+    'csv-to-json': 'Need the whole file as JSON instead? Convert CSV → JSON next.',
+  },
+  'csv-to-json': {
+    'csv-column-extractor': 'Want fewer columns first? Extract them, then convert.',
+    'json-to-csv': 'Going the other way? Turn JSON back into CSV.',
+  },
+  'json-to-csv': {
+    'csv-to-json': 'Need JSON again? Convert CSV → JSON.',
+    'csv-column-extractor': 'Trim columns from the CSV after you export it.',
+  },
+}
+
 export type RelatedToolLink = ToolDirectoryEntry & {
   note?: string
 }
@@ -201,6 +240,14 @@ export function relatedTools(id: ToolId): readonly RelatedToolLink[] {
 
   if (current.family === 'text') {
     const notes = TEXT_RELATED_NOTES[id as NonPdfToolId]
+    return siblings.map((tool) => {
+      const note = notes?.[tool.id as NonPdfToolId]
+      return note ? { ...tool, note } : tool
+    })
+  }
+
+  if (current.family === 'data') {
+    const notes = DATA_RELATED_NOTES[id as NonPdfToolId]
     return siblings.map((tool) => {
       const note = notes?.[tool.id as NonPdfToolId]
       return note ? { ...tool, note } : tool

@@ -79,10 +79,22 @@ Bento Tools is a free, open-source suite from **[Anchor Systems](https://anchors
 - Detects comma, semicolon, or tab separators
 - Copy or download the filtered `.csv` — nothing is uploaded
 
+### CSV → JSON (`/csv-to-json`)
+
+- Convert CSV to JSON objects or arrays
+- Header row toggle · pretty-print · sample data
+- Copy or download — nothing is uploaded
+
+### JSON → CSV (`/json-to-csv`)
+
+- Convert a JSON array of objects or arrays to CSV
+- Comma / semicolon / tab delimiter
+- Copy or download — nothing is uploaded
+
 ### Shared
 
 - Mobile sticky download actions on PDF tools
-- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/csv-column-extractor` (`/images` 301s to `/images-to-pdf`; `/compress` 301s to `/slim`)
+- SEO routes: `/` (directory), `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv` (`/images` 301s to `/images-to-pdf`; `/compress` 301s to `/slim`; `/csv-json` 301s to `/csv-to-json`)
 - Per-tool title, meta, JSON-LD, and static HTML (Astro). Tools hydrate as React islands.
 - Soft credit to Anchor Systems
 
@@ -183,9 +195,9 @@ Tools still never upload your files or letters; only the text the user types in 
 - [ ] Extract: auto render · per-page download · ZIP
 - [ ] Slim: preset · before/after sizes
 - [ ] Word Unscrambler: letters → words · copy
-- [ ] Text Cleaner / Case Converter / JSON Formatter / CSV Column Extractor: paste → copy locally
+- [ ] Text Cleaner / Case Converter / JSON Formatter / CSV tools: paste → copy locally
 - [ ] Privacy line + no unexpected uploads of user files
-- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/csv-column-extractor`, `/privacy`, `/guides/heic-to-pdf` load correctly
+- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/json-formatter`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv`, `/privacy`, `/guides/heic-to-pdf` load correctly
 - [ ] `/images` 301s to `/images-to-pdf`
 - [ ] `/compress` 301s to `/slim`
 - [ ] Production: absolute canonical + `og:image`
@@ -217,6 +229,8 @@ src/
     case-converter/
     json-formatter/
     csv-column-extractor/
+    csv-to-json/
+    json-to-csv/
   components/             # Stage, Viewer, Icons, FeedbackDialog, Astro chrome
   lib/
     images.ts
@@ -230,7 +244,7 @@ docs/
 
 ## Privacy
 
-Bento Tools does **not** upload your images, PDFs, letters, pasted text, or CSV files for processing. Generation, merge, extract, slim, word matching, text cleanup, case conversion, JSON formatting, and CSV column extraction run entirely in the browser.
+Bento Tools does **not** upload your images, PDFs, letters, pasted text, or CSV/JSON files for processing. Generation, merge, extract, slim, word matching, text cleanup, case conversion, JSON formatting, CSV column extraction, CSV to JSON, and JSON to CSV run entirely in the browser.
 
 ---
 

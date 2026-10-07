@@ -50,6 +50,11 @@
       "permanent": true
     },
     {
+      "source": "/csv-json",
+      "destination": "/csv-to-json",
+      "permanent": true
+    },
+    {
       "source": "/index.html",
       "destination": "/",
       "permanent": true

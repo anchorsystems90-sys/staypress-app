@@ -342,3 +342,73 @@ export function IconToolCsvColumnExtractor() {
     </svg>
   )
 }
+
+/** Table to braces — CSV → JSON. */
+export function IconToolCsvToJson() {
+  return (
+    <svg {...HOME_ICON}>
+      <rect
+        x="3.25"
+        y="5"
+        width="7.5"
+        height="14"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+      <path
+        d="M3.25 9.25h7.5M3.25 13.5h7.5M6.25 5v14"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path
+        d="M14.1 7.1c0-1.15.85-1.85 2-1.85h1.15M14.1 16.9c0 1.15.85 1.85 2 1.85h1.15M19.9 7.1c0-1.15-.85-1.85-2-1.85H16.75M19.9 16.9c0 1.15-.85 1.85-2 1.85H16.75"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M12.4 12h1.1"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+/** Braces to table — JSON → CSV. */
+export function IconToolJsonToCsv() {
+  return (
+    <svg {...HOME_ICON}>
+      <path
+        d="M4.1 7.1c0-1.15.85-1.85 2-1.85H7.25M4.1 16.9c0 1.15.85 1.85 2 1.85H7.25M9.9 7.1c0-1.15-.85-1.85-2-1.85H6.75M9.9 16.9c0 1.15-.85 1.85-2 1.85H6.75"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M10.9 12h1.1"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <rect
+        x="13.25"
+        y="5"
+        width="7.5"
+        height="14"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+      />
+      <path
+        d="M13.25 9.25h7.5M13.25 13.5h7.5M16.25 5v14"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}

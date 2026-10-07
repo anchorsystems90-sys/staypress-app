@@ -17,6 +17,8 @@ export type SeoMode =
   | 'case-converter'
   | 'json-formatter'
   | 'csv-column-extractor'
+  | 'csv-to-json'
+  | 'json-to-csv'
 
 /** Default share-card image (1200×630 PNG in /public). */
 export const OG_IMAGE_PATH = '/og.png'
@@ -32,7 +34,7 @@ export const HOME_SEO = {
   path: HOME_PATH,
   title: 'Bento Tools — simple tools in your browser',
   description:
-    'Simple tools that work in your browser. Convert images to PDF, clean and convert text, format JSON, extract CSV columns, unscramble words — free, no account.',
+    'Simple tools that work in your browser. Convert images to PDF, clean and convert text, format JSON, convert CSV and JSON, unscramble words — free, no account.',
   ogTitle: 'Bento Tools',
   ogDescription: 'Simple tools that work in your browser. No signup. No nonsense.',
 }
@@ -145,6 +147,24 @@ export const MODE_SEO: Record<SeoMode, ModeSeo> = {
     ogTitle: 'CSV Column Extractor — keep only the columns you need',
     ogDescription:
       'Select CSV columns locally and export a smaller file. Bento Tools does not upload your spreadsheet.',
+  },
+  'csv-to-json': {
+    path: '/csv-to-json',
+    title: 'CSV to JSON — private converter in your browser | Bento Tools',
+    description:
+      'Convert CSV to JSON objects or arrays in your browser. Free, no account — your spreadsheet never leaves this device.',
+    ogTitle: 'CSV to JSON — convert locally',
+    ogDescription:
+      'Turn CSV into JSON objects or arrays on this device. Bento Tools does not upload your spreadsheet.',
+  },
+  'json-to-csv': {
+    path: '/json-to-csv',
+    title: 'JSON to CSV — private converter in your browser | Bento Tools',
+    description:
+      'Convert a JSON array of objects or arrays to CSV in your browser. Free, no account — your payload never leaves this device.',
+    ogTitle: 'JSON to CSV — convert locally',
+    ogDescription:
+      'Turn JSON arrays into CSV on this device. Bento Tools does not upload your data.',
   },
 }
 
@@ -426,6 +446,62 @@ export const MODE_PAGE_CONTENT: Record<SeoMode, ModePageContent> = {
       },
     ],
   },
+  'csv-to-json': {
+    appName: 'Bento Tools — CSV to JSON',
+    h1: 'Convert CSV to JSON in your browser',
+    intro:
+      'Paste a CSV or open a file and get JSON objects or arrays. Conversion stays on this device — free, no account, nothing uploaded to transform your spreadsheet.',
+    faqs: [
+      {
+        question: 'Is my CSV uploaded?',
+        answer:
+          'No. CSV to JSON runs in your browser. Bento Tools does not send the spreadsheet to a server to convert it.',
+      },
+      {
+        question: 'What JSON shapes can I export?',
+        answer:
+          'An array of objects (using the header row as keys) or an array of arrays. Turn pretty-print on or off before you copy or download.',
+      },
+      {
+        question: 'How are numbers and booleans handled?',
+        answer:
+          'In object mode, plain numbers and true/false are coerced. Values with leading zeros stay strings so phone-like fields are preserved.',
+      },
+      {
+        question: 'Is CSV to JSON free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
+  'json-to-csv': {
+    appName: 'Bento Tools — JSON to CSV',
+    h1: 'Convert JSON to CSV in your browser',
+    intro:
+      'Paste a JSON array of objects or arrays and download a CSV. Conversion stays on this device — free, no account, nothing uploaded to transform your payload.',
+    faqs: [
+      {
+        question: 'Is my JSON uploaded?',
+        answer:
+          'No. JSON to CSV runs in your browser. Bento Tools does not send the payload to a server to convert it.',
+      },
+      {
+        question: 'What JSON shapes are accepted?',
+        answer:
+          'An array of objects or an array of arrays. Object keys become CSV headers; missing keys become empty cells.',
+      },
+      {
+        question: 'What about nested JSON values?',
+        answer:
+          'Nested objects or arrays are stringified into a single CSV cell so the row stays flat. Nested structure is not expanded into extra columns.',
+      },
+      {
+        question: 'Is JSON to CSV free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },
 }
 
 /** Indexable tool routes (home is `/`). */
@@ -438,6 +514,7 @@ export function pathForMode(mode: SeoMode): string {
 const PATH_ALIASES: Record<string, SeoMode> = {
   '/images': 'images',
   '/compress': 'slim',
+  '/csv-json': 'csv-to-json',
 }
 
 export function toolFromPathname(pathname: string): SeoMode | null {
