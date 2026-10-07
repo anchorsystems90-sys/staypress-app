@@ -11,6 +11,7 @@ import {
   IconToolJsonFormatter,
   IconToolJsonToCsv,
   IconToolMergePdf,
+  IconToolOtpSecret,
   IconToolPassphraseGenerator,
   IconToolPasswordGenerator,
   IconToolPdfToImages,
@@ -66,7 +67,9 @@ const { id } = Astro.props
     <IconToolUuidGenerator />
   ) : id === 'api-key-generator' ? (
     <IconToolApiKeyGenerator />
-  ) : (
+  ) : id === 'hash-generator' ? (
     <IconToolHashGenerator />
+  ) : (
+    <IconToolOtpSecret />
   )
 }

@@ -27,6 +27,7 @@ export type SeoMode =
   | 'uuid-generator'
   | 'api-key-generator'
   | 'hash-generator'
+  | 'otp-secret'
 
 /** Default share-card image (1200×630 PNG in /public). */
 export const OG_IMAGE_PATH = '/og.png'
@@ -227,6 +228,14 @@ images: {
     ogTitle: 'Hash Generator — hash text locally',
     ogDescription:
       'Compute SHA digests on this device. Bento Tools does not upload your text.',
+  },'otp-secret': {
+    path: '/otp-secret',
+    title: 'OTP Secret — TOTP secrets & otpauth URIs locally | Bento Tools',
+    description:
+      'Generate authenticator TOTP secrets, otpauth URIs, and live codes in your browser. Free, private — nothing is uploaded or stored.',
+    ogTitle: 'OTP Secret — create TOTP secrets locally',
+    ogDescription:
+      'Create TOTP secrets and otpauth URIs on this device. Bento Tools does not upload or store them.',
   },
 }
 
@@ -765,6 +774,33 @@ images: {
       },
       {
         question: 'Is the Hash Generator free?',
+        answer:
+          'Yes. It is a free Bento Tools utility with no account required.',
+      },
+    ],
+  },'otp-secret': {
+    appName: 'Bento Tools — OTP Secret',
+    h1: 'Create TOTP secrets in your browser',
+    intro:
+      'Generate authenticator-ready base32 secrets, otpauth URIs, and a live TOTP code. Everything stays on this device — free, no account, nothing uploaded or stored.',
+    faqs: [
+      {
+        question: 'Are secrets uploaded or stored?',
+        answer:
+          'No. Secrets are generated in this browser tab. Bento Tools does not send them to a server or keep a history. Copy them into your authenticator yourself.',
+      },
+      {
+        question: 'What can I do with the otpauth URI?',
+        answer:
+          'Paste it into an authenticator that accepts otpauth links, or use it with tooling that builds QR codes. This page does not phone home.',
+      },
+      {
+        question: 'Which algorithm should I pick?',
+        answer:
+          'SHA-1 remains the most widely supported default for authenticator apps. Prefer SHA-256 or SHA-512 when your app and server both support them.',
+      },
+      {
+        question: 'Is OTP Secret free?',
         answer:
           'Yes. It is a free Bento Tools utility with no account required.',
       },

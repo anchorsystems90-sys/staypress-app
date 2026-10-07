@@ -25,6 +25,7 @@ export type NonPdfToolId =
   | 'uuid-generator'
   | 'api-key-generator'
   | 'hash-generator'
+  | 'otp-secret'
 
 /** All first-class tools. `AppMode` remains the four PDF tools only. */
 export type ToolId = AppMode | NonPdfToolId
@@ -178,6 +179,12 @@ export const TOOLS: readonly ToolDirectoryEntry[] = [
     label: 'Hash Generator',
     blurb: 'SHA hashes of text with Web Crypto — no upload.',
   },
+  {
+    id: 'otp-secret',
+    family: 'security',
+    label: 'OTP Secret',
+    blurb: 'Create TOTP secrets and otpauth URIs locally.',
+  },
 ]
 
 export type StandaloneMeta = {
@@ -234,6 +241,10 @@ export const STANDALONE_META: Record<NonPdfToolId, StandaloneMeta> = {
   },'hash-generator': {
     tagline: 'Hash text. Stay local.',
     privacyIdle: 'Runs in your browser. Your text never leaves this device.',
+  },'otp-secret': {
+    tagline: 'TOTP secrets. Stay local.',
+    privacyIdle:
+      'Runs in your browser. Secrets are generated on this device.',
   },
 }
 
@@ -329,6 +340,7 @@ const SECURITY_RELATED_NOTES: Partial<
   },'passphrase-generator': {
     'password-generator':
       'Want symbol-heavy passwords instead? Open Password Generator.',
+    'otp-secret': 'Setting up 2FA next? Create a TOTP secret locally.',
   },'uuid-generator': {
     'api-key-generator':
       'Need a shorter opaque token? Generate an API key instead.',
@@ -338,6 +350,11 @@ const SECURITY_RELATED_NOTES: Partial<
     'password-generator': 'Generating a login password? Use Password Generator.',
   },'hash-generator': {
     'api-key-generator': 'Need a random token rather than a digest?',
+  },'otp-secret': {
+    'password-generator':
+      'Need the account password too? Generate one locally.',
+    'passphrase-generator':
+      'Want a memorable backup phrase? Try Passphrase Generator.',
   },
 }
 

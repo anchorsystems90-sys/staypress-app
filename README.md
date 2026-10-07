@@ -137,11 +137,15 @@ Bento Tools is a free, open-source suite from **[Anchor Systems](https://anchors
 - Hex or Base64 output — text never leaves this device
 
 
+### OTP Secret (`/otp-secret`)
+
+- Base32 TOTP secrets · otpauth URI · live code preview
+- Digits, period, and algorithm controls — nothing uploaded
 
 ### Shared
 
 - Mobile sticky download actions on PDF tools
-- SEO routes: `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/word-counter`, `/json-formatter`, `/base64`, `/url-encode`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv`, `/password-generator`, `/passphrase-generator`, `/uuid-generator`, `/api-key-generator`, `/hash-generator` (`/images` 301s to `/images-to-pdf`; `/compress` 301s to `/slim`; `/csv-json` 301s to `/csv-to-json`)
+- SEO routes: `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/word-counter`, `/json-formatter`, `/base64`, `/url-encode`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv`, `/password-generator`, `/passphrase-generator`, `/uuid-generator`, `/api-key-generator`, `/hash-generator`, `/otp-secret` (`/images` 301s to `/images-to-pdf`; `/compress` 301s to `/slim`; `/csv-json` 301s to `/csv-to-json`)
 - Per-tool title, meta, JSON-LD, and static HTML (Astro). Tools hydrate as React islands.
 - Soft credit to Anchor Systems
 
@@ -243,9 +247,9 @@ Tools still never upload your files or letters; only the text the user types in 
 - [ ] Slim: preset · before/after sizes
 - [ ] Word Unscrambler: letters → words · copy
 - [ ] Text Cleaner / Case Converter / Word Counter / JSON Formatter / Base64 / URL Encode / CSV tools: paste → copy locally
-- [ ] Password / Passphrase / UUID / API Key / Hash: generate · copy locally
+- [ ] Password / Passphrase / UUID / API Key / Hash / OTP: generate · copy locally
 - [ ] Privacy line + no unexpected uploads of user files
-- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/word-counter`, `/json-formatter`, `/base64`, `/url-encode`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv`, `/password-generator`, `/passphrase-generator`, `/uuid-generator`, `/api-key-generator`, `/hash-generator`, `/privacy`, `/guides/heic-to-pdf` load correctly
+- [ ] `/`, `/images-to-pdf`, `/merge`, `/extract`, `/slim`, `/word-unscrambler`, `/text-cleaner`, `/case-converter`, `/word-counter`, `/json-formatter`, `/base64`, `/url-encode`, `/csv-column-extractor`, `/csv-to-json`, `/json-to-csv`, `/password-generator`, `/passphrase-generator`, `/uuid-generator`, `/api-key-generator`, `/hash-generator`, `/otp-secret`, `/privacy`, `/guides/heic-to-pdf` load correctly
 - [ ] `/images` 301s to `/images-to-pdf`
 - [ ] `/compress` 301s to `/slim`
 - [ ] Production: absolute canonical + `og:image`
@@ -287,6 +291,7 @@ src/
     uuid-generator/
     api-key-generator/
     hash-generator/
+    otp-secret/
   components/             # Stage, Viewer, Icons, FeedbackDialog, Astro chrome
   lib/
     images.ts
